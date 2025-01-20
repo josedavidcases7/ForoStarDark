@@ -9,7 +9,7 @@ import { FooterComponent } from '../footer/footer.component'; // Importar Header
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.scss'],
   standalone: true,
-  imports: [CommonModule, HeaderComponent, FormsModule, FooterComponent] // Asegúrate de importar FormsModule
+  imports: [CommonModule, FormsModule] // Asegúrate de importar FormsModule
 })
 export class ProfileComponent {
   uploadedImage: string | null = null; // Imagen para el rectángulo

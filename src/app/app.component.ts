@@ -6,14 +6,12 @@ import { FooterComponent } from './footer/footer.component'; // Importa el ChatC
 import { ProfileComponent } from './perfil/perfil.component';
 import { RouterModule } from '@angular/router'; // Importa RouterModule
 import { Router } from '@angular/router';  // Importa Router desde angular/router
-import { PlanetasYEstrellasComponent } from './planetas-y-estrellas/planetas-y-estrellas.component';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true, // Declara que este es un componente standalone
-  imports: [CommonModule, ChatComponent, HeaderComponent, FooterComponent, ProfileComponent, RouterModule, PlanetasYEstrellasComponent ]
+  imports: [CommonModule, ChatComponent, HeaderComponent, FooterComponent, ProfileComponent, RouterModule ]
    // Importa ChatComponent y HeaderComponent aquí
 })
 export class AppComponent {

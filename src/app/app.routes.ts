@@ -13,6 +13,7 @@ import { SubirPublicacionComponent } from './subir-publicacion/subir-publicacion
 export const routes: Routes = [
   { path: '', component: HomeComponent },  // Página principal
   { path: 'perfil', component: ProfileComponent },  // Página de perfil
+  { path: 'subir-publicacion', component: SubirPublicacionComponent },  // Página de perfil
   { path: 'agujeros-negros', component: AgujerosNegrosComponent },  // Página Agujeros Negros
   { path: 'universos', component: UniversosComponent },  // Página Universos
   { path: 'planetas-y-estrellas', component: PlanetasYEstrellasComponent },  // Página Planetas y Estrellas
@@ -20,5 +21,5 @@ export const routes: Routes = [
   { path: 'satelites', component: SatelitesComponent },  // Página Satélites
   { path: 'vida-extraterrestre', component: VidaExtraterrestreComponent },  // Página Vida Extraterrestre
   { path: 'teorias', component: TeoriasComponent },  // Página Teorías
-  { path: 'subir-publicacion', component: SubirPublicacionComponent },  // Página para añadir publicación
+
 ];
