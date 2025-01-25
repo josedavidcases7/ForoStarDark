@@ -45,16 +45,49 @@ export class HeaderComponent {
     this.router.navigate(['/']);  // Navegar a la página de inicio
   }
 
+  // Método para navegar a la página de "Seleccion Debate"
+  navigateToDebate() {
+    this.router.navigate(['/seleccion-debate']);  // Redirige a la página de "Seleccion Debate"
+    this.closeMenu();  // Cierra el menú
+  }
+
   // Método para navegar a la sección de "subir-publicacion"
-  goToAddPublication(): void {
-    this.router.navigate(['/subir-publicacion']); // Redirige al componente para añadir publicación
+  goToAddPublication() {
+    // Verifica la ruta actual y redirige según la sección
+    const currentRoute = this.router.url;
+  
+    if (currentRoute.includes('galaxias')) {
+      this.router.navigate(['/subir-publicacion-galaxias']);
+    } else if (currentRoute.includes('agujeros-negros')) {
+      this.router.navigate(['/subir-publicacion-agujeros-negros']);
+    } else if (currentRoute.includes('planetas-y-estrellas')) {
+      this.router.navigate(['/subir-publicacion-planetas-y-estrellas']);
+    } else if (currentRoute.includes('satelites')) {
+      this.router.navigate(['/subir-publicacion-satelites']);
+    } else if (currentRoute.includes('teorias')) {
+      this.router.navigate(['/subir-publicacion-teorias']);
+    } else if (currentRoute.includes('universos')) {
+      this.router.navigate(['/subir-publicacion-universos']);
+    } else if (currentRoute.includes('vida-extraterrestre')) {
+      this.router.navigate(['/subir-publicacion-vida-extraterrestre']);
+    } else {
+      // Para las otras secciones, redirige al componente de "Subir Publicación" estándar
+      this.router.navigate(['/subir-publicacion']);
+    }
   }
 
   // Método para navegar a las secciones
   navigateToSection(section: string) {
     const sectionFormatted = encodeURIComponent(section.toLowerCase().replace(/ /g, '-'));
-    this.router.navigate([`/${sectionFormatted}`]);
-    this.closeMenu();
+    
+    // Si la sección seleccionada es "DEBATE", cierra el menú antes de navegar
+    if (section.toLowerCase() === 'debate') {
+      this.router.navigate(['/seleccion-debate']);
+    } else {
+      this.router.navigate([`/${sectionFormatted}`]);
+    }
+    
+    this.closeMenu(); // Cierra el menú
   }
 
   // Detectar clics fuera del rectángulo del menú

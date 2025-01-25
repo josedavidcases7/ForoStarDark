@@ -9,5 +9,5 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./agujeros-negros.component.scss']
 })
 export class AgujerosNegrosComponent {
-  agujeroNegro: string = 'Agujeros Negros';
+  agujeroNegro: string = 'AGUJEROS NEGROS';
 }
