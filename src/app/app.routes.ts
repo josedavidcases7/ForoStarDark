@@ -18,19 +18,29 @@ import { SubirPublicacionSatelitesComponent } from './subir-publicacion-satelite
 import { SubirPublicacionTeoriasComponent } from './subir-publicacion-teorias/subir-publicacion-teorias.component';
 import { SubirPublicacionUniversosComponent } from './subir-publicacion-universos/subir-publicacion-universos.component';
 import { SubirPublicacionVidaExtraterrestreComponent } from './subir-publicacion-vida-extraterrestre/subir-publicacion-vida-extraterrestre.component';
+import { FinEventoComponent } from './fin-evento/fin-evento.component';
+
+
+import { AdminCrearEventoComponent } from './admin-crear-evento/admin-crear-evento.component';
+import { AdminListaUsuariosComponent } from './admin-lista-usuarios/admin-lista-usuarios.component';
+
+import { LoginPcComponent } from './login-pc/login-pc.component';
+import { LoginElectionPcComponent } from './login-election-pc/login-election-pc.component';
+import { RegisterElectionPcComponent } from './register-election-pc/register-election-pc.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },  // Página principal
-  { path: 'perfil', component: ProfileComponent },  // Página de perfil
-  { path: 'subir-publicacion', component: SubirPublicacionComponent },  // Página de perfil
-  { path: 'agujeros-negros', component: AgujerosNegrosComponent },  // Página Agujeros Negros
-  { path: 'universos', component: UniversosComponent },  // Página Universos
-  { path: 'planetas-y-estrellas', component: PlanetasYEstrellasComponent },  // Página Planetas y Estrellas
-  { path: 'galaxias', component: GalaxiasComponent },  // Página Galaxias
-  { path: 'satelites', component: SatelitesComponent },  // Página Satélites
-  { path: 'vida-extraterrestre', component: VidaExtraterrestreComponent },  // Página Vida Extraterrestre
-  { path: 'teorias', component: TeoriasComponent },  // Página Teorías
-  { path: 'subir-publicacion-agujeros-negros', component: SubirPublicacionAgujerosNegrosComponent },  // Ruta nueva para Agujeros Negros
+  { path: '', component: LoginPcComponent },  
+  { path: 'home', component: HomeComponent }, 
+  { path: 'perfil', component: ProfileComponent },  
+  { path: 'subir-publicacion', component: SubirPublicacionComponent },  
+  { path: 'agujeros-negros', component: AgujerosNegrosComponent },  
+  { path: 'universos', component: UniversosComponent },  
+  { path: 'planetas-y-estrellas', component: PlanetasYEstrellasComponent },  
+  { path: 'galaxias', component: GalaxiasComponent },  
+  { path: 'satelites', component: SatelitesComponent },  
+  { path: 'vida-extraterrestre', component: VidaExtraterrestreComponent },  
+  { path: 'teorias', component: TeoriasComponent },  
+  { path: 'subir-publicacion-agujeros-negros', component: SubirPublicacionAgujerosNegrosComponent },  
   { path: 'subir-publicacion-galaxias', component: SubirPublicacionGalaxiasComponent },
   { path: 'subir-publicacion-planetas-y-estrellas', component: SubirPublicacionPlanetasYEstrellasComponent },
   { path: 'subir-publicacion-satelites', component: SubirPublicacionSatelitesComponent },
@@ -38,5 +48,11 @@ export const routes: Routes = [
   { path: 'subir-publicacion-universos', component: SubirPublicacionUniversosComponent },
   { path: 'subir-publicacion-vida-extraterrestre', component: SubirPublicacionVidaExtraterrestreComponent },
   { path: 'seleccion-debate', component: SeleccionDebateComponent },
+  { path: 'fin-debate', component: FinEventoComponent },
+  { path: 'admin-crear-evento', component: AdminCrearEventoComponent },
+  { path: 'admin-lista-usuarios', component: AdminListaUsuariosComponent },
+  { path: 'register', component: RegisterElectionPcComponent },
+  { path: 'login', component: LoginElectionPcComponent}
 
+  
 ];

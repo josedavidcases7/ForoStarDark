@@ -1,12 +1,10 @@
-<!-- Contenedor para el título y la línea de entrada -->
 <div class="titulo-container">
-    <label for="titulo" class="titulo">{{ tituloTexto }}</label> <!-- Usar la variable tituloTexto -->
+    <label for="titulo" class="titulo">{{ tituloTexto }}</label> 
     <input type="text" id="titulo" class="titulo-input" placeholder="Escribe aquí" />
 </div>
 
-<!-- Contenedor para la descripción y el textarea -->
 <div class="descripcion-container">
-    <label for="descripcion" class="descripcion">{{ descripcionTexto }}</label> <!-- Usar la variable descripcionTexto -->
+    <label for="descripcion" class="descripcion">{{ descripcionTexto }}</label> 
     <textarea id="descripcion" class="descripcion-input" placeholder="Escribe aquí tu descripción"></textarea>
 </div>
 
@@ -14,7 +12,6 @@
 <div class="documento-container">
     <label for="documento" class="documento">{{ documento }}</label>
     <div class="documento-upload" (click)="uploadFile()">
-      <!-- Vista previa del archivo seleccionado -->
       <div *ngIf="filePreview" class="file-preview">
         <img *ngIf="filePreview" [src]="filePreview" alt="Vista previa del archivo" />
       </div>
