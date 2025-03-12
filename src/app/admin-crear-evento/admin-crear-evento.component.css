@@ -1,0 +1,72 @@
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  background-color: black;
+  color: white;
+  padding: 0;
+  box-sizing: border-box;
+  padding-top: 80px;
+  position: absolute;
+  overflow-y: hidden;
+}
+
+.crear-evento-container {
+  text-align: left;
+  margin: 20px;
+}
+.crear-evento-container .titulo-pagina {
+  text-align: center;
+  color: #4F4F4F;
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.crear-evento-container .campo {
+  margin-top: 80px;
+  margin-bottom: 100px;
+}
+.crear-evento-container .campo label {
+  font-size: 18px;
+  color: white;
+  margin-bottom: 8px;
+  display: block;
+}
+.crear-evento-container .campo .input-transparente {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid gray;
+  border-radius: 4px;
+  background: transparent;
+  color: white;
+}
+.crear-evento-container .equipo {
+  margin-top: 60px;
+}
+.crear-evento-container .botones {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 200px;
+}
+.crear-evento-container .botones .boton-publicar {
+  background-color: rgb(5, 175, 5);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.crear-evento-container .botones .boton-publicar:hover {
+  background-color: rgb(0, 113, 0);
+}
+.crear-evento-container .botones .boton-cancelar {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.crear-evento-container .botones .boton-cancelar:hover {
+  background-color: rgb(56, 56, 56);
+}/*# sourceMappingURL=admin-crear-evento.component.css.map */

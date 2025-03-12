@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';  
+import { AuthService } from '../services/auth.service';  
+import { FormsModule } from '@angular/forms';  
+import { HttpClientModule } from '@angular/common/http';  // ⬅️ IMPORTA ESTO AQUÍ
 
 @Component({
   selector: 'app-login-election-pc',
   standalone: true,  
-  imports: [CommonModule, RouterModule], 
+  imports: [CommonModule, RouterModule, FormsModule, HttpClientModule],  // ⬅️ AGREGA HttpClientModule AQUÍ
+  providers: [AuthService],  // AuthService debe estar en providers
   templateUrl: './login-election-pc.component.html',
   styleUrls: ['./login-election-pc.component.scss']
 })
@@ -14,9 +18,32 @@ export class LoginElectionPcComponent {
   username_email: string = 'Usuario o Email';
   titlePassword: string = 'Contraseña';
 
-  constructor(private router: Router) {}  
+  user = {
+    email: '',
+    password: ''
+  };
 
-  navigateToHome() {
-    this.router.navigate(['/home']);  
+  errorMessage: string = '';  
+
+  constructor(private router: Router, private authService: AuthService) {}  
+  
+  onLogin() {
+    const loginData = {
+      login: this.user.email,  // 'login' en lugar de 'email'
+      password: this.user.password
+    };
+  
+    console.log('📤 Enviando datos al backend:', loginData); // Verifica lo que se está enviando
+  
+    this.authService.login(loginData).subscribe(
+      (response) => {
+        console.log('✅ Inicio de sesión exitoso', response);
+        this.router.navigate(['/home']);
+      },
+      (error) => {
+        console.error('❌ Error al iniciar sesión', error);
+        this.errorMessage = error.error.message || 'Usuario o contraseña incorrectos';
+      }
+    );
   }
 }

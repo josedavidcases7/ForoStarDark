@@ -1,0 +1,33 @@
+@charset "UTF-8";
+/* Estilo general del footer */
+.footer {
+  display: flex;
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: center; /* Centra el contenido verticalmente */
+  flex-direction: column; /* Coloca los elementos en columna */
+  height: 100px; /* Ajusta la altura del footer */
+  background-color: rgb(43, 43, 43); /* Color de fondo oscuro */
+  color: white; /* Color del texto */
+  font-size: 14px; /* Tamaño de fuente */
+  position: fixed; /* Fija el footer al fondo de la pantalla */
+  bottom: 0; /* Lo coloca al final */
+  width: 100%; /* Ocupa todo el ancho */
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+}
+.footer .footer-content {
+  text-align: center; /* Centra el texto dentro de la columna */
+}
+.footer .contact {
+  font-size: 18px; /* Tamaño más grande para "Contacto" */
+  font-weight: bold; /* Negrita para destacarlo */
+  margin: 4px 0;
+}
+.footer .phone {
+  font-size: 16px; /* Tamaño intermedio para el número de teléfono */
+  margin: 4px 0;
+}
+.footer .copyright {
+  font-size: 12px; /* Tamaño más pequeño para el copyright */
+  margin: 4px 0;
+  font-style: italic; /* Cursiva para diferenciarlo */
+}/*# sourceMappingURL=footer.component.css.map */

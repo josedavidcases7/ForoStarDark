@@ -1,0 +1,66 @@
+@charset "UTF-8";
+/* Eliminar márgenes y rellenos del body y html */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/assets/images/bg7.jpg"); /* Ruta a la imagen */
+  overflow-x: hidden; /* Evita barras de desplazamiento horizontales */
+  overflow-y: auto; /* Permite desplazamiento vertical */
+}
+
+/* Fondo para toda la aplicación */
+:host {
+  display: block;
+  position: fixed; /* Aseguramos que el fondo esté detrás de todo */
+  top: 0;
+  left: 0;
+  height: 100vh; /* Ocupa toda la altura de la ventana */
+  width: 100vw; /* Ocupa todo el ancho de la ventana */
+  background-size: cover; /* Escalar para cubrir toda la pantalla */
+  background-position: center; /* Centrar la imagen */
+  background-repeat: no-repeat; /* Evitar repeticiones */
+  background-attachment: fixed; /* Mantener el fondo fijo */
+  z-index: -1; /* Colocar el fondo detrás del header */
+}
+
+/* Ajustar el header */
+.header {
+  position: fixed; /* Para que el header esté sobre el fondo */
+  z-index: 1; /* Asegura que el header esté visible sobre el fondo */
+  background-color: transparent; /* O elimina esto si el header tiene fondo */
+}
+
+.background-profile {
+  background-color: black; /* Fondo negro para la página de perfil */
+  min-height: 100vh; /* Asegura que cubra toda la pantalla */
+}
+
+/* Asegurarse de que el contenedor principal no permita desplazamiento horizontal */
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh; /* Ocupa toda la altura de la ventana */
+  overflow-x: hidden; /* Evita barras de desplazamiento horizontales */
+  overflow-y: auto; /* Permite desplazamiento vertical */
+}
+
+/* Contenedor para el contenido que puede hacer scroll */
+.content-wrapper {
+  flex-grow: 1; /* Hace que el contenido crezca y ocupe el espacio disponible */
+  overflow-y: auto; /* Permite desplazamiento solo en el eje vertical si es necesario */
+  padding-bottom: 60px; /* Espacio adicional para que el contenido no se superponga al footer */
+  width: 100%;
+  overflow-x: hidden; /* Evita barras de desplazamiento horizontales */
+}
+
+/* Asegurarse de que no se pueda hacer scroll horizontal */
+body {
+  overflow-x: hidden; /* Impide el desplazamiento horizontal */
+}
+
+.header {
+  position: absolute;
+}/*# sourceMappingURL=app.component.css.map */
