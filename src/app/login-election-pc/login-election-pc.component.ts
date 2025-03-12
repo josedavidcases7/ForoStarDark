@@ -19,6 +19,7 @@ export class LoginElectionPcComponent {
   titlePassword: string = 'Contraseña';
 
   user = {
+    user_name: '',
     email: '',
     password: ''
   };
