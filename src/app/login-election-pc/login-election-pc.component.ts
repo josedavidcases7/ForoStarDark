@@ -38,7 +38,18 @@ export class LoginElectionPcComponent {
   
     this.authService.login(loginData).subscribe(
       (response) => {
-        console.log('✅ Inicio de sesión exitoso', response);
+        console.log('✅ Inicio de sesión exitoso', response); // Ver toda la respuesta del backend
+  
+        // Verifica si 'user_name' existe en la respuesta
+        if (response && response.user_name) {
+          // Guarda el nombre de usuario en localStorage
+          localStorage.setItem('username', response.user_name);
+          console.log('Usuario guardado en localStorage:', response.user_name);  // Verifica que se guardó correctamente
+        } else {
+          console.error('No se encontró el user_name en la respuesta');
+        }
+  
+        // Navega a la página de inicio
         this.router.navigate(['/home']);
       },
       (error) => {
