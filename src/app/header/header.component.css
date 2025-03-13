@@ -90,9 +90,10 @@ body {
 .left-photo,
 .right-photo,
 .right-photo-circle {
-  border-radius: 50%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  width: 50px;        /* Establece el ancho de la imagen */
+  height: 50px;       /* Establece la altura de la imagen */
+  border-radius: 50%; /* Hace la imagen circular */
+  object-fit: cover;  /* Hace que la imagen se ajuste al área circular sin deformarse */
 }
 
 /* Estilo para el ícono de tres rayas */

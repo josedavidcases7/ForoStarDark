@@ -86,11 +86,18 @@ body {
 }
 
 /* Estilo para las imágenes de usuario */
-.left-photo,
-.right-photo,
-.right-photo-circle {
-  border-radius: 50%;
-  object-fit: cover;
+.left-photo {
+  width: 100px; /* Tamaño original del logo */
+  height: 100px; /* Mantiene la proporción cuadrada */
+  border-radius: 50%; /* Hace la imagen circular */
+  object-fit: cover; /* Asegura que la imagen se recorte adecuadamente */
+}
+
+.right-photo {
+  width: 50px; /* Ajusta el tamaño de las fotos de perfil a 50px */
+  height: 50px; /* Asegura que la altura sea la misma para mantener la forma circular */
+  border-radius: 50%; /* Hace la imagen circular */
+  object-fit: cover; /* Asegura que la imagen se recorte adecuadamente */
 }
 
 /* Estilo para el ícono de tres rayas */

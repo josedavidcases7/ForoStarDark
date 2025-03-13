@@ -1,25 +1,38 @@
-import { Component, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  standalone: true
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   leftImage: string = 'assets/images/logo.png'; 
-
   rightImage2: string = 'assets/images/image (2).png';
-  rightImage3: string = 'assets/images/avatar1.png';
+  rightImage3: string = 'assets/images/avatar1.png'; // Imagen circular de perfil
 
   menuTopImage: string = 'assets/images/ovni-secciones.png'; 
-
   menuOpen: boolean = false;
 
   constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    this.loadUserAvatar(); // Cargar imagen de perfil al iniciar
+  }
+
+  loadUserAvatar(): void {
+    const username = localStorage.getItem('username');
+    if (username) {
+      const userData = localStorage.getItem(`profile_${username}`);
+      if (userData) {
+        const profile = JSON.parse(userData);
+        if (profile.uploadedCircleImage) { // Usar la imagen circular
+          this.rightImage3 = profile.uploadedCircleImage;
+        }
+      }
+    }
+  }
 
   goToProfile() {
     this.router.navigate(['/perfil']); 
@@ -41,8 +54,6 @@ export class HeaderComponent {
     this.router.navigate(['/seleccion-debate']);  
     this.closeMenu();  
   }
-
-
 
   goToAddPublication() {
     const currentRoute = this.router.url;
@@ -78,13 +89,9 @@ export class HeaderComponent {
     this.closeMenu(); 
   }
 
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const clickedElement = event.target as HTMLElement;
-    if (this.menuOpen && !clickedElement.closest('.side-menu') && !clickedElement.closest('.icon-menu')) {
-      this.closeMenu();
-    }
-  }
+
+
+
 
   titulo_secciones: string = "APARTADOS";
   primera_seccion: string = "UNIVERSOS";
