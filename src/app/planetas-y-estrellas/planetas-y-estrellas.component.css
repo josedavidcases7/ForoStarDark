@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-image: url("/assets/images/planetas fondo seccion.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  z-index: -1;
+}
+
+.planetasYEstrellas {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 36px;
+  margin-top: 110px;
+  margin-left: 40px;
+  color: white;
+}/*# sourceMappingURL=planetas-y-estrellas.component.css.map */

@@ -1,0 +1,142 @@
+.content-wrapper {
+  padding-top: 120px;  /* Espacio suficiente desde el header */
+  padding-bottom: 120px;  /* Espacio suficiente para que no se crucen con el footer */
+}
+/* Container de las publicaciones */
+.publicaciones-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 120px; /* Espacio suficiente para separar las publicaciones del header */
+  margin-bottom: 100px; /* Espacio para que las publicaciones no se crucen con el footer */
+}
+
+.publicacion-card {
+  position: relative;  /* Para poder posicionar el botón de la papelera relativo a la tarjeta */
+  border: 3px solid #7e7e7e;  /* Borde más grueso */
+  border-radius: 8px;
+  padding: 16px;
+  background-color: transparent;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 20px; /* Asegura que haya espacio entre las publicaciones */
+}
+
+.publicacion-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.perfil-imagen {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.nombre-usuario {
+  font-weight: bold;
+}
+
+.titulo h3 {
+  margin: 8px 0;
+}
+
+.descripcion {
+  margin-bottom: 12px;
+}
+
+.imagen-publicacion img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+.acciones {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.acciones button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.acciones i {
+  font-size: 20px;
+}
+
+.acciones span {
+  font-weight: bold;
+}
+/* Modal de confirmación */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+}
+
+.btn-delete, .btn-cancel {
+  background-color: transparent;
+  border: 2px solid #ccc;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 5px;
+  border-radius: 30px;
+
+}
+
+.btn-delete:hover {
+  background-color: red;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background-color: gray;
+  color: white;
+}
+
+/* Botón de papelera (con posición a la derecha) */
+.delete-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px; /* Aquí alineamos el botón a la derecha de la tarjeta */
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+.delete-btn:hover {
+  color: red;
+}
+
+button.liked i{
+  color: green;
+}
+
+.acciones i {
+  color: white;  /* Hace que todos los íconos sean blancos */
+}

@@ -1,0 +1,37 @@
+/* Fondo para la página de inicio */
+:host {
+  display: block;
+  position: relative; /* Usamos 'relative' para que no se fije */
+  top: 0;
+  left: 0;
+  min-height: 100vh; /* Garantiza que el fondo cubra toda la ventana */
+  width: 100%; /* Ocupa todo el ancho del contenedor */
+  background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+  background-position: center center; /* Centra la imagen en el fondo */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  z-index: -1; /* Colocamos el fondo detrás de los otros elementos */
+}
+
+/* Contenedor principal del home */
+.content-wrapper {
+  position: relative;
+  z-index: 1; /* Asegura que el contenido esté por encima del fondo */
+  padding: 20px;
+  min-height: 100vh; /* Garantiza que el contenedor ocupe al menos toda la ventana */
+}
+
+/* Estilo para los botones */
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4CAF50; /* Verde */
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 20px;
+
+  &:hover {
+    background-color: #45a049;
+  }
+}

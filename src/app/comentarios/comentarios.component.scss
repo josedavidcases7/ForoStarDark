@@ -1,0 +1,49 @@
+.comentarios-container {
+    margin-top: 10px;
+    padding: 10px;
+    border-top: 2px solid #7e7e7e;
+  }
+  
+  .comentario {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .comentario .perfil-imagen {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+  }
+  
+  .comentario-texto {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: white;
+    max-width: 80%;
+  }
+  
+
+  .comentario {
+    position: relative;
+  }
+  
+  .respuesta {
+    margin-left: 20px;
+  }
+  
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgb(10, 205, 0);
+  }
+  
+  button i {
+    font-size: 20px;
+  }
+  
+ 

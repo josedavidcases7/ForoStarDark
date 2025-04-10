@@ -1,0 +1,26 @@
+<div class="titulo-container">
+  <label for="titulo" class="titulo">Título</label> 
+  <input type="text" id="titulo" class="titulo-input" placeholder="Escribe aquí" [(ngModel)]="tituloTexto" />
+</div>
+
+<div class="descripcion-container">
+  <label for="descripcion" class="descripcion">Descripción</label> 
+  <textarea id="descripcion" class="descripcion-input" placeholder="Escribe aquí tu descripción" [(ngModel)]="descripcionTexto"></textarea>
+</div>
+
+<div class="documento-container">
+  <label for="documento" class="documento">{{ documento }}</label>
+  <div class="documento-upload" (click)="uploadFile()">
+    <div *ngIf="filePreview" class="file-preview">
+      <img *ngIf="filePreview" [src]="filePreview" alt="Vista previa del archivo" />
+    </div>
+    <p *ngIf="!filePreview">Subir archivo</p>
+    <input type="file" accept="image/*,video/*,audio/*,application/*" (change)="onFileSelected($event)" />
+  </div>
+</div>
+
+<div class="botones-container">
+  <!-- Al hacer clic en Postear, llamamos al método postear() -->
+  <button class="boton-postear" (click)="postPublication()">Postear</button>
+  <button class="boton-cancelar"><label>Cancelar</label></button>
+</div>

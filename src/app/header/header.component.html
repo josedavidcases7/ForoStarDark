@@ -1,0 +1,56 @@
+<header class="header">
+  <!-- Sección izquierda -->
+  <div class="left-section">
+    <img [src]="leftImage" alt="Logo" class="left-photo" width="100px" (click)="goToHome()" />
+  </div>
+
+  <!-- Sección derecha -->
+  <div class="right-section">
+    <div class="container">
+      <input type="text" class="input" placeholder="Search" />
+      <button class="search-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
+          <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z" fill="#efeff1"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Foto de perfil -->
+    <img [src]="rightImage2" alt="Foto de perfil" class="right-photo" width="50px"  (click)="goToAddPublication()"/>
+    <img [src]="rightImage3" alt="Foto de perfil" class="right-photo" width="50px" (click)="goToProfile()" />
+
+    <!-- Icono de tres rayas -->
+    <div class="icon-menu" (click)="toggleMenu()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+        <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z" fill="white"></path>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- Overlay oscuro cuando el menú está abierto -->
+<div class="overlay" [class.active]="menuOpen" (click)="closeMenu()"></div>
+
+<!-- Menú lateral -->
+<div class="side-menu" [class.active]="menuOpen">
+  <div class="menu-top">
+    <img [src]="menuTopImage" alt="Menu Top" class="menu-top-image" />
+  </div>
+
+  <div class="titulo-secciones">
+    {{ titulo_secciones }}
+  </div>
+
+  <div class="secciones">
+    <p><a (click)="navigateToSection('Universos')">{{ primera_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Planetas y Estrellas')">{{ segunda_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Agujeros Negros')">{{ tercera_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Galaxias')">{{ cuarta_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Satelites')">{{ quinta_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Vida Extraterrestre')">{{ sexta_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Teorias')">{{ septima_seccion }}</a></p>
+  </div>
+  
+  <div class="seccion-especial">
+    <p><a (click)="navigateToDebate()">{{ debate_seccion }}</a></p>
+</div>

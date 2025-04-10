@@ -1,0 +1,36 @@
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  background-color: black;
+  color: white;
+  padding: 0;
+  box-sizing: border-box;
+  padding-top: 80px;
+  position: absolute;
+  overflow-y: hidden;
+}
+
+.search-input {
+  padding: 6px;
+  font-size: 14px;
+  width: 40%;
+  max-width: 300px;
+  background-color: transparent;
+  color: white;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  margin-top: 50px;
+  margin-left: 30px;
+}
+.search-input::-moz-placeholder {
+  color: #aaa;
+}
+.search-input::placeholder {
+  color: #aaa;
+}
+.search-input:focus {
+  outline: none;
+  border-color: #fff;
+  caret-color: green;
+}/*# sourceMappingURL=admin-lista-usuarios.component.css.map */

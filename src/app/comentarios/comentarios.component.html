@@ -1,0 +1,13 @@
+<div class="comentarios-container">
+  <!-- Muestra los comentarios actuales (acumulados) -->
+  <div *ngFor="let comentario of comentariosMostrados" class="comentario">
+    <img [src]="comentario.fotoUsuario" alt="Foto usuario" class="perfil-imagen">
+    <p>{{ comentario.texto }}</p>
+    <img *ngIf="comentario.archivo" [src]="comentario.archivo" alt="Archivo adjunto" class="archivo-respuesta">
+  </div>
+
+  <!-- Si hay más comentarios, muestra el botón "Ver más" -->
+  <div *ngIf="hayMasComentarios()">
+    <button (click)="cargarMasComentarios()">Ver más</button>
+  </div>
+</div>
