@@ -2,6 +2,8 @@
   <!-- Sección izquierda -->
   <div class="left-section">
     <img [src]="leftImage" alt="Logo" class="left-photo" width="100px" (click)="goToHome()" />
+    <button *ngIf="isAdmin" class="usuarios-btn" (click)="irAUsuarios()">USUARIOS</button>
+
   </div>
 
   <!-- Sección derecha -->
@@ -52,5 +54,17 @@
   </div>
   
   <div class="seccion-especial">
-    <p><a (click)="navigateToDebate()">{{ debate_seccion }}</a></p>
+    <p *ngIf="mostrarDebate" (click)="navigateToSection(debate_seccion)">
+      {{ debate_seccion }}
+    </p>
+    </div>
+
+<p *ngIf="isAdmin">
+  <a (click)="navigateToCrearEvento()">CREAR EVENTO</a>
+</p>
+
+<!-- Botón Eliminar Evento -->
+<div *ngIf="mostrarDebate" class="eliminar-evento-wrapper">
+  <button class="eliminar-evento" (click)="eliminarEvento()">ELIMINAR EVENTO</button>
 </div>
+

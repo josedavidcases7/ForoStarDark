@@ -5,7 +5,7 @@
     <!-- Tema del debate -->
     <div class="campo">
       <label for="tema">{{ temaDebate }}</label>
-      <input id="tema" type="text" class="input-transparente" />
+      <input id="tema" type="text" class="input-transparente" [(ngModel)]="tema"/>
     </div>
   
     <!-- Nombres de equipos -->
@@ -15,20 +15,25 @@
       <!-- Primer equipo -->
       <div class="equipo">
         <label for="primer-equipo">{{ primerEquipo }}</label>
-        <input id="primer-equipo" type="text" class="input-transparente" />
+        <input id="primer-equipo" type="text" class="input-transparente" [(ngModel)]="equipo1" />
       </div>
   
       <!-- Segundo equipo -->
       <div class="equipo">
         <label for="segundo-equipo">{{ segundoEquipo }}</label>
-        <input id="segundo-equipo" type="text" class="input-transparente" />
+        <input id="segundo-equipo" type="text" class="input-transparente" [(ngModel)]="equipo2"  />
       </div>
     </div>
   
     <!-- Botones -->
     <div class="botones">
-      <button class="boton-publicar">{{ botonPublicar }}</button>
+      <button (click)="publicar()" class="boton-publicar">{{ botonPublicar }}</button>
       <button (click)="cancelar()" class="boton-cancelar">Cancelar</button>
     </div>
+
+
+
+
+
   </div>
   

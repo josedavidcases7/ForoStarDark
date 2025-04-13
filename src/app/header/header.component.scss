@@ -22,6 +22,22 @@ body {
   box-sizing: border-box;
 }
 
+.usuarios-btn {
+  margin-left: 15px;
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
+  transition: color 0.3s;
+
+  &:hover {
+    color: #aaa;
+  }
+}
+
+
 /* Sección izquierda del header */
 .left-section {
   display: flex;
@@ -230,4 +246,24 @@ body {
 .seccion-especial{
   margin-left: 20px;
 
+}
+
+
+.eliminar-evento-wrapper {
+  text-align: center;
+  margin-top: 20px;
+
+  .eliminar-evento {
+    background-color: #ff3c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .eliminar-evento:hover {
+    background-color: #a10000;
+  }
 }

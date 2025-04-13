@@ -10,14 +10,13 @@ import { RegisterElectionPcComponent } from './register-election-pc/register-ele
 import { SubirPublicacionComponent } from './subir-publicacion/subir-publicacion.component';
 import { AdminListaUsuariosComponent } from './admin-lista-usuarios/admin-lista-usuarios.component';
 import { RouterModule, Router } from '@angular/router'; // Importa RouterModule y Router
-import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,  // Declara que este es un componente standalone
-  imports: [CommonModule, LoginPcComponent,AdminDashboardComponent, LoginElectionPcComponent, RegisterElectionPcComponent, ChatComponent, HeaderComponent, FooterComponent, ProfileComponent, RouterModule, SubirPublicacionComponent, AdminListaUsuariosComponent]
+  imports: [CommonModule, LoginPcComponent, LoginElectionPcComponent, RegisterElectionPcComponent, ChatComponent, HeaderComponent, FooterComponent, ProfileComponent, RouterModule, SubirPublicacionComponent, AdminListaUsuariosComponent]
 })
 export class AppComponent {
   currentRoute: string = '';  // Para almacenar la ruta actual

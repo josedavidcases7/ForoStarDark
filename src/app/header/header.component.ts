@@ -1,13 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
+import { HttpClientModule } from '@angular/common/http';  // Importa HttpClientModule
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
+  providers: [AuthService],
+  imports: [HttpClientModule, CommonModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   standalone: true
 })
 export class HeaderComponent implements OnInit {
+
+  isAdmin: boolean = false; // ⬅️ Nueva propiedad
+
+
   leftImage: string = 'assets/images/logo.png'; 
   rightImage2: string = 'assets/images/image (2).png';
   rightImage3: string = 'assets/images/avatar1.png'; // Imagen circular de perfil
@@ -15,11 +25,26 @@ export class HeaderComponent implements OnInit {
   menuTopImage: string = 'assets/images/ovni-secciones.png'; 
   menuOpen: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
+
+  mostrarDebate: boolean = false;
+
 
   ngOnInit(): void {
     this.loadUserAvatar(); // Cargar imagen de perfil al iniciar
-  }
+
+      // Verifica si es admin al iniciar
+      this.isAdmin = this.authService.getIsAdmin();
+
+      
+  const flag = localStorage.getItem('mostrarDebate');
+  this.mostrarDebate = flag === 'true'; // 👈 aquí comprobamos si mostrar la sección
+    }
+  
+    irAUsuarios() {
+      this.router.navigate(['/admin-lista-usuarios']);
+    }
+  
 
   loadUserAvatar(): void {
     const username = localStorage.getItem('username');
@@ -54,6 +79,13 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/seleccion-debate']);  
     this.closeMenu();  
   }
+
+  navigateToCrearEvento() {
+    this.router.navigate(['/admin-crear-evento']);
+    this.closeMenu();
+  }
+  
+
 
   goToAddPublication() {
     const currentRoute = this.router.url;
@@ -103,5 +135,12 @@ export class HeaderComponent implements OnInit {
   septima_seccion: string = "TEORIAS";
 
   debate_seccion: string = "DEBATE";
-  admin_seccion: string = "USUARIOS";
+
+
+  eliminarEvento() {
+    localStorage.removeItem('debateData');
+    localStorage.setItem('mostrarDebate', 'false');
+    this.mostrarDebate = false;
+  }
+  
 }
