@@ -36,12 +36,15 @@ export class PublicacionesComponent implements OnInit {
   usuarioActualFoto: string | null = null;
 
   constructor(private authService: AuthService) {}
+  isAdmin: boolean = false; // NUEVO
 
   ngOnInit() {
     this.usuarioActual = this.authService.getUsername();
     this.usuarioActualFoto = this.authService.getUserProfileImage(this.usuarioActual || '');
   
     const publicacionesGuardadas = localStorage.getItem('publicaciones');
+    this.isAdmin = this.authService.getIsAdmin();
+
     if (publicacionesGuardadas) {
       this.publicaciones = JSON.parse(publicacionesGuardadas).map((publicacion: Publicacion) => {
         const userLikes = JSON.parse(localStorage.getItem(`likes_${this.usuarioActual}`) || '{}');

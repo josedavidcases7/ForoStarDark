@@ -6,15 +6,14 @@ body {
   overflow-x: hidden;
 }
 
-/* Estilo para el header */
 .header {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%; /* Ocupa todo el ancho */
+  width: 100%; 
   background-color: transparent;
   padding: 8px 10px;
-  height: 80px; /* Ajustamos la altura del header */
+  height: 80px; 
   z-index: 1000;
   display: flex;
   justify-content: space-between;
@@ -38,14 +37,12 @@ body {
 }
 
 
-/* Sección izquierda del header */
 .left-section {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-/* Sección derecha del header */
 .right-section {
   display: flex;
   align-items: center;
@@ -53,7 +50,6 @@ body {
   padding-right: 20px;
 }
 
-/* Estilo de la caja de búsqueda */
 .container {
   display: flex;
   align-items: center;
@@ -61,7 +57,7 @@ body {
   border-radius: 6px;
   overflow: hidden;
   height: 28px;
-  width: 300px; /* Aumenta el ancho del contenedor */
+  width: 300px; 
 }
 
 .input {
@@ -101,22 +97,20 @@ body {
   }
 }
 
-/* Estilo para las imágenes de usuario */
 .left-photo {
-  width: 100px; /* Tamaño original del logo */
-  height: 100px; /* Mantiene la proporción cuadrada */
-  border-radius: 50%; /* Hace la imagen circular */
-  object-fit: cover; /* Asegura que la imagen se recorte adecuadamente */
+  width: 100px; 
+  height: 100px; 
+  border-radius: 50%; 
+  object-fit: cover;
 }
 
 .right-photo {
-  width: 50px; /* Ajusta el tamaño de las fotos de perfil a 50px */
-  height: 50px; /* Asegura que la altura sea la misma para mantener la forma circular */
-  border-radius: 50%; /* Hace la imagen circular */
-  object-fit: cover; /* Asegura que la imagen se recorte adecuadamente */
+  width: 50px; 
+  height: 50px; 
+  border-radius: 50%; 
+  object-fit: cover; 
 }
 
-/* Estilo para el ícono de tres rayas */
 .icon-menu {
   display: flex;
   justify-content: center;
@@ -128,28 +122,27 @@ body {
   svg {
     width: 70px;
     height: 70px;
-    fill: white; /* Color inicial */
+    fill: white; 
   }
 
   &:hover svg {
-    fill: #a970ff; /* Cambia el color al pasar el cursor */
+    fill: #a970ff; 
   }
 }
 
-/* Fondo para la pantalla de inicio */
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro con opacidad */
+  background-color: rgba(0, 0, 0, 0.6); 
   z-index: 999;
   display: none;
 }
 
 .overlay.active {
-  display: block; /* Se muestra cuando se activa */
+  display: block; 
 }
 
 /* Contenedor del menú lateral */
@@ -247,7 +240,6 @@ body {
   margin-left: 20px;
 
 }
-
 
 .eliminar-evento-wrapper {
   text-align: center;

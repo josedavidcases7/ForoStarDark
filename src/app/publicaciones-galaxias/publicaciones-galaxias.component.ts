@@ -36,10 +36,13 @@ export class PublicacionesGalaxiasComponent implements OnInit{
   private STORAGE_KEY = 'publicaciones_galaxias';
 
   constructor(private authService: AuthService) {}
+  isAdmin: boolean = false; // NUEVO
 
   ngOnInit() {
     this.usuarioActual = this.authService.getUsername();
     this.usuarioActualFoto = this.authService.getUserProfileImage(this.usuarioActual || '');
+    this.isAdmin = this.authService.getIsAdmin();
+
     
     const publicacionesGuardadas = localStorage.getItem('publicaciones_galaxias');
     if (publicacionesGuardadas) {

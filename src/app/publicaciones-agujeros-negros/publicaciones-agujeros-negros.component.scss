@@ -86,13 +86,14 @@
     z-index: 1000;
   }
   
-  .modal {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-  }
+  
+.modal {
+  background: rgb(95, 95, 95);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
   
   .modal-buttons {
     margin-top: 20px;
@@ -134,7 +135,11 @@
     color: red;
   }
   
-  button.liked {
+  button.liked i{
     color: green;
+  }
+  
+  .acciones i {
+    color: white;  /* Hace que todos los íconos sean blancos */
   }
   

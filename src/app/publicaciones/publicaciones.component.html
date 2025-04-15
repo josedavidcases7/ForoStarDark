@@ -5,9 +5,11 @@
       <span class="nombre-usuario">{{ publicacion.userName }}</span>
 
       <!-- Mostrar la papelera solo si el usuario es el propietario de la publicación -->
-      <button *ngIf="esPropietario(publicacion)" (click)="confirmDelete(publicacion)" class="delete-btn">
-        <i class="fa fa-trash"></i>
-      </button>
+   <!-- Mostrar la papelera si el usuario es admin o propietario -->
+<button *ngIf="esPropietario(publicacion) || isAdmin" (click)="confirmDelete(publicacion)" class="delete-btn">
+  <i class="fa fa-trash"></i>
+</button>
+
     </div>
 
     <div class="titulo">

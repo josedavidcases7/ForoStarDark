@@ -39,12 +39,15 @@ publicaciones: Publicacion[] = [];
   private STORAGE_KEY = 'publicaciones_agujeros_negros';
 
   constructor(private authService: AuthService) {}
+  isAdmin: boolean = false; // NUEVO
 
   ngOnInit() {
     this.usuarioActual = this.authService.getUsername();
     this.usuarioActualFoto = this.authService.getUserProfileImage(this.usuarioActual || '');
     
     const publicacionesGuardadas = localStorage.getItem('publicaciones_agujeros_negros');
+    this.isAdmin = this.authService.getIsAdmin();
+
     if (publicacionesGuardadas) {
       this.publicaciones = JSON.parse(publicacionesGuardadas).map((publicacion: any) => {
         const userLikes = JSON.parse(localStorage.getItem(`likes_${this.usuarioActual}`) || '{}');

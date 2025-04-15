@@ -39,10 +39,13 @@ export class PublicacionesPlanetasEstrellasComponent implements OnInit {
   private STORAGE_KEY = 'publicaciones_planetas_estrellas';
 
   constructor(private authService: AuthService) {}
+  isAdmin: boolean = false; // NUEVO
 
   ngOnInit() {
     this.usuarioActual = this.authService.getUsername();
     this.usuarioActualFoto = this.authService.getUserProfileImage(this.usuarioActual || '');
+    this.isAdmin = this.authService.getIsAdmin();
+
     
     // Cargar publicaciones desde localStorage para 'planetas_estrellas'
     const publicacionesGuardadas = localStorage.getItem('publicaciones_planetas_estrellas');
