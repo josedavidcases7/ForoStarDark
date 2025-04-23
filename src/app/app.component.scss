@@ -14,16 +14,14 @@ html, body {
   position: fixed; /* Aseguramos que el fondo esté detrás de todo */
   top: 0;
   left: 0;
-  background-image: url('/assets/images/bg7.jpg'); /* Ruta a la imagen */
+  background:transparent; /* Ruta a la imagen */
   color: white;
 
-  height: 100vh; /* Ocupa toda la altura de la ventana */
   width: 100vw; /* Ocupa todo el ancho de la ventana */
   background-size: cover; /* Escalar para cubrir toda la pantalla */
   background-position: center; /* Centrar la imagen */
   background-repeat: repeat; /* Evitar repeticiones */
   background-attachment: fixed; /* Mantener el fondo fijo */
-  z-index: -1; /* Colocar el fondo detrás del header */
   
 }
 

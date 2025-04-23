@@ -1,15 +1,16 @@
-/* Fondo para la página de inicio */
 :host {
   display: block;
-  position: relative; /* Usamos 'relative' para que no se fije */
+  position: relative; /* Aseguramos que el fondo esté detrás de todo */
   top: 0;
   left: 0;
-  min-height: 100vh; /* Garantiza que el fondo cubra toda la ventana */
-  width: 100%; /* Ocupa todo el ancho del contenedor */
-  background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
-  background-position: center center; /* Centra la imagen en el fondo */
-  background-repeat: no-repeat; /* Evita que la imagen se repita */
-  z-index: -1; /* Colocamos el fondo detrás de los otros elementos */
+  background-image: url('/assets/images/bg7.jpg'); /* Ruta a la imagen */
+
+  width: 100vw; /* Ocupa todo el ancho de la ventana */
+  background-size: cover; /* Escalar para cubrir toda la pantalla */
+  background-position: center; /* Centrar la imagen */
+  background-repeat: repeat; /* Evitar repeticiones */
+  background-attachment: fixed; /* Mantener el fondo fijo */
+  
 }
 
 /* Contenedor principal del home */
