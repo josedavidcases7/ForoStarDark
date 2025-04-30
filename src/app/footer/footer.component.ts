@@ -10,6 +10,6 @@ import { CommonModule } from '@angular/common';
 })
 export class FooterComponent {
   contact: string = 'Contacto';
-  correo: string = "✉️ Correo: darck-star@gmail.com"; // Cambia esto al número real
+  correo: string = "✉️ Correo: dark-star@gmail.com"; // Cambia esto al número real
   copyright: string = 'Copyright © | Todos los derechos reservados a star-dark';
 }

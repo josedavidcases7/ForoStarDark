@@ -44,11 +44,11 @@ export class PublicacionesGalaxiasComponent implements OnInit{
     this.isAdmin = this.authService.getIsAdmin();
 
     
-    const publicacionesGuardadas = localStorage.getItem('publicaciones_galaxias');
-    if (publicacionesGuardadas) {
-      this.publicaciones = JSON.parse(publicacionesGuardadas).map((publicacion: any) => {
-        const userLikes = JSON.parse(localStorage.getItem(`likes_${this.usuarioActual}`) || '{}');
-        const hasLiked = !!userLikes[publicacion.titulo];
+    const publicacionesGuardadas = localStorage.getItem(this.STORAGE_KEY);
+  if (publicacionesGuardadas) {
+    this.publicaciones = JSON.parse(publicacionesGuardadas).map((publicacion: any) => {
+      const userLikes = JSON.parse(localStorage.getItem(`likes_${this.usuarioActual}`) || '{}');
+      const hasLiked = !!userLikes[publicacion.titulo];
         
         return {
           ...publicacion,
