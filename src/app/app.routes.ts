@@ -19,7 +19,7 @@ import { SubirPublicacionTeoriasComponent } from './subir-publicacion-teorias/su
 import { SubirPublicacionUniversosComponent } from './subir-publicacion-universos/subir-publicacion-universos.component';
 import { SubirPublicacionVidaExtraterrestreComponent } from './subir-publicacion-vida-extraterrestre/subir-publicacion-vida-extraterrestre.component';
 import { FinEventoComponent } from './fin-evento/fin-evento.component';
-import { ActualizacionesComponent } from './actualizaciones/actualizaciones.component';
+import { ActualizacionesPageComponent } from './actualizaciones-page/actualizaciones-page.component';
 
 import { AdminCrearEventoComponent } from './admin-crear-evento/admin-crear-evento.component';
 import { AdminListaUsuariosComponent } from './admin-lista-usuarios/admin-lista-usuarios.component';
@@ -53,7 +53,7 @@ export const routes: Routes = [
   { path: 'admin-lista-usuarios', component: AdminListaUsuariosComponent },
   { path: 'register', component: RegisterElectionPcComponent },
   { path: 'login', component: LoginElectionPcComponent},
-  { path: 'actualizaciones', component: ActualizacionesComponent}
+  { path: 'actualizaciones-page', component: ActualizacionesPageComponent}
 
 
   

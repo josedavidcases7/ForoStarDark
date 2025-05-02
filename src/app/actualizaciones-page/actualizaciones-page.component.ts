@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';  // Importa HttpClientModule
 
 @Component({
   selector: 'app-actualizaciones-page',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  providers: [AuthService],
+  imports: [CommonModule,FormsModule,HttpClientModule],
   templateUrl: './actualizaciones-page.component.html',
   styleUrls: ['./actualizaciones-page.component.scss']
 })
