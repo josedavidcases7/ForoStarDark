@@ -5,7 +5,6 @@
   left: 0;
   background-image: url('/assets/images/bg7.jpg'); /* Ruta a la imagen */
 
-  width: 100vw; /* Ocupa todo el ancho de la ventana */
   background-size: cover; /* Escalar para cubrir toda la pantalla */
   background-position: center; /* Centrar la imagen */
   background-repeat: repeat; /* Evitar repeticiones */
@@ -19,6 +18,7 @@
   z-index: 1; /* Asegura que el contenido esté por encima del fondo */
   padding: 20px;
   min-height: 100vh; /* Garantiza que el contenedor ocupe al menos toda la ventana */
+
 }
 
 /* Estilo para los botones */

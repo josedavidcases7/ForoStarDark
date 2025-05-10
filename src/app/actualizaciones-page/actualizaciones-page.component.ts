@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';  // Importa HttpClientModule
+import { HttpClientModule } from '@angular/common/http';  
 
 @Component({
   selector: 'app-actualizaciones-page',

@@ -12,40 +12,39 @@
     overflow-x: hidden;
   }
   
-  /* Estilo general para el contenedor del título y la línea de entrada */
   .titulo-container {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centramos los elementos dentro del contenedor */
-    justify-content: center; /* Centrado vertical */
-    width: 100%; /* Ancho completo de la pantalla */
-    margin-top: 50px; /* Espacio hacia abajo */
+    align-items: center; 
+    justify-content: center; 
+    width: 100%; 
+    margin-top: 50px; 
 
   }
   
   .titulo {
-    font-size: 14px; /* Tamaño pequeño para el título */
+    font-size: 14px; 
     color: rgb(129, 129, 129);
-    margin-bottom: 5px; /* Espacio entre el título y el input */
-    align-self: flex-start; /* Alineamos el título a la izquierda */
+    margin-bottom: 5px; 
+    align-self: flex-start; 
     margin-left: 100px;
     margin-bottom: 20px;
   }
   
   .titulo-input {
-    width: 50%; /* Ancho más corto para la línea */
-    padding: 5px 0; /* Relleno solo arriba y abajo */
-    background-color: transparent; /* Fondo transparente */
-    border: none; /* Sin borde alrededor */
-    border-bottom: 2px solid #888; /* Solo una línea abajo */
+    width: 50%;
+    padding: 5px 0; 
+    background-color: transparent;
+    border: none; 
+    border-bottom: 2px solid #888;
     color: white;
     font-size: 16px;
-    outline: none; /* Sin borde al hacer clic */
-    text-align: center; /* Centra el texto dentro del campo de entrada */
+    outline: none; 
+    text-align: center; 
   }
   
   .titulo-input::placeholder {
-    color: white; /* Color del texto del placeholder */
+    color: white; 
     opacity: 0.5; /* Transparencia para el texto del placeholder */
   }
   

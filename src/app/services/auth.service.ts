@@ -6,12 +6,12 @@ import { Observable, BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/api'; // URL de la API
+  private apiUrl = 'http://localhost:8000/api'; 
 
   private avatarSubject = new BehaviorSubject<string | null>(
     typeof window !== 'undefined' ? this.getAvatar() : null
   );
-  avatar$ = this.avatarSubject.asObservable(); // Observable para escuchar cambios en el avatar
+  avatar$ = this.avatarSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -20,8 +20,8 @@ export class AuthService {
     const profile = localStorage.getItem('userProfile');
     if (profile) {
       const userProfile = JSON.parse(profile);
-      console.log(userProfile); // Verifica la estructura del objeto
-      return userProfile; // Asegúrate de devolver el perfil con la imagen
+      console.log(userProfile); 
+      return userProfile; 
     }
     return null;
   }
@@ -29,7 +29,7 @@ export class AuthService {
   // Obtener avatar desde localStorage
   getAvatar(): string | null {
     const avatar = localStorage.getItem('userAvatar');
-    console.log('Avatar recuperado del localStorage:', avatar); // Verificar si se obtiene el avatar
+    console.log('Avatar recuperado del localStorage:', avatar); 
     return avatar;
   }
 
@@ -45,14 +45,14 @@ export class AuthService {
 
   // Obtener nombre de usuario desde localStorage
   getUsername(): string | null {
-    return localStorage.getItem('username'); // Verifica que 'username' esté bien configurado en localStorage
+    return localStorage.getItem('username'); 
   }
   
 
   // Guardar avatar en localStorage
   setAvatar(avatarUrl: string): void {
     localStorage.setItem('userAvatar', avatarUrl);
-    this.avatarSubject.next(avatarUrl); // Emitir el nuevo avatar
+    this.avatarSubject.next(avatarUrl); 
   }
 
   // Obtener la imagen del perfil de un usuario
@@ -60,30 +60,28 @@ export class AuthService {
     const userProfile = localStorage.getItem(`profile_${userName}`);
     if (userProfile) {
       const profile = JSON.parse(userProfile);
-      return profile.uploadedCircleImage; // Devuelve la imagen de perfil
+      return profile.uploadedCircleImage;
     }
-    return '/assets/images/avatar1.png'; // Imagen por defecto si no se encuentra la imagen del usuario
+    return '/assets/images/avatar1.png'; 
   }
 
-  // **Añadir estas dos funciones para manejar publicaciones**:
 
   // Guardar una publicación en localStorage
   savePublication(publicacion: any, section: string) {
-    // Según la sección, seleccionamos el localStorage adecuado
     let publicaciones = JSON.parse(localStorage.getItem(section) || '[]');
 
-    const userProfileImage = this.getAvatar(); // Foto de perfil del usuario actual
-    const userName = this.getUsername(); // Nombre de usuario actual
+    const userProfileImage = this.getAvatar();
+    const userName = this.getUsername();
 
     // Crear una nueva publicación con los datos del usuario y la publicación
     publicaciones.push({
-      id: publicaciones.length + 1, // Asegúrate de que cada publicación tenga un id único
+      id: publicaciones.length + 1, 
       titulo: publicacion.titulo,
       descripcion: publicacion.descripcion,
-      archivo: publicacion.archivo, // La imagen o archivo
-      userProfileImage: userProfileImage, // Foto de perfil del usuario
-      userName: userName, // Nombre de usuario
-      likes: [], // Asegúrate de que 'likes' sea un arreglo vacío inicialmente
+      archivo: publicacion.archivo, 
+      userProfileImage: userProfileImage, 
+      userName: userName, 
+      likes: [], 
     });
 
     // Guardar las publicaciones en localStorage
@@ -108,21 +106,16 @@ export class AuthService {
   }
 
 // Login con las credenciales del usuario normal
-// auth.service.ts
 
-// auth.service.ts
-
-// auth.service.ts
 login(credentials: any, isAdmin: boolean): Observable<any> {
   const loginUrl = `${this.apiUrl}/login`;  // Solo una ruta de login
 
   return new Observable(observer => {
     this.http.post<any>(loginUrl, credentials, { withCredentials: true }).subscribe(
       (response) => {
-        // Procesamos la respuesta del login
         this.setUsername(response.user_name);
         this.setUserProfile(response);
-        this.setIsAdmin(response.isAdmin);  // Establecemos el valor de isAdmin correctamente
+        this.setIsAdmin(response.isAdmin);  
 
         console.log(response.isAdmin ? '¡Has iniciado sesión como admin!' : 'Has iniciado sesión como usuario normal.');
 
