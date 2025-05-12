@@ -353,3 +353,44 @@ body {
   font-size: 12px;
   color: white;
 }
+
+.emergencia-icono{
+  cursor: pointer;
+}
+
+.punto-rojo {
+  background-color: red;
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  top: 0;
+  right: -2px;
+  cursor: pointer;
+}
+.lista-reportes {
+  position: absolute;
+  top: 100px;
+  left: 10px; /* <- Cambiado de right: 10px */
+  width: 300px;
+  background: #000000;
+  color: white;
+  border: 1px solid #ddd;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1000;
+  padding: 10px;
+}
+.delete-reporte-btn {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  float: right;
+  font-size: 16px;
+}
+
+.reporte-item {
+  position: relative;
+  padding-right: 25px;
+}

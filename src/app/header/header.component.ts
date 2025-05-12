@@ -27,6 +27,9 @@ export class HeaderComponent implements OnInit {
   searchQuery: string = ''; // Variable para la consulta de búsqueda
   filteredPublications: any[] = []; // Almacena las publicaciones filtradas
   allPublications: any[] = []; // Almacena todas las publicaciones
+mostrarListaReportes = false;
+reportes: any[] = [];
+hayNuevosReportes: boolean = false;
 
   constructor(private router: Router, private authService: AuthService) {}
 
@@ -50,6 +53,9 @@ export class HeaderComponent implements OnInit {
 
     const flag = localStorage.getItem('mostrarDebate');
     this.mostrarDebate = flag === 'true';
+
+      this.hayNuevosReportes = localStorage.getItem('nuevosReportes') === 'true';
+
   }
 
   loadAllPublications(): void {
@@ -186,6 +192,37 @@ export class HeaderComponent implements OnInit {
   }
   
 
+
+
+abrirListaReportes() {
+  // Si la lista de reportes está visible, la cerramos, si no, la mostramos
+  if (this.mostrarListaReportes) {
+    this.mostrarListaReportes = false; // Cerrar la lista si ya está abierta
+  } else {
+    // Solo cargamos los reportes si la lista no está vacía
+    if (this.reportes.length === 0) {
+      this.reportes = JSON.parse(localStorage.getItem('reportes') || '[]');
+    }
+    this.mostrarListaReportes = true; // Abrir la lista
+    this.hayNuevosReportes = false;
+    localStorage.setItem('nuevosReportes', 'false');
+  }
+}
+
+
   
-  
+eliminarReporte(index: number) {
+  // Eliminamos el reporte del array
+  this.reportes.splice(index, 1);
+  // Guardamos la nueva lista en localStorage
+  localStorage.setItem('reportes', JSON.stringify(this.reportes));
+
+  // Si la lista está vacía, podemos mantenerla visible para que el usuario vea que no hay reportes
+  if (this.reportes.length === 0) {
+    this.mostrarListaReportes = false;  // Ocultamos la lista si ya no hay reportes
+  }
+}
+
+
+
 }

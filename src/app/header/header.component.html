@@ -2,7 +2,31 @@
   <div class="left-section">
     <img [src]="leftImage" alt="Logo" class="left-photo" width="100px" (click)="goToHome()" />
     <button *ngIf="isAdmin" class="usuarios-btn" (click)="irAUsuarios()">USUARIOS</button>
-  </div>
+    <div *ngIf="isAdmin" class="emergencia-icono" (click)="abrirListaReportes()">
+  ❗<span *ngIf="hayNuevosReportes" class="punto-rojo"></span>
+  <div *ngIf="mostrarListaReportes" class="lista-reportes">
+  <h3>Reportes de usuarios</h3>
+  <hr>
+<div *ngFor="let reporte of reportes; let i = index" class="reporte-item">
+  <!-- Botón de eliminar arriba a la derecha -->
+  <button (click)="eliminarReporte(i)" class="delete-reporte-btn">
+    <i class="fa fa-trash"></i>
+  </button>
+
+  <p><strong>Reportado por:</strong> {{ reporte.reportadoPor }}</p>
+  <p><strong>Autor publicación:</strong> {{ reporte.autorPublicacion }}</p>
+  <p><strong>Título:</strong> {{ reporte.tituloPublicacion }}</p>
+  <p><strong>Motivo:</strong> {{ reporte.motivo }}</p>
+  <hr>
+</div>
+
+  <hr>
+</div>
+
+</div>
+
+</div>
+
 
   <div class="right-section">
     <div class="container">
@@ -82,4 +106,5 @@
   <div *ngIf="mostrarDebate && isAdmin" class="eliminar-evento-wrapper">
     <button class="eliminar-evento" (click)="eliminarEvento()">ELIMINAR EVENTO</button>
   </div>
+  
 </div>

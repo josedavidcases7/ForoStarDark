@@ -4,9 +4,14 @@
       <img [src]="publicacion.userProfileImage" alt="Foto de perfil" class="perfil-imagen">
       <span class="nombre-usuario">{{ publicacion.userName }}</span>
 
+
    <!-- Mostrar la papelera si el usuario es admin o propietario -->
 <button *ngIf="esPropietario(publicacion) || isAdmin" (click)="confirmDelete(publicacion)" class="delete-btn">
   <i class="fa fa-trash"></i>
+</button>
+      <!-- Botón de emergencia -->
+<button (click)="abrirReporte(publicacion)" class="emergencia-btn">
+  ⚠️
 </button>
 
     </div>
@@ -65,4 +70,16 @@
       </div>
     </div>
   </div>
+  <div *ngIf="mostrarFormularioReporte" class="modal-overlay">
+  <div class="modal">
+    <h3>Reportar publicación</h3>
+    <p><strong>Motivo:</strong></p>
+    <textarea [(ngModel)]="motivoReporte" rows="4" placeholder="Describe el problema..."></textarea>
+    <div class="modal-buttons">
+      <button (click)="enviarReporte()" class="btn-delete">Enviar</button>
+      <button (click)="cancelarReporte()" class="btn-cancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 </div>
