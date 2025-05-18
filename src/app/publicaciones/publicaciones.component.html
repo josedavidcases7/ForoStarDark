@@ -74,7 +74,12 @@
   <div class="modal">
     <h3>Reportar publicación</h3>
     <p><strong>Motivo:</strong></p>
-    <textarea [(ngModel)]="motivoReporte" rows="4" placeholder="Describe el problema..."></textarea>
+<input 
+  type="text" 
+  [(ngModel)]="motivoReporte" 
+  placeholder="Describe el problema..." 
+  class="motivo-input"
+>
     <div class="modal-buttons">
       <button (click)="enviarReporte()" class="btn-delete">Enviar</button>
       <button (click)="cancelarReporte()" class="btn-cancel">Cancelar</button>
