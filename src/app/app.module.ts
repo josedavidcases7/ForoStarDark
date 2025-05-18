@@ -6,18 +6,26 @@ import { AppComponent } from './app.component';
 import { ChatComponent } from './chat/chat.component';  // Importa el ChatComponent
 import { ProfileComponent } from './perfil/perfil.component';  // Importa ProfileComponent
 import { routes } from './app.routes';  // Importa las rutas definidas
+import { MeteorologiaMarteComponent } from './meteorologia-marte/meteorologia-marte.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { NasaService } from './nasa.service';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChatComponent,  // Asegúrate de que ChatComponent esté declarado aquí
-    ProfileComponent  // Asegúrate de que ProfileComponent esté declarado aquí
+    ChatComponent,
+    ProfileComponent,
+    MeteorologiaMarteComponent,
+    HttpClient
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes)  // Agrega RouterModule con las rutas
+    RouterModule.forRoot(routes),
+    HttpClientModule
+    //HttpClient
   ],
-  providers: [],
+  providers: [NasaService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

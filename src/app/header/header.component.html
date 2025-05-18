@@ -1,6 +1,9 @@
 <header class="header">
   <div class="left-section">
     <img [src]="leftImage" alt="Logo" class="left-photo" width="100px" (click)="goToHome()" />
+    
+    <button class="btn-marte" (click)="goToMarsWeather()">CLIMA MARTE</button>
+
     <button *ngIf="isAdmin" class="usuarios-btn" (click)="irAUsuarios()">USUARIOS</button>
     <div *ngIf="isAdmin" class="emergencia-icono" (click)="abrirListaReportes()">
   ❗<span *ngIf="hayNuevosReportes" class="punto-rojo"></span>

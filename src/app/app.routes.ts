@@ -27,6 +27,8 @@ import { AdminListaUsuariosComponent } from './admin-lista-usuarios/admin-lista-
 import { LoginPcComponent } from './login-pc/login-pc.component';
 import { LoginElectionPcComponent } from './login-election-pc/login-election-pc.component';
 import { RegisterElectionPcComponent } from './register-election-pc/register-election-pc.component';
+import { MeteorologiaMarteComponent } from './meteorologia-marte/meteorologia-marte.component';
+import { NasaWeatherComponent } from './nasa-weather/nasa-weather.component';
 
 export const routes: Routes = [
   { path: '', component: LoginPcComponent },  
@@ -53,7 +55,12 @@ export const routes: Routes = [
   { path: 'admin-lista-usuarios', component: AdminListaUsuariosComponent },
   { path: 'register', component: RegisterElectionPcComponent },
   { path: 'login', component: LoginElectionPcComponent},
-  { path: 'actualizaciones-page', component: ActualizacionesPageComponent}
+  { path: 'actualizaciones-page', component: ActualizacionesPageComponent},
+  { path: 'meteorologia-marte', component: MeteorologiaMarteComponent },
+   { path: 'nasa-weather', component: NasaWeatherComponent },
+  { path: '', redirectTo: 'nasa-weather', pathMatch: 'full' },
+  
+  
 
 
   

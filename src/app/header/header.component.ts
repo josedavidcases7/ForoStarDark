@@ -223,6 +223,10 @@ eliminarReporte(index: number) {
   }
 }
 
+goToMarsWeather(): void {
+  this.router.navigate(['/nasa-weather']);
+}
+
 
 
 }

@@ -221,3 +221,28 @@ body {
   margin-left: 20px;
 }/*# sourceMappingURL=header.component.css.map */
 
+.btn-marte {
+  margin-left: 1.5rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: rgba(30, 30, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+.btn-marte:hover {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+  transform: scale(1.03);
+}
+
+.btn-marte:active {
+  transform: scale(0.98);
+}
+
