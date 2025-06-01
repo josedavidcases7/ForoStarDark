@@ -1,0 +1,25 @@
+<div class="container">
+  <img [src]="loginImage" alt="Login Image" class="login-image" />
+  
+  <div class="separator"></div>
+
+  <!-- Formulario de registro -->
+  <form class="login-form" (ngSubmit)="onRegister()"> <!-- Usamos ngSubmit para llamar al método onRegister -->
+    <label for="email" class="label">{{ titleEmail }}</label>
+    <input id="email" type="email" placeholder="Introduce tu email" [(ngModel)]="user.email" name="email" required />
+    <div *ngIf="emailExistError" class="error-message">{{ emailExistError }}</div>
+
+    <label for="nombre" class="label">{{ username }}</label>
+    <input id="nombre" type="text" placeholder="Introduce tu nombre de usuario" [(ngModel)]="user.user_name" name="user_name" required />
+    <div *ngIf="userNameExistError" class="error-message">{{ userNameExistError }}</div>
+
+    <label for="password" class="label">{{ titlePassword }}</label>
+    <input id="password" type="password" placeholder="Introduce tu contraseña" [(ngModel)]="user.password" name="password" required />
+    <div *ngIf="passwordError" class="error-message">{{ passwordError }}</div>
+
+    <div class="button-group">
+      <!-- Cambié el evento a onRegister() para que se registre el usuario -->
+      <button type="submit" class="btn secondary" >Registrarse</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,13 @@
+<div class="search-bar">
+  <input type="text" [(ngModel)]="searchQuery" placeholder="Buscar usuario..." />
+</div>
+
+<div class="user-list">
+  <div class="user-item" *ngFor="let usuario of usuariosFiltrados">
+    <div class="user-avatar">
+      <img [src]="getUserAvatar(usuario.user_name)" alt="Avatar" class="avatar-image" />
+    </div>
+    <span>{{ usuario.user_name }}</span>
+    <button class="delete-button" (click)="eliminarUsuario(usuario.user_id)">Eliminar</button>
+  </div>
+</div>

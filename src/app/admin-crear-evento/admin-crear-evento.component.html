@@ -1,0 +1,33 @@
+<div class="crear-evento-container">
+    <h1 class="titulo-pagina">{{ tituloPagina }}</h1>
+  
+    <div class="campo">
+      <label for="tema">{{ temaDebate }}</label>
+      <input id="tema" type="text" class="input-transparente" [(ngModel)]="tema"/>
+    </div>
+  
+    <div class="campo">
+      <label>{{ nombresEquipos }}</label>
+  
+      <div class="equipo">
+        <label for="primer-equipo">{{ primerEquipo }}</label>
+        <input id="primer-equipo" type="text" class="input-transparente" [(ngModel)]="equipo1" />
+      </div>
+  
+      <div class="equipo">
+        <label for="segundo-equipo">{{ segundoEquipo }}</label>
+        <input id="segundo-equipo" type="text" class="input-transparente" [(ngModel)]="equipo2"  />
+      </div>
+    </div>
+  
+    <div class="botones">
+      <button (click)="publicar()" class="boton-publicar">{{ botonPublicar }}</button>
+      <button (click)="cancelar()" class="boton-cancelar">Cancelar</button>
+    </div>
+
+
+
+
+
+  </div>
+  

@@ -1,0 +1,68 @@
+<div class="content-wrapper">
+    <div *ngFor="let publicacion of publicaciones" class="publicacion-card">
+      <div class="publicacion-header">
+        <img [src]="publicacion.userProfileImage" alt="Foto de perfil" class="perfil-imagen">
+        <span class="nombre-usuario">{{ publicacion.userName }}</span>
+  
+        <!-- Mostrar la papelera solo si el usuario es el propietario de la publicación -->
+        <button *ngIf="esPropietario(publicacion) || isAdmin" (click)="confirmDelete(publicacion)" class="delete-btn">
+          <i class="fa fa-trash"></i>
+        </button>
+      </div>
+  
+      <div class="titulo">
+        <h3>{{ publicacion.titulo }}</h3>
+      </div>
+  
+      <div class="descripcion">
+        <p>{{ publicacion.descripcion }}</p>
+      </div>
+  
+      <div *ngIf="publicacion.archivo" class="imagen-publicacion">
+        <img [src]="publicacion.archivo" alt="Imagen de la publicación">
+      </div>
+  
+      <div class="acciones">
+        <button (click)="darLike(publicacion)" [ngClass]="{'liked': userHasLiked(publicacion)}">
+          <i class="fa fa-heart"></i>
+        </button>
+  
+        <!-- 🆕 Botón para mostrar los comentarios -->
+        <button (click)="toggleComentarios(publicacion)">
+          <i class="fa fa-comment"></i>
+        </button>
+  
+        <!-- 🆕 Botón para responder -->
+        <button (click)="toggleRespuesta(publicacion)">
+          <i class="fa fa-share"></i>
+        </button>
+  
+        <span>{{ publicacion.likes }} Likes</span>
+      </div>
+  
+      <!-- 🆕 Componente para escribir una respuesta -->
+      <app-respuesta 
+        *ngIf="publicacion.mostrarFormularioRespuesta" 
+        [usuarioActualFoto]="usuarioActualFoto"
+        (respuestaEnviada)="guardarRespuesta(publicacion, $event)"
+        (cancelar)="cancelarRespuesta(publicacion)">
+      </app-respuesta>
+  
+      <!-- 🆕 Componente para mostrar los comentarios -->
+      <app-comentarios 
+        *ngIf="publicacion.mostrarComentarios" 
+        [comentarios]="publicacion.respuestas || []">
+      </app-comentarios>
+    </div>
+  
+    <div *ngIf="mostrarModal" class="modal-overlay">
+      <div class="modal">
+        <h2>¿Estás seguro de que quieres eliminar esta publicación?</h2>
+        <div class="modal-buttons">
+          <button (click)="deletePublication()" class="btn-delete">Eliminar</button>
+          <button (click)="cancelarEliminacion()" class="btn-cancel">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

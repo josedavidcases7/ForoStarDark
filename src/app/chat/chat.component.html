@@ -1,0 +1,18 @@
+<div class="chat-container">
+  <!-- Área donde se muestran los mensajes -->
+  <div class="messages">
+      <div *ngFor="let message of messages">
+          <p>{{ message }}</p>
+      </div>
+  </div>
+
+  <!-- Campo de entrada para nuevos mensajes -->
+  <input
+    type="text" 
+    [(ngModel)]="newMessage" 
+    (input)="onMessageInput($event)"  
+    placeholder="Escribe un mensaje" />
+
+  <!-- Botón para enviar el mensaje -->
+  <button (click)="sendMessage()">Enviar</button>
+</div>

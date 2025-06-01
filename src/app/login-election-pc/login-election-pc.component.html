@@ -1,0 +1,22 @@
+<div class="container">
+  <img [src]="loginImage" alt="Login Image" class="login-image" />
+  
+  <div class="separator"></div>
+
+  <form class="login-form" (ngSubmit)="onLogin()">
+      <!-- Cambié el nombre de 'email' a 'login' -->
+      <label for="login" class="label">{{ username_email }}</label>
+      <input id="login" type="text" [(ngModel)]="user.email"  name="login" placeholder="Introduce tu usuario o email" required />
+
+      <label for="password" class="label">{{ titlePassword }}</label>
+      <input id="password" type="password" [(ngModel)]="user.password" name="password" placeholder="Introduce tu contraseña" required />
+
+      <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+      </div>
+
+      <div class="button-group">
+          <button type="submit" class="btn">Iniciar sesión</button>
+      </div>
+  </form>
+</div>

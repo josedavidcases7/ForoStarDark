@@ -1,0 +1,20 @@
+<div class="comentarios-container">
+  <!-- Muestra los comentarios actuales (acumulados) -->
+  <div *ngFor="let comentario of comentariosMostrados" class="comentario">
+    <div class="comentario-info">
+      <img [src]="comentario.fotoUsuario" alt="Foto usuario" class="perfil-imagen">
+      <span class="nombre-usuario">{{ comentario.nombreUsuario }}</span> <!-- Nombre del usuario -->
+      <p>{{ comentario.texto }}</p>
+      
+      <!-- Si hay archivo, lo mostramos debajo del comentario -->
+      <div *ngIf="comentario.archivo" class="archivo-respuesta-container">
+        <img [src]="comentario.archivo" alt="Archivo adjunto" class="archivo-respuesta">
+      </div>
+    </div>
+  </div>
+
+  <!-- Si hay más comentarios, muestra el botón "Ver más" -->
+  <div *ngIf="hayMasComentarios()">
+    <button (click)="cargarMasComentarios()">Ver más</button>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+.comentarios-container {
+  margin-top: 20px;
+  padding: 20px;
+  border-top: 2px solid #6c6c6c;
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+}
+
+.comentario {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.perfil-imagen {
+  width: 60px; /* Tamaño de la imagen */
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #4caf50;
+}
+
+.comentario-info {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px; /* Aseguramos que el contenedor no se expanda demasiado */
+}
+
+.nombre-usuario {
+  font-weight: bold;
+  color: #f1f1f1;
+  margin-bottom: 5px;
+}
+
+.comentario p {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: #f1f1f1;
+  font-size: 15px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.archivo-respuesta-container {
+  margin-top: 8px; /* Espacio entre el comentario y el archivo */
+  text-align: center; /* Centrado de los archivos */
+}
+
+.archivo-respuesta {
+  width: 100%; /* Aseguramos que la imagen ocupe todo el espacio disponible */
+  max-width: 450px; /* Límite para el tamaño de la imagen */
+  max-height: 300px; /* Límite de altura */
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  object-fit: cover; /* Para que no se deforme la imagen */
+  cursor: zoom-in;
+  transition: transform 0.2s ease;
+}
+
+.archivo-respuesta:hover {
+  transform: scale(1.03); /* Para que haga un efecto zoom al pasar el mouse */
+}
+
+button {
+  background-color: transparent;
+  border: 1px solid #00e676;
+  color: #00e676;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #00e676;
+  color: #000;
+}
+
+.ver-mas {
+  text-align: center;
+  margin-top: 15px;
+}
