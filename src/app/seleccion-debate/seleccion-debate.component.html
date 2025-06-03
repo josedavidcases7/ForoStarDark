@@ -1,13 +1,17 @@
 <div class="contenido-debate">
-  <h1>{{ titulo_debate }}</h1>
+  <h1>{{ opciones.titulo_debate }}</h1>
 </div>
 
 <div class="opciones-debate">
   <div class="lado-izquierdo">
-    <h2>{{ opciones.izquierda }}</h2>
+    <button (click)="guardarDebate(opciones.izquierda)">
+      <p>{{ opciones.izquierda }}</p>
+    </button>
   </div>
   <div class="linea-vertical"></div>
   <div class="lado-derecho">
-    <h2>{{ opciones.derecha }}</h2>
+    <button (click)="guardarDebate(opciones.derecha)">
+      <p>{{ opciones.derecha }}</p>
+    </button>
   </div>
 </div>

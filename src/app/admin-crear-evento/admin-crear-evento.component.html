@@ -1,28 +1,38 @@
 <div class="crear-evento-container">
-    <h1 class="titulo-pagina">{{ tituloPagina }}</h1>
+    <h1 class="titulo-pagina">CREAR EVENTO </h1>
   
     <div class="campo">
-      <label for="tema">{{ temaDebate }}</label>
+      <label for="tema">TEMA DEBATE</label>
       <input id="tema" type="text" class="input-transparente" [(ngModel)]="tema"/>
+    </div>
+
+    <div class="campo">
+      <label for="fecha-evento">FECHA Y HORA</label>
+      <input id="fecha-evento" type="datetime-local" class="input-transparente" [(ngModel)]="fechaEvento"/>
+    </div>
+
+    <div class="campo">
+      <label for="duracion-evento">DURACIÓN (HORAS)</label>
+      <input id="duracion-evento" type="number" class="input-transparente" [(ngModel)]="duracionEvento"/>
     </div>
   
     <div class="campo">
-      <label>{{ nombresEquipos }}</label>
+      <label>NOMBRES DE EQUIPOS</label>
   
       <div class="equipo">
-        <label for="primer-equipo">{{ primerEquipo }}</label>
+        <label for="primer-equipo">1º EQUIPO</label>
         <input id="primer-equipo" type="text" class="input-transparente" [(ngModel)]="equipo1" />
       </div>
   
       <div class="equipo">
-        <label for="segundo-equipo">{{ segundoEquipo }}</label>
+        <label for="segundo-equipo">2º EQUIPO</label>
         <input id="segundo-equipo" type="text" class="input-transparente" [(ngModel)]="equipo2"  />
       </div>
     </div>
   
     <div class="botones">
-      <button (click)="publicar()" class="boton-publicar">{{ botonPublicar }}</button>
-      <button (click)="cancelar()" class="boton-cancelar">Cancelar</button>
+      <button (click)="publicar()" class="boton-publicar">PUBLICAR</button>
+      <button (click)="cancelar()" class="boton-cancelar">CANCELAR</button>
     </div>
 
 

@@ -1,61 +1,62 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common'; // 👈 AÑADE ESTO
-
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { EventsService, Event } from '../services/events.service';
+import { TeamsService, Team } from '../services/teams.service';
+import { GenericoService } from '../services/generico.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-admin-crear-evento',
-  imports: [FormsModule, CommonModule],
+  standalone: true,
+  imports: [FormsModule, CommonModule, HttpClientModule],
+  providers: [EventsService, TeamsService, GenericoService],
   templateUrl: './admin-crear-evento.component.html',
-  styleUrl: './admin-crear-evento.component.scss'
+  styleUrl: './admin-crear-evento.component.scss',
 })
 export class AdminCrearEventoComponent {
-    constructor(private router: Router) {}
-  
-    eventoPublicado: boolean = false;
-
-ngOnInit(): void {
-  this.eventoPublicado = !!localStorage.getItem('debateData');
-}
-
-    
-
-  tituloPagina = 'CREAR EVENTO';
-  temaDebate = 'TEMA DEBATE';
-  nombresEquipos = 'NOMBRES DE EQUIPOS';
-  primerEquipo = '1º EQUIPO';
-  segundoEquipo = '2º EQUIPO';
-  botonPublicar = 'PUBLICAR';
-  botonCancelar = 'CANCELAR';
   tema: string = '';
   equipo1: string = '';
   equipo2: string = '';
+  fechaEvento: string = '';
+  duracionEvento: string = '';
+  constructor(
+    private router: Router,
+    private servicioEvento: EventsService,
+    private servicioEquipo: TeamsService
+  ) {}
+
+  ngOnInit(): void {
+    // this.eventoPublicado = !!localStorage.getItem('debateData');
+  }
 
   cancelar() {
-    this.tema = '';
-    this.equipo1 = '';
-    this.equipo2 = '';
     this.router.navigate(['/home']);
   }
-  publicar() {
-    const datosDebate = {
-      tema: this.tema,
-      izquierda: this.equipo1,
-      derecha: this.equipo2
-    };
-  
-    localStorage.setItem('debateData', JSON.stringify(datosDebate));
-    localStorage.setItem('mostrarDebate', 'true'); 
+  async publicar() {
 
-    this.router.navigate(['/seleccion-debate']);
+    const fechaEventoDate: Date = new Date(this.fechaEvento);
+    const duracionEventoNumero: number = parseInt(this.duracionEvento);
+
+    const evento = new Event(
+      0,
+      fechaEventoDate,
+      duracionEventoNumero,
+      this.tema
+    );
+    const eventoCreado = await firstValueFrom(this.servicioEvento.agregarEvento(evento));
+
+
+    const primerEquipo = new Team(0,eventoCreado.event_id, this.equipo1);
+    await firstValueFrom(this.servicioEquipo.agregarEquipo( primerEquipo ));
+
+    const segundoEquipo = new Team(0,eventoCreado.event_id, this.equipo2);
+    await firstValueFrom(this.servicioEquipo.agregarEquipo( segundoEquipo ));
+
+    this.router.navigate(['/home']);
   }
-  
-
-
-
-
-
 
 
 }

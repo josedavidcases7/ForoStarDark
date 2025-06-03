@@ -1,83 +1,94 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';  // Importa HttpClientModule
+import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { EventsService } from '../services/events.service';
+import { GenericoService } from '../services/generico.service';
+import { TeamsService } from '../services/teams.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-header',
-  providers: [AuthService],
+  providers: [AuthService, EventsService, GenericoService, TeamsService],
   imports: [HttpClientModule, CommonModule, FormsModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  standalone: true
+  standalone: true,
 })
 export class HeaderComponent implements OnInit {
-
   isAdmin: boolean = false; // ⬅️ Nueva propiedad
 
-  leftImage: string = 'assets/images/logo.png'; 
+  leftImage: string = 'assets/images/logo.png';
   rightImage2: string = 'assets/images/image (2).png';
   rightImage3: string = 'assets/images/avatar1.png'; // Imagen circular de perfil
 
-  menuTopImage: string = 'assets/images/ovni-secciones.png'; 
+  menuTopImage: string = 'assets/images/ovni-secciones.png';
   menuOpen: boolean = false;
 
   searchQuery: string = ''; // Variable para la consulta de búsqueda
   filteredPublications: any[] = []; // Almacena las publicaciones filtradas
   allPublications: any[] = []; // Almacena todas las publicaciones
-mostrarListaReportes = false;
-reportes: any[] = [];
-hayNuevosReportes: boolean = false;
+  existeDebate: boolean = false;
+  debateHoy: any = null;
+  mostrarListaReportes = false;
+  reportes: any[] = [];
+  hayNuevosReportes: boolean = false;
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private servicioEventos: EventsService,
+    private servicioEquipos: TeamsService
+  ) {}
 
-  mostrarDebate: boolean = false;
-
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.loadUserAvatar();
+    this.hayNuevosReportes = localStorage.getItem('nuevosReportes') === 'true';
     this.isAdmin = this.authService.getIsAdmin();
-    
+
     // Primero cargamos las publicaciones desde el localStorage
     this.loadAllPublications();
 
     // Luego, si tienes publicaciones en authService, las combinas (o puedes omitir esto si no lo necesitas)
     const publicaciones = this.authService.getPublications();
     if (Array.isArray(publicaciones)) {
-      this.allPublications = [...this.allPublications, ...publicaciones];  // Añadimos las publicaciones de authService si es necesario
+      this.allPublications = [...this.allPublications, ...publicaciones]; // Añadimos las publicaciones de authService si es necesario
     }
 
     // Aseguramos que las publicaciones filtradas se actualicen también
     this.filteredPublications = [...this.allPublications];
 
-    const flag = localStorage.getItem('mostrarDebate');
-    this.mostrarDebate = flag === 'true';
+    this.debateHoy = await firstValueFrom(
+      this.servicioEventos.obtenerEventoHoy()
+    );
 
-      this.hayNuevosReportes = localStorage.getItem('nuevosReportes') === 'true';
-
+    if (this.debateHoy !== null) {
+      this.existeDebate = true;
+    }
   }
 
   loadAllPublications(): void {
-    this.allPublications = [];  // Limpiar el array antes de cargar las publicaciones
-  
+    this.allPublications = []; // Limpiar el array antes de cargar las publicaciones
+
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-  
-      if (key && key.startsWith("publicacion_")) {
+
+      if (key && key.startsWith('publicacion_')) {
         const pub = JSON.parse(localStorage.getItem(key)!);
-  
+
         this.allPublications.push({
           ...pub,
           userProfileImage: pub.circleImage || 'assets/images/avatar1.png',
           userName: pub.userName || 'Usuario desconocido',
-          section: pub.section || 'Unknown'  // Aquí agregamos la sección
+          section: pub.section || 'Unknown', // Aquí agregamos la sección
         });
       }
     }
-  
+
     // Verifica que las publicaciones se han cargado correctamente
-    console.log("Publicaciones desde localStorage:", this.allPublications);
+    console.log('Publicaciones desde localStorage:', this.allPublications);
   }
 
   irAUsuarios() {
@@ -90,7 +101,8 @@ hayNuevosReportes: boolean = false;
       const userData = localStorage.getItem(`profile_${username}`);
       if (userData) {
         const profile = JSON.parse(userData);
-        if (profile.uploadedCircleImage) { // Usar la imagen circular
+        if (profile.uploadedCircleImage) {
+          // Usar la imagen circular
           this.rightImage3 = profile.uploadedCircleImage;
         }
       }
@@ -98,7 +110,7 @@ hayNuevosReportes: boolean = false;
   }
 
   goToProfile() {
-    this.router.navigate(['/perfil']); 
+    this.router.navigate(['/perfil']);
   }
 
   toggleMenu() {
@@ -110,12 +122,12 @@ hayNuevosReportes: boolean = false;
   }
 
   goToHome(): void {
-    this.router.navigate(['home']);  
+    this.router.navigate(['home']);
   }
 
   navigateToDebate() {
-    this.router.navigate(['/seleccion-debate']);  
-    this.closeMenu();  
+    this.router.navigate(['/seleccion-debate']);
+    this.closeMenu();
   }
 
   navigateToCrearEvento() {
@@ -125,7 +137,7 @@ hayNuevosReportes: boolean = false;
 
   goToAddPublication() {
     const currentRoute = this.router.url;
-  
+
     if (currentRoute.includes('galaxias')) {
       this.router.navigate(['/subir-publicacion-galaxias']);
     } else if (currentRoute.includes('agujeros-negros')) {
@@ -145,76 +157,92 @@ hayNuevosReportes: boolean = false;
     }
   }
 
-  navigateToSection(section: string) {
-    const sectionFormatted = encodeURIComponent(section.toLowerCase().replace(/ /g, '-'));
-    
+  async navigateToSection(section: string) {
+    const sectionFormatted = encodeURIComponent(
+      section.toLowerCase().replace(/ /g, '-')
+    );
+
     if (section.toLowerCase() === 'debate') {
+      let equiposEvento = await firstValueFrom(
+        this.servicioEquipos.obtenerEquiposEvento(this.debateHoy.event_id)
+      );
+
+      const datos = {
+        tema: this.debateHoy.theme,
+        izquierda: equiposEvento[0].team_name,
+        derecha: equiposEvento[1].team_name,
+      };
+      localStorage.setItem('datosDebate', JSON.stringify(datos));
+
+      if (this.isAdmin) {
+        this.router.navigate(['/chat']);
+      }
+
       this.router.navigate(['/seleccion-debate']);
+    } else if (section.toLowerCase() === 'crear debate') {
+      this.router.navigate(['/admin-crear-evento']);
     } else {
       this.router.navigate([`/${sectionFormatted}`]);
     }
-    
-    this.closeMenu(); 
+
+    this.closeMenu();
   }
 
-  titulo_secciones: string = "APARTADOS";
-  primera_seccion: string = "UNIVERSOS";
-  segunda_seccion: string = "PLANETAS Y ESTRELLAS";
-  tercera_seccion: string = "AGUJEROS NEGROS";
-  cuarta_seccion: string = "GALAXIAS";
-  quinta_seccion: string = "SATELITES";
-  sexta_seccion: string = "VIDA EXTRATERRESTRE";
-  septima_seccion: string = "TEORIAS";
+  titulo_secciones: string = 'APARTADOS';
+  primera_seccion: string = 'UNIVERSOS';
+  segunda_seccion: string = 'PLANETAS Y ESTRELLAS';
+  tercera_seccion: string = 'AGUJEROS NEGROS';
+  cuarta_seccion: string = 'GALAXIAS';
+  quinta_seccion: string = 'SATELITES';
+  sexta_seccion: string = 'VIDA EXTRATERRESTRE';
+  septima_seccion: string = 'TEORIAS';
 
-  debate_seccion: string = "DEBATE";
+  debate_seccion: string = 'DEBATE';
+  debate_crear: string = 'CREAR DEBATE';
 
-  eliminarEvento() {
-    localStorage.removeItem('debateData');
-    localStorage.setItem('mostrarDebate', 'false');
-    this.mostrarDebate = false;
-  }
+  // eliminarEvento() {
+  //   localStorage.removeItem('debateData');
+  //   localStorage.setItem('mostrarDebate', 'false');
+  //   this.mostrarDebate = false;
+  // }
 
   onSearchChange(): void {
     const query = this.searchQuery.trim().toLowerCase();
-  
+
     if (!query) {
       this.filteredPublications = [...this.allPublications];
       return;
     }
-  
+
     // Filtrar publicaciones por título y sección
-    this.filteredPublications = this.allPublications.filter(pub =>
-      pub?.titulo?.toLowerCase().includes(query) ||  // Filtra por título
-      pub?.section?.toLowerCase().includes(query)   // Filtra por sección
+    this.filteredPublications = this.allPublications.filter(
+      (pub) =>
+        pub?.titulo?.toLowerCase().includes(query) || // Filtra por título
+        pub?.section?.toLowerCase().includes(query) // Filtra por sección
     );
-  
-    console.log("Publicaciones filtradas:", this.filteredPublications);
+
+    console.log('Publicaciones filtradas:', this.filteredPublications);
   }
-  
+  abrirListaReportes() {
+    this.reportes = JSON.parse(localStorage.getItem('reportes') || '[]');
+    this.mostrarListaReportes = !this.mostrarListaReportes;
 
-
-
-abrirListaReportes() {
-  this.reportes = JSON.parse(localStorage.getItem('reportes') || '[]');
-  this.mostrarListaReportes = !this.mostrarListaReportes;
-
-  if (this.mostrarListaReportes) {
-    this.hayNuevosReportes = false;
-    localStorage.setItem('nuevosReportes', 'false');
+    if (this.mostrarListaReportes) {
+      this.hayNuevosReportes = false;
+      localStorage.setItem('nuevosReportes', 'false');
+      console.log('Publicaciones filtradas:', this.filteredPublications);
+    }
   }
-}
 
-eliminarReporte(index: number) {
-  this.reportes.splice(index, 1);
-  localStorage.setItem('reportes', JSON.stringify(this.reportes));
+  eliminarReporte(index: number) {
+    this.reportes.splice(index, 1);
+    localStorage.setItem('reportes', JSON.stringify(this.reportes));
 
-  // Forzar que la lista siga abierta:
-  this.mostrarListaReportes = true; 
-}
+    
+    this.mostrarListaReportes = true;
+  }
 
-goToMarsWeather(): void {
-  this.router.navigate(['/nasa-weather']);
-}
-
-
+  goToMarsWeather(): void {
+    this.router.navigate(['/nasa-weather']);
+  }
 }

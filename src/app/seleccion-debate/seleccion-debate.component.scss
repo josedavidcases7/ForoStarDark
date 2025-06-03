@@ -43,12 +43,18 @@
     height: calc(100% - 50px); /* Reduce la altura en 50px desde la parte superior */
     margin-top: 25px; /* Agrega un pequeño margen desde la parte superior */
   }
+
   
-  h2 {
+  p {
     font-size: 50px;
     color: white; /* Cambia el color del texto si es necesario */
     font-weight: bold;
     margin-bottom: 150px;
+  }
+  
+  button{
+    all: unset;
+    cursor: pointer;
   }
   
   /* Efecto de iluminación al pasar el cursor */

@@ -98,17 +98,18 @@
   </div>
 
   <div class="seccion-especial">
-    <p *ngIf="mostrarDebate" (click)="navigateToSection(debate_seccion)">
+    <p *ngIf="existeDebate" (click)="navigateToSection(debate_seccion)">
       {{ debate_seccion }}
     </p>
   </div>
 
-  <p *ngIf="isAdmin">
-    <a (click)="navigateToCrearEvento()">CREAR EVENTO</a>
-  </p>
-
-  <div *ngIf="mostrarDebate && isAdmin" class="eliminar-evento-wrapper">
-    <button class="eliminar-evento" (click)="eliminarEvento()">ELIMINAR EVENTO</button>
+  <div class="seccion-especial">
+    <p *ngIf="isAdmin" (click)="navigateToSection(debate_crear)">
+      {{ debate_crear }}
+    </p>
   </div>
-  
+
+
+
+ 
 </div>

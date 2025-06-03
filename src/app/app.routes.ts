@@ -19,16 +19,18 @@ import { SubirPublicacionTeoriasComponent } from './subir-publicacion-teorias/su
 import { SubirPublicacionUniversosComponent } from './subir-publicacion-universos/subir-publicacion-universos.component';
 import { SubirPublicacionVidaExtraterrestreComponent } from './subir-publicacion-vida-extraterrestre/subir-publicacion-vida-extraterrestre.component';
 import { FinEventoComponent } from './fin-evento/fin-evento.component';
+
 import { ActualizacionesPageComponent } from './actualizaciones-page/actualizaciones-page.component';
+import { MeteorologiaMarteComponent } from './meteorologia-marte/meteorologia-marte.component';
+import { NasaWeatherComponent } from './nasa-weather/nasa-weather.component';
 
 import { AdminCrearEventoComponent } from './admin-crear-evento/admin-crear-evento.component';
 import { AdminListaUsuariosComponent } from './admin-lista-usuarios/admin-lista-usuarios.component';
+import { ChatComponent } from './chat/chat.component';
 
 import { LoginPcComponent } from './login-pc/login-pc.component';
 import { LoginElectionPcComponent } from './login-election-pc/login-election-pc.component';
 import { RegisterElectionPcComponent } from './register-election-pc/register-election-pc.component';
-import { MeteorologiaMarteComponent } from './meteorologia-marte/meteorologia-marte.component';
-import { NasaWeatherComponent } from './nasa-weather/nasa-weather.component';
 
 export const routes: Routes = [
   { path: '', component: LoginPcComponent },  
@@ -55,12 +57,9 @@ export const routes: Routes = [
   { path: 'admin-lista-usuarios', component: AdminListaUsuariosComponent },
   { path: 'register', component: RegisterElectionPcComponent },
   { path: 'login', component: LoginElectionPcComponent},
+  { path: 'chat', component: ChatComponent},
   { path: 'actualizaciones-page', component: ActualizacionesPageComponent},
   { path: 'meteorologia-marte', component: MeteorologiaMarteComponent },
-   { path: 'nasa-weather', component: NasaWeatherComponent },
-  
-  
-
-
+  { path: 'nasa-weather', component: NasaWeatherComponent },
   
 ];

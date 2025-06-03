@@ -45,3 +45,78 @@ button {
 button:hover {
   background-color: #004d40;
 }
+
+/////fggfg
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: black;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.contenedor {
+  background-color: #fff;
+  padding: 30px;
+  width: 90%;
+  max-width: 900px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fila {
+  display: flex;
+  justify-content: center;
+}
+
+.fila-centro {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.titulo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+
+.fila-doble {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.columna {
+  width: 50%;
+}
+
+.mensajes {
+  height: 150px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+}
