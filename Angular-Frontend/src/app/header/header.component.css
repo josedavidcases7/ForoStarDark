@@ -1,0 +1,222 @@
+@charset "UTF-8";
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* Estilo para el header */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%; /* Ocupa todo el ancho */
+  background-color: transparent;
+  padding: 8px 10px;
+  height: 80px; /* Ajustamos la altura del header */
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Sección izquierda del header */
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Sección derecha del header */
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 20px;
+}
+
+/* Estilo de la caja de búsqueda */
+.container {
+  display: flex;
+  align-items: center;
+  background-color: #53535f;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 28px;
+  width: 300px; /* Aumenta el ancho del contenedor */
+}
+
+.input {
+  border: none;
+  outline: none;
+  background-color: #53535f;
+  color: #ffffff;
+  font-size: 12px;
+  padding: 0 8px;
+  caret-color: #00ad14;
+  flex-grow: 1;
+  font-weight: 500;
+}
+.input::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.search-btn {
+  border: none;
+  background-color: #3a3a3c;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px;
+  transition: background-color 0.2s ease;
+}
+.search-btn:hover {
+  background-color: #505052;
+}
+.search-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: #efeff1;
+}
+
+/* Estilo para las imágenes de usuario */
+.left-photo,
+.right-photo,
+.right-photo-circle {
+  width: 50px;        /* Establece el ancho de la imagen */
+  height: 50px;       /* Establece la altura de la imagen */
+  border-radius: 50%; /* Hace la imagen circular */
+  object-fit: cover;  /* Hace que la imagen se ajuste al área circular sin deformarse */
+}
+
+/* Estilo para el ícono de tres rayas */
+.icon-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+}
+.icon-menu svg {
+  width: 70px;
+  height: 70px;
+  fill: white; /* Color inicial */
+}
+.icon-menu:hover svg {
+  fill: #a970ff; /* Cambia el color al pasar el cursor */
+}
+
+/* Fondo para la pantalla de inicio */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro con opacidad */
+  z-index: 999;
+  display: none;
+}
+
+.overlay.active {
+  display: block; /* Se muestra cuando se activa */
+}
+
+/* Contenedor del menú lateral */
+.side-menu {
+  position: fixed;
+  top: 0;
+  right: -50%;
+  height: 100%;
+  width: 40%;
+  background-image: url("/assets/images/FONDO SECCIONES.gif");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 1000;
+  color: white;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+  transition: right 0.3s ease;
+}
+.side-menu.active {
+  right: 0;
+  width: 30%;
+}
+
+/* Estilo para la imagen superior dentro del menú */
+.menu-top-image-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Estilo para la imagen del OVNI flotante, inicialmente oculta */
+.menu-top-image {
+  width: 80%;
+  max-width: 200px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 20px; /* Mueve la imagen cerca de la parte superior */
+  right: 20px; /* La coloca en la parte derecha */
+  transform: translate(0, 0);
+  animation: floating 5s ease-in-out infinite; /* Animación flotante */
+  display: none; /* Oculta la imagen por defecto */
+}
+
+/* Mostrar la imagen del OVNI solo cuando el menú esté activo */
+.side-menu.active .menu-top-image {
+  display: block; /* Muestra la imagen cuando el menú está abierto */
+}
+
+/* Animación flotante para la imagen del OVNI */
+@keyframes floating {
+  0% {
+    transform: translate(0, 0) translateY(0);
+  }
+  50% {
+    transform: translate(0, 0) translateY(-20px);
+  }
+  100% {
+    transform: translate(0, 0) translateY(0);
+  }
+}
+/* Título de las secciones, agregando margen superior */
+.titulo-secciones {
+  margin-left: 20px;
+  margin-top: 100px; /* Se agrega espacio arriba */
+  margin-bottom: 80px;
+  font-size: 40px;
+  font-weight: bold;
+  font-family: "Times New Roman", sans-serif;
+  color: #00ad14;
+}
+
+/* Estilo para las secciones */
+.secciones {
+  margin-left: 20px;
+}
+
+.secciones p {
+  margin-bottom: 30px;
+}
+
+.seccion-especial p {
+  color: gold;
+  font-size: 30px;
+}
+
+.seccion-especial {
+  margin-left: 20px;
+}/*# sourceMappingURL=header.component.css.map */

@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  position: relative; /* Aseguramos que el fondo esté detrás de todo */
+  top: 0;
+  left: 0;
+  background-image: url('/assets/images/bg7.jpg'); /* Ruta a la imagen */
+
+  width: 100vw; /* Ocupa todo el ancho de la ventana */
+  background-size: cover; /* Escalar para cubrir toda la pantalla */
+  background-position: center; /* Centrar la imagen */
+  background-repeat: repeat; /* Evitar repeticiones */
+  background-attachment: fixed; /* Mantener el fondo fijo */
+  
+}
+
+/* Contenedor principal del home */
+.content-wrapper {
+  position: relative;
+  z-index: 1; /* Asegura que el contenido esté por encima del fondo */
+  padding: 20px;
+  min-height: 100vh; /* Garantiza que el contenedor ocupe al menos toda la ventana */
+}
+
+/* Estilo para los botones */
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4CAF50; /* Verde */
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 20px;
+
+  &:hover {
+    background-color: #45a049;
+  }
+}

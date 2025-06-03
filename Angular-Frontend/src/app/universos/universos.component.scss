@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  position: relative; /* Aseguramos que el fondo esté detrás de todo */
+  top: 0;
+  left: 0;
+  background-image: url('/assets/images/universo.jpg'); /* Ruta a la imagen */
+
+  width: 100vw; /* Ocupa todo el ancho de la ventana */
+  background-size: cover; /* Escalar para cubrir toda la pantalla */
+  background-position: center; /* Centrar la imagen */
+  background-repeat: repeat; /* Evitar repeticiones */
+  background-attachment: fixed; /* Mantener el fondo fijo */
+  
+}
+
+
+.universo {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 36px;
+  margin-top: 110px;
+  margin-left: 40px;
+  color: white;
+}

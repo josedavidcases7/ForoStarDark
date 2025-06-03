@@ -1,0 +1,355 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%; 
+  background-color: transparent;
+  padding: 8px 10px;
+  height: 80px; 
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.usuarios-btn {
+  margin-left: 15px;
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
+  transition: color 0.3s;
+
+  &:hover {
+    color: #aaa;
+  }
+}
+
+
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 20px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  background-color: #53535f;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 28px;
+  width: 300px; 
+}
+
+.input {
+  border: none;
+  outline: none;
+  background-color: #53535f;
+  color: #ffffff;
+  font-size: 12px;
+  padding: 0 8px;
+  caret-color: #00ad14;
+  flex-grow: 1;
+  font-weight: 500;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+.search-btn {
+  border: none;
+  background-color: #3a3a3c;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #505052;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    fill: #efeff1;
+  }
+}
+
+.left-photo {
+  width: 100px; 
+  height: 100px; 
+  border-radius: 50%; 
+  object-fit: cover;
+}
+
+.right-photo {
+  width: 50px; 
+  height: 50px; 
+  border-radius: 50%; 
+  object-fit: cover; 
+}
+
+.icon-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+
+  svg {
+    width: 70px;
+    height: 70px;
+    fill: white; 
+  }
+
+  &:hover svg {
+    fill: #a970ff; 
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); 
+  z-index: 999;
+  display: none;
+}
+
+.overlay.active {
+  display: block; 
+}
+
+/* Contenedor del menú lateral */
+.side-menu {
+  position: fixed;
+  top: 0;
+  right: -50%;
+  height: 100%;
+  width: 40%;
+  background-image: url('/assets/images/FONDO SECCIONES.gif');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 1000;
+  color: white;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+  transition: right 0.3s ease;
+
+  &.active {
+    right: 0;
+    width: 30%;
+  }
+}
+
+/* Estilo para la imagen superior dentro del menú */
+.menu-top-image-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Estilo para la imagen del OVNI flotante, inicialmente oculta */
+.menu-top-image {
+  width: 80%;
+  max-width: 200px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 20px; /* Mueve la imagen cerca de la parte superior */
+  right: 20px; /* La coloca en la parte derecha */
+  transform: translate(0, 0);
+  animation: floating 5s ease-in-out infinite; /* Animación flotante */
+  display: none; /* Oculta la imagen por defecto */
+}
+
+/* Mostrar la imagen del OVNI solo cuando el menú esté activo */
+.side-menu.active .menu-top-image {
+  display: block; /* Muestra la imagen cuando el menú está abierto */
+}
+
+/* Animación flotante para la imagen del OVNI */
+@keyframes floating {
+  0% {
+    transform: translate(0, 0) translateY(0);
+  }
+  50% {
+    transform: translate(0, 0) translateY(-20px);
+  }
+  100% {
+    transform: translate(0, 0) translateY(0);
+  }
+}
+
+/* Título de las secciones, agregando margen superior */
+.titulo-secciones {
+  margin-left: 20px;
+  margin-top: 100px; /* Se agrega espacio arriba */
+  margin-bottom: 80px;
+  font-size: 40px;
+  font-weight: bold;
+  font-family: "Times New Roman", sans-serif;
+  color: #00ad14;
+}
+
+/* Estilo para las secciones */
+.secciones {
+  margin-left: 20px;
+}
+
+.secciones p {
+  margin-bottom: 30px;
+}
+
+
+.seccion-especial p{
+  color:gold;
+  font-size: 30px;
+
+}
+
+.seccion-especial{
+  margin-left: 20px;
+
+}
+
+.eliminar-evento-wrapper {
+  text-align: center;
+  margin-top: 20px;
+
+  .eliminar-evento {
+    background-color: #ff3c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .eliminar-evento:hover {
+    background-color: #a10000;
+  }
+}
+.search-results {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  width: 300px;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  z-index: 2000;
+}
+
+.search-results ul {
+  list-style: none;
+  padding: 0;
+  
+}
+
+.search-results li {
+  padding: 8px;
+  border-bottom: 1px solid #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-results li:hover {
+  background-color: #444;
+}
+.search-results {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  width: 300px;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  z-index: 2000;
+}
+
+.search-results ul {
+  list-style: none;
+  padding: 0;
+}
+
+.search-results li {
+  padding: 8px;
+  border-bottom: 1px solid #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-results li:hover {
+  background-color: #444;
+}
+
+.result-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.result-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.username {
+  font-size: 14px;
+  font-weight: bold;
+  color: #00ad14;
+}
+
+.pub-title {
+  font-size: 12px;
+  color: white;
+}
