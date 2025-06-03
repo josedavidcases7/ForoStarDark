@@ -122,15 +122,15 @@ export class ChatComponent implements OnInit {
             const formattedMessage = `Admin: ${data.message.text}`;
             this.addMessageToTeam(formattedMessage, 1);
             this.addMessageToTeam(formattedMessage, 2);
-            return;
           }
+        } else {
+          const nombreUsuarioLocalStorage =
+            localStorage.getItem('nombreUsuario');
+          if (nombreUsuarioLocalStorage) {
+            data.message.text = `${nombreUsuarioLocalStorage}: ${data.message.text}`;
+          }
+          this.addMessageToTeam(data.message.text, this.teamNumber);
         }
-        const nombreUsuarioLocalStorage = localStorage.getItem('nombreUsuario');
-        if (nombreUsuarioLocalStorage) {
-          data.message.text = `${nombreUsuarioLocalStorage}: ${data.message.text}`;
-        }
-
-        this.addMessageToTeam(data.message.text, this.teamNumber);
       });
 
     // Pusher.logToConsole = true;
