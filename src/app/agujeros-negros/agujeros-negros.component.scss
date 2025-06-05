@@ -12,6 +12,10 @@
   background-repeat: repeat; /* Evitar repeticiones */
   background-attachment: fixed; /* Mantener el fondo fijo */
   
+
+  min-height: 100vh; /* Garantiza que el contenedor ocupe al menos toda la ventana */
+
+  
 }
   .agujerosNegros{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
