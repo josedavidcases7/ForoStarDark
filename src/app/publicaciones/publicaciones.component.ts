@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RespuestaComponent } from '../respuesta/respuesta.component';
 import { ComentariosComponent } from '../comentarios/comentarios.component';
+import { map } from 'rxjs/operators';
 
 interface Publicacion {
   titulo: string;
@@ -14,7 +15,7 @@ interface Publicacion {
   userName: string;
   likes: number;
   userProfileImage: string;
-  id?: string; 
+  id?: string;
   mostrarFormularioRespuesta?: boolean;
   mostrarComentarios?: boolean;
   respuestas?: { texto: string, archivo: string | null, fotoUsuario: string }[];
@@ -36,86 +37,61 @@ export class PublicacionesComponent implements OnInit {
   usuarioActualFoto: string | null = null;
 
   mostrarFormularioReporte = false;
-publicacionAReportar: Publicacion | null = null;
-motivoReporte: string = '';
-
+  publicacionAReportar: Publicacion | null = null;
+  motivoReporte: string = '';
+  isAdmin: boolean = false;
 
   constructor(private authService: AuthService) {}
-  isAdmin: boolean = false; // NUEVO
 
   ngOnInit() {
-    this.usuarioActual = this.authService.getUsername();
-    this.usuarioActualFoto = this.authService.getUserProfileImage(this.usuarioActual || '');
-  
-    const publicacionesGuardadas = localStorage.getItem('publicaciones');
-    this.isAdmin = this.authService.getIsAdmin();
+     this.usuarioActual = this.authService.getUsername();
+     this.usuarioActualFoto = this.authService.getUserProfileImage(this.usuarioActual || '');
+     this.isAdmin = this.authService.getIsAdmin();
+ 
+     // Usamos pipe y subscribe para obtener los datos desde el backend
+     this.authService.getPublications().pipe(
+       map((publicaciones: any[]) =>
+         publicaciones.map(publicacion => ({
+           titulo: publicacion.titulo || '',
+           descripcion: publicacion.description || '',
+           archivo: publicacion.archivo || null,
+           fileType: publicacion.fileType || null,
+           userName: publicacion.user_name || 'Anónimo',
+           userProfileImage: this.authService.getUserProfileImage(publicacion.user_name) || '/assets/images/avatar1.png',
+           likes: publicacion.likes || 0,
+           id: publicacion.id,
+           mostrarFormularioRespuesta: false,
+           mostrarComentarios: false,
+           respuestas: publicacion.respuestas || []
+         }))
+       )
+     ).subscribe(publicacionesTransformadas => {
+       this.publicaciones = publicacionesTransformadas;
+     });
+   }
 
-    if (publicacionesGuardadas) {
-      this.publicaciones = JSON.parse(publicacionesGuardadas).map((publicacion: Publicacion) => {
-        const userLikes = JSON.parse(localStorage.getItem(`likes_${this.usuarioActual}`) || '{}');
-        const hasLiked = !!userLikes[publicacion.titulo];
-        return {
-          ...publicacion,
-          userProfileImage: this.authService.getUserProfileImage(publicacion.userName) || '/assets/images/avatar1.png',
-          mostrarFormularioRespuesta: false,
-          mostrarComentarios: false,
-          respuestas: publicacion.respuestas || [],
-          likes: hasLiked ? publicacion.likes + 1 : publicacion.likes,
-        };
-      });
-    } else {
-      this.publicaciones = this.authService.getPublications().map((publicacion: Publicacion) => ({
-        ...publicacion,
-        userProfileImage: this.authService.getUserProfileImage(publicacion.userName) || '/assets/images/avatar1.png',
-        mostrarFormularioRespuesta: false,
-        mostrarComentarios: false,
-        respuestas: []
-      }));
-    }
-  }
-  
-  
+   
 
-  darLike(publicacion: Publicacion) {
-    const username = this.authService.getUsername();
-    if (!username) {
-      alert('Debes iniciar sesión para dar like.');
-      return;
-    }
-  
-    let publicaciones = JSON.parse(localStorage.getItem('publicaciones') || '[]');
-    let userLikes = JSON.parse(localStorage.getItem(`likes_${username}`) || '{}');
-  
-    const likedBefore = userLikes[publicacion.titulo];
-  
-    if (likedBefore) {
-      publicacion.likes -= 1;
-      delete userLikes[publicacion.titulo]; 
-    } else {
-      publicacion.likes += 1;
-      userLikes[publicacion.titulo] = true; 
-    }
-  
-    localStorage.setItem(`likes_${username}`, JSON.stringify(userLikes));
-  
-    publicaciones = publicaciones.map((p: Publicacion) =>
-      p.titulo === publicacion.titulo ? { ...p, likes: publicacion.likes } : p
-    );
-  
-    localStorage.setItem('publicaciones', JSON.stringify(publicaciones));
+darLike(publicacion: Publicacion) {
+  if (!this.usuarioActual) {
+    alert('Debes iniciar sesión para dar like.');
+    return;
   }
-  
-  
+
+  this.authService.likePublication(publicacion.id!, this.usuarioActual).subscribe(() => {
+    publicacion.likes += 1;
+  }, error => {
+    console.error('Error al dar like:', error);
+  });
+}
+
+
+
 
   userHasLiked(publicacion: Publicacion): boolean {
-    const username = this.authService.getUsername();
-    if (!username) return false;
-  
-    const userLikes = JSON.parse(localStorage.getItem(`likes_${username}`) || '{}');
-  
-    return !!userLikes[publicacion.titulo];
+    // Opcional: si tienes lógica para saber si el usuario ya dio like
+    return false;
   }
-  
 
   esPropietario(publicacion: Publicacion): boolean {
     return publicacion.userName === this.usuarioActual;
@@ -127,17 +103,14 @@ motivoReporte: string = '';
   }
 
   deletePublication() {
-    if (this.publicacionAEliminar) {
-      let publicaciones = this.authService.getPublications();
-
-      publicaciones = publicaciones.filter((p: Publicacion) =>
-        p.id ? p.id !== this.publicacionAEliminar!.id : p.titulo !== this.publicacionAEliminar!.titulo
-      );
-
-      localStorage.setItem('publicaciones', JSON.stringify(publicaciones));
-      this.publicaciones = [...publicaciones];
-      this.mostrarModal = false;
-      this.publicacionAEliminar = null;
+    if (this.publicacionAEliminar && this.publicacionAEliminar.id) {
+      this.authService.deletePublication(this.publicacionAEliminar.id).subscribe(() => {
+        this.publicaciones = this.publicaciones.filter(p => p.id !== this.publicacionAEliminar!.id);
+        this.mostrarModal = false;
+        this.publicacionAEliminar = null;
+      }, error => {
+        console.error('Error eliminando publicación:', error);
+      });
     }
   }
 
@@ -162,47 +135,62 @@ motivoReporte: string = '';
     });
 
     publicacion.mostrarFormularioRespuesta = false;
-
-    this.actualizarPublicacionesEnLocalStorage();
   }
 
   cancelarRespuesta(publicacion: Publicacion) {
     publicacion.mostrarFormularioRespuesta = false;
   }
 
-  actualizarPublicacionesEnLocalStorage() {
-    localStorage.setItem('publicaciones', JSON.stringify(this.publicaciones));
+  abrirReporte(publicacion: Publicacion) {
+    this.publicacionAReportar = publicacion;
+    this.motivoReporte = '';
+    this.mostrarFormularioReporte = true;
   }
 
-  abrirReporte(publicacion: Publicacion) {
-  this.publicacionAReportar = publicacion;
-  this.motivoReporte = '';
-  this.mostrarFormularioReporte = true;
-}
+  cancelarReporte() {
+    this.publicacionAReportar = null;
+    this.mostrarFormularioReporte = false;
+  }
 
-cancelarReporte() {
-  this.publicacionAReportar = null;
-  this.mostrarFormularioReporte = false;
-}
+  enviarReporte() {
+    if (!this.publicacionAReportar || !this.motivoReporte.trim()) return;
 
-enviarReporte() {
-  if (!this.publicacionAReportar || !this.motivoReporte.trim()) return;
+    const reportes = JSON.parse(localStorage.getItem('reportes') || '[]');
+    reportes.push({
+      reportadoPor: this.usuarioActual,
+      autorPublicacion: this.publicacionAReportar.userName,
+      tituloPublicacion: this.publicacionAReportar.titulo,
+      motivo: this.motivoReporte
+    });
 
-  const reportes = JSON.parse(localStorage.getItem('reportes') || '[]');
-  reportes.push({
-    reportadoPor: this.usuarioActual,
-    autorPublicacion: this.publicacionAReportar.userName,
-    tituloPublicacion: this.publicacionAReportar.titulo,
-    motivo: this.motivoReporte
+    localStorage.setItem('reportes', JSON.stringify(reportes));
+
+    this.publicacionAReportar = null;
+    this.mostrarFormularioReporte = false;
+    localStorage.setItem('nuevosReportes', 'true');
+  }
+
+guardarPublicacion(publicacion: any) {
+  console.log('Guardando publicación:', publicacion);
+  this.authService.savePublication(publicacion).subscribe({
+    next: (response) => {
+      console.log('Respuesta backend:', response);
+      alert(response.message || '¡Publicación guardada correctamente!');
+      this.cargarPublicaciones();
+    },
+    error: (err) => {
+      console.error('Error al guardar publicación:', err);
+      alert('Error al guardar publicación');
+    }
   });
+}
 
-  localStorage.setItem('reportes', JSON.stringify(reportes));
 
-  this.publicacionAReportar = null;
-  this.mostrarFormularioReporte = false;
-
-  // Marcar que hay reportes nuevos
-  localStorage.setItem('nuevosReportes', 'true');
+// Método para recargar publicaciones, si lo tienes
+cargarPublicaciones() {
+  this.authService.getPublications().subscribe(data => {
+    this.publicaciones = data;
+  });
 }
 
 }

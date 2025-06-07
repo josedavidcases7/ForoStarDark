@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RespuestaComponent } from '../respuesta/respuesta.component';
 import { ComentariosComponent } from '../comentarios/comentarios.component';
+import { map } from 'rxjs/operators';
 
 interface Publicacion {
   titulo: string;
@@ -19,150 +20,118 @@ interface Publicacion {
   mostrarComentarios?: boolean;
   respuestas?: { texto: string, archivo: string | null, fotoUsuario: string }[];
 }
+
 @Component({
   selector: 'app-publicaciones-satelites',
   providers: [AuthService],
   imports: [CommonModule, FormsModule, HttpClientModule, RespuestaComponent, ComentariosComponent],
   standalone: true,
   templateUrl: './publicaciones-satelites.component.html',
-  styleUrl: './publicaciones-satelites.component.scss'
+  styleUrls: ['./publicaciones-satelites.component.scss']
 })
-export class PublicacionesSatelitesComponent implements OnInit{
+export class PublicacionesSatelitesComponent implements OnInit {
   publicaciones: Publicacion[] = [];
   publicacionAEliminar: Publicacion | null = null;
   mostrarModal: boolean = false;
   usuarioActual: string | null = null;
   usuarioActualFoto: string | null = null;
-  private STORAGE_KEY = 'publicaciones_satelites';
+  isAdmin: boolean = false;
 
   constructor(private authService: AuthService) {}
-  isAdmin: boolean = false; // NUEVO
 
-  ngOnInit() {
+     ngOnInit() {
     this.usuarioActual = this.authService.getUsername();
     this.usuarioActualFoto = this.authService.getUserProfileImage(this.usuarioActual || '');
     this.isAdmin = this.authService.getIsAdmin();
 
-    
-    const publicacionesGuardadas = localStorage.getItem('publicaciones_satelites');
-    if (publicacionesGuardadas) {
-      this.publicaciones = JSON.parse(publicacionesGuardadas).map((publicacion: any) => {
-        const userLikes = JSON.parse(localStorage.getItem(`likes_${this.usuarioActual}`) || '{}');
-        const hasLiked = !!userLikes[publicacion.titulo];
-        
-        return {
-          ...publicacion,
+    // Usamos pipe y subscribe para obtener los datos desde el backend
+    this.authService.getPublications().pipe(
+      map((publicaciones: any[]) =>
+        publicaciones.map(publicacion => ({
+          titulo: publicacion.titulo || '',
+          descripcion: publicacion.descripcion || '',
+          archivo: publicacion.archivo || null,
+          fileType: publicacion.fileType || null,
+          userName: publicacion.user_name || 'Anónimo',
           userProfileImage: this.authService.getUserProfileImage(publicacion.userName) || '/assets/images/avatar1.png',
+          likes: publicacion.likes || 0,
+          id: publicacion.id,
           mostrarFormularioRespuesta: false,
           mostrarComentarios: false,
-          respuestas: publicacion.respuestas || [],
-          likes: hasLiked ? publicacion.likes + 1 : publicacion.likes,
-        };
-      });
-    } else {
-      this.publicaciones = this.authService.getPublications().map((publicacion: any) => ({
-        ...publicacion,
-        userProfileImage: this.authService.getUserProfileImage(publicacion.userName) || '/assets/images/avatar1.png',
-        mostrarFormularioRespuesta: false,
-        mostrarComentarios: false,
-        respuestas: []
-      }));
-    }
+          respuestas: publicacion.respuestas || []
+        }))
+      )
+    ).subscribe(publicacionesTransformadas => {
+      this.publicaciones = publicacionesTransformadas;
+    });
   }
   
+    darLike(publicacion: Publicacion) {
+      if (!this.usuarioActual) {
+        alert('Debes iniciar sesión para dar like.');
+        return;
+      }
   
-
-  darLike(publicacion: Publicacion) {
-    const username = this.authService.getUsername();
-    if (!username) {
-      alert('Debes iniciar sesión para dar like.');
-      return;
-    }
-
-    let publicaciones = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]');
-    let userLikes = JSON.parse(localStorage.getItem(`likes_${username}`) || '{}');
-
-    const likedBefore = userLikes[publicacion.titulo];
-
-    if (likedBefore) {
-      publicacion.likes -= 1;
-      delete userLikes[publicacion.titulo];
-    } else {
+      // Aquí debes llamar al backend para registrar/unregistrar el like
+      // Por ahora solo actualizamos localmente
       publicacion.likes += 1;
-      userLikes[publicacion.titulo] = true;
+  
+      // Ejemplo:
+      // this.authService.toggleLike(publicacion.id).subscribe(...)
     }
-
-    localStorage.setItem(`likes_${username}`, JSON.stringify(userLikes));
-
-    publicaciones = publicaciones.map((p: Publicacion) =>
-      p.titulo === publicacion.titulo ? { ...p, likes: publicacion.likes } : p
-    );
-
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(publicaciones));
-  }
-
-  userHasLiked(publicacion: Publicacion): boolean {
-    const username = this.authService.getUsername();
-    if (!username) return false;
-
-    const userLikes = JSON.parse(localStorage.getItem(`likes_${username}`) || '{}');
-    return !!userLikes[publicacion.titulo];
-  }
-
-  esPropietario(publicacion: Publicacion): boolean {
-    return publicacion.userName === this.usuarioActual;
-  }
-
-  confirmDelete(publicacion: Publicacion) {
-    this.publicacionAEliminar = publicacion;
-    this.mostrarModal = true;
-  }
-
-  deletePublication() {
-    if (this.publicacionAEliminar) {
-      let publicaciones = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]');
-
-      publicaciones = publicaciones.filter((p: Publicacion) =>
-        p.id ? p.id !== this.publicacionAEliminar!.id : p.titulo !== this.publicacionAEliminar!.titulo
-      );
-
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(publicaciones));
-      this.publicaciones = [...publicaciones];
+  
+    userHasLiked(publicacion: Publicacion): boolean {
+      // Implementar lógica backend para saber si el usuario dio like
+      return false;
+    }
+  
+    esPropietario(publicacion: Publicacion): boolean {
+      return publicacion.userName === this.usuarioActual;
+    }
+  
+    confirmDelete(publicacion: Publicacion) {
+      this.publicacionAEliminar = publicacion;
+      this.mostrarModal = true;
+    }
+  
+    deletePublication() {
+      if (!this.publicacionAEliminar) return;
+  
+      // Llamar backend para eliminar publicación
+      this.publicaciones = this.publicaciones.filter(p => p.id !== this.publicacionAEliminar?.id);
       this.mostrarModal = false;
       this.publicacionAEliminar = null;
     }
+  
+    cancelarEliminacion() {
+      this.mostrarModal = false;
+      this.publicacionAEliminar = null;
+    }
+  
+    toggleRespuesta(publicacion: Publicacion) {
+      publicacion.mostrarFormularioRespuesta = !publicacion.mostrarFormularioRespuesta;
+    }
+  
+    toggleComentarios(publicacion: Publicacion) {
+      publicacion.mostrarComentarios = !publicacion.mostrarComentarios;
+    }
+  
+    guardarRespuesta(publicacion: Publicacion, respuesta: { texto: string, archivo: string | null }) {
+      if (!publicacion.respuestas) publicacion.respuestas = [];
+  
+      publicacion.respuestas.push({
+        texto: respuesta.texto,
+        archivo: respuesta.archivo,
+        fotoUsuario: this.usuarioActualFoto || '/assets/images/avatar1.png',
+      });
+  
+      publicacion.mostrarFormularioRespuesta = false;
+  
+      // Aquí debes implementar llamada backend para guardar respuesta
+    }
+  
+    cancelarRespuesta(publicacion: Publicacion) {
+      publicacion.mostrarFormularioRespuesta = false;
+    }
   }
-
-  cancelarEliminacion() {
-    this.mostrarModal = false;
-    this.publicacionAEliminar = null;
-  }
-
-  toggleRespuesta(publicacion: Publicacion) {
-    publicacion.mostrarFormularioRespuesta = !publicacion.mostrarFormularioRespuesta;
-  }
-
-  toggleComentarios(publicacion: Publicacion) {
-    publicacion.mostrarComentarios = !publicacion.mostrarComentarios;
-  }
-
-  guardarRespuesta(publicacion: Publicacion, respuesta: { texto: string, archivo: string | null }) {
-    publicacion.respuestas?.push({
-      texto: respuesta.texto,
-      archivo: respuesta.archivo,
-      fotoUsuario: this.usuarioActualFoto || '/assets/images/avatar1.png',
-    });
-
-    publicacion.mostrarFormularioRespuesta = false;
-    this.actualizarPublicacionesEnLocalStorage();
-  }
-
-  cancelarRespuesta(publicacion: Publicacion) {
-    publicacion.mostrarFormularioRespuesta = false;
-  }
-
-  actualizarPublicacionesEnLocalStorage() {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.publicaciones));
-  }
-}
-
+  

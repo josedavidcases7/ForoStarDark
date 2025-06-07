@@ -1,6 +1,6 @@
 :host {
   display: block;
-  position: relative; /* Aseguramos que el fondo esté detrás de todo */
+  position: absolute; /* Aseguramos que el fondo esté detrás de todo */
   top: 0;
   left: 0;
   background-image: url('/assets/images/agujero-negro-espacial.jpg'); /* Ruta a la imagen */

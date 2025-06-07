@@ -66,27 +66,10 @@ export class AuthService {
   }
 
 
-  // Guardar una publicación en localStorage
-  savePublication(publicacion: any, section: string) {
-    let publicaciones = JSON.parse(localStorage.getItem(section) || '[]');
+savePublication(publicacion: any, section?: string): Observable<any> {
+  return this.http.post(`${this.apiUrl}/publications`, publicacion);
+}
 
-    const userProfileImage = this.getAvatar();
-    const userName = this.getUsername();
-
-    // Crear una nueva publicación con los datos del usuario y la publicación
-    publicaciones.push({
-      id: publicaciones.length + 1, 
-      titulo: publicacion.titulo,
-      descripcion: publicacion.descripcion,
-      archivo: publicacion.archivo, 
-      userProfileImage: userProfileImage, 
-      userName: userName, 
-      likes: [], 
-    });
-
-    // Guardar las publicaciones en localStorage
-    localStorage.setItem(section, JSON.stringify(publicaciones));
-  }
 
 
   
@@ -95,10 +78,9 @@ export class AuthService {
     return JSON.parse(localStorage.getItem(section) || '[]');
   }
 
-  // Obtener todas las publicaciones desde localStorage
-  getPublications() {
-    return JSON.parse(localStorage.getItem('publicaciones') || '[]');
-  }
+  getPublications(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/publications`);
+}
 
   // Registro de usuario
   register(user: any): Observable<any> {
@@ -168,6 +150,33 @@ login(credentials: any, isAdmin: boolean): Observable<any> {
   // auth.service.ts
 getIsAdmin(): boolean {
   return JSON.parse(localStorage.getItem('isAdmin') || 'false');
+}
+
+likePublication(id: string, userName: string): Observable<any> {
+  return this.http.post(`${this.apiUrl}/publications/${id}/like`, { userName }, { withCredentials: true });
+}
+
+
+
+
+
+
+deletePublication(id: string): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/publications/${id}`);
+}
+
+toggleLike(publicacionId: string) {
+  return this.http.post<{ likes: number }>(
+    `${this.apiUrl}/publications/${publicacionId}/like`,
+    {}
+  );
+}
+
+
+
+
+addRespuesta(publicacionId: string, respuesta: { texto: string; archivo: string | null; fotoUsuario: string }) {
+  return this.http.post(`/api/publications/${publicacionId}/responses`, respuesta);
 }
 
 }

@@ -19,6 +19,7 @@ export class SubirPublicacionComponent {
   filePreview: string | null = null;  // Vista previa del archivo
   fileType: string | null = null;  // Tipo de archivo (imagen, video, etc.)
   selectedSection: string = 'publicaciones'; // Sección predeterminada para guardar (home)
+publicaciones: any[] = [];
 
   constructor(private authService: AuthService) {}
 
@@ -42,32 +43,49 @@ export class SubirPublicacionComponent {
     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
     fileInput?.click();  // Simula un clic en el input para abrir el selector de archivos
   }
-
-  // Función para manejar la publicación
-  postPublication() {
-    const userProfile = this.authService.getUserProfile();
-    const username = userProfile ? userProfile.username : 'Usuario';
-    const avatar = this.authService.getAvatar() || '';  // Asegúrate de obtener el avatar
-  
-    // Crear la publicación con los datos introducidos por el usuario
-    const nuevaPublicacion = {
-      titulo: this.tituloTexto,
-      descripcion: this.descripcionTexto,
-      archivo: this.filePreview, // Aquí guardamos la imagen/video que el usuario ha subido
-      fileType: this.fileType,
-      username: username,
-      avatar: avatar,  // Asegúrate de pasar el avatar aquí
-      likes: 0, // Inicializa con 0 likes
-      userProfileImage: avatar // Guardamos la imagen del perfil
-    };
-
-    // Guardar la publicación en la sección correspondiente (publicaciones o planetas_estrellas)
-    this.authService.savePublication(nuevaPublicacion, this.selectedSection);
-
-    // Limpiar formulario después de postear
-    this.tituloTexto = '';
-    this.descripcionTexto = '';
-    this.filePreview = null;
-    this.fileType = null;
+postPublication() {
+  if (!this.tituloTexto.trim() || !this.descripcionTexto.trim()) {
+    alert('Por favor, completa el título y la descripción antes de publicar.');
+    return;
   }
+
+  const userProfile = this.authService.getUserProfile();
+  const username = userProfile ? userProfile.username : 'Usuario';
+  const avatar = this.authService.getAvatar() || '';
+
+const nuevaPublicacion = {
+  description: this.descripcionTexto,
+  image: this.filePreview,
+  user_name: this.authService.getUsername() || 'usuario_default',
+  user_profile_image: this.authService.getAvatar() || '',
+  likes: 0
+};
+
+
+
+  console.log('Datos de la nueva publicación:', nuevaPublicacion);
+
+  this.authService.savePublication(nuevaPublicacion).subscribe({
+    next: () => {
+      alert('Publicación realizada con éxito.');
+      this.tituloTexto = '';
+      this.descripcionTexto = '';
+      this.filePreview = null;
+      this.fileType = null;
+      (document.querySelector('input[type="file"]') as HTMLInputElement).value = '';
+      this.cargarPublicaciones();
+    },
+    error: (err) => {
+      console.error('Error al guardar publicación:', err);
+      alert('Error al guardar publicación.');
+    }
+  });
+}
+
+cargarPublicaciones() {
+  this.authService.getPublications().subscribe(data => {
+    this.publicaciones = data;
+  });
+}
+
 }

@@ -24,15 +24,10 @@
     top: 0; left: 0; right: 0; bottom: 0;
     background: transparent;
     box-shadow:
-      10px 20px 2px white,
-      50px 100px 2px #ffb347,
-      90px 40px 2px white,
-      130px 160px 2px #ff6f61,
-      200px 80px 2px white,
-      250px 140px 2px #ffb347,
-      300px 200px 2px white,
-      350px 60px 2px #ff6f61,
-      400px 120px 2px white;
+       20px 30px 2px white,
+       100px 50px 2px #ffb347,
+       180px 90px 2px #ff6f61,
+       250px 60px 2px white;
     animation: starBlink 3s infinite ease-in-out;
     pointer-events: none;
     z-index: -1;
@@ -93,7 +88,33 @@ h1 {
     letter-spacing: 0.03em;
   }
 }
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  height: 60vh; /* Ocupa una buena parte de la pantalla */
+  text-align: center;
+}
 
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 @media (max-width: 600px) {
   .sol {
     width: 90%;
