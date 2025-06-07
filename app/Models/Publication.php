@@ -9,7 +9,16 @@ class Publication extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['description', 'likes', 'image', 'user_id'];
+        protected $primaryKey = 'id';  // <- Agrega esta línea
+
+protected $fillable = [
+    'description',
+    'image',
+    'likes',
+    'user_name',
+    'user_profile_image',
+];
+
 
     public function user()
     {

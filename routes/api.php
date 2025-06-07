@@ -45,3 +45,10 @@ Route::get('/users', [UserController::class, 'index']);
 
 
 Route::delete('users/{user}', [UserController::class, 'destroy']);
+
+
+Route::post('/publications', [PublicationController::class, 'store']);
+
+
+
+Route::post('/publications/{id}/like', [PublicationController::class, 'like']);
