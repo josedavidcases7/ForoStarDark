@@ -3,9 +3,15 @@
 
   <div class="loading" *ngIf="isLoading()">
     Cargando datos...
+<<<<<<< HEAD
     <div class="spinner"></div>
   </div>
 
+=======
+<div class="spinner"></div>
+  </div>
+  
+>>>>>>> 14a4e010dc9301a249ee530c415b94b076fc0501
   <div class="error" *ngIf="error()">{{ error() }}</div>
 
   <div *ngIf="weatherData() && weatherData()?.sol_keys?.length">
