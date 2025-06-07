@@ -1,7 +1,11 @@
 <div class="container">
   <h1>Mars Weather (NASA InSight)</h1>
 
-  <div class="loading" *ngIf="isLoading()">Cargando datos...</div>
+  <div class="loading" *ngIf="isLoading()">
+    Cargando datos...
+<div class="spinner"></div>
+  </div>
+  
   <div class="error" *ngIf="error()">{{ error() }}</div>
 
   <div *ngIf="weatherData() && weatherData()?.sol_keys?.length">
