@@ -12,6 +12,7 @@ class Publication extends Model
         protected $primaryKey = 'id';  // <- Agrega esta línea
 
 protected $fillable = [
+    'title',
     'description',
     'image',
     'likes',

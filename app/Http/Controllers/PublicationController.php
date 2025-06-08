@@ -16,6 +16,7 @@ class PublicationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'title' => 'required|string',
             'description' => 'required|string',
             'image' => 'nullable|string',
             'user_name' => 'required|string',
@@ -24,6 +25,7 @@ class PublicationController extends Controller
 
         try {
             $publication = Publication::create([
+                'title' => $request->title,
                 'description' => $request->description,
                 'image' => $request->image,
                 'likes' => 0,
@@ -40,39 +42,7 @@ class PublicationController extends Controller
         return response()->json($publication, 201);
     }
 
-   /* public function toggleLike(Request $request, $id)
-    {
-        // Usa el usuario autenticado
-        $user = Auth::user();
-        if (!$user) {
-            return response()->json(['error' => 'Usuario no autenticado'], 401);
-        }
-
-        $publication = Publication::find($id);
-        if (!$publication) {
-            return response()->json(['error' => 'Publicación no encontrada'], 404);
-        }
-
-        // Verifica si el usuario ya le dio like
-        $alreadyLiked = $publication->likes()->where('user_id', $user->id)->exists();
-
-        if ($alreadyLiked) {
-            // Quitar like
-            $publication->likes()->detach($user->id);
-            // Decrementar contador sin que baje de 0
-            $publication->likes = max(0, $publication->likes - 1);
-            $publication->save();
-
-            return response()->json(['message' => 'Like removido']);
-        } else {
-            // Agregar like
-            $publication->likes()->attach($user->id);
-            $publication->likes++;
-            $publication->save();
-
-            return response()->json(['message' => 'Like agregado']);
-        }
-    }*/
+   
 public function like(Request $request, $id)
     {
         $publication = Publication::find($id);

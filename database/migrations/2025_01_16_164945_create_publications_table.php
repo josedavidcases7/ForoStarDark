@@ -8,7 +8,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('publications', function (Blueprint $table) {
-            $table->id(); // clave primaria 'id' por convención
+            $table->id();
+            $table->string('title', 255);
             $table->text('description');
             $table->integer('likes')->default(0);
             $table->longText('image')->nullable(); // para base64 largo
