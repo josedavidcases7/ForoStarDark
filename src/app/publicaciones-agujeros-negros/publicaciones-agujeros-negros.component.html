@@ -8,6 +8,9 @@
         <button *ngIf="esPropietario(publicacion) || isAdmin" (click)="confirmDelete(publicacion)" class="delete-btn">
           <i class="fa fa-trash"></i>
         </button>
+        <button (click)="abrirReporte(publicacion)" class="emergencia-btn">
+  ⚠️
+</button>
       </div>
   
       <div class="titulo">
@@ -64,5 +67,22 @@
         </div>
       </div>
     </div>
+    
+    <div *ngIf="mostrarFormularioReporte" class="modal-overlay">
+  <div class="modal">
+    <h3>Reportar publicación</h3>
+    <p><strong>Motivo:</strong></p>
+<input 
+  type="text" 
+  [(ngModel)]="motivoReporte" 
+  placeholder="Describe el problema..." 
+  class="motivo-input"
+>
+    <div class="modal-buttons">
+      <button (click)="enviarReporte()" class="btn-delete">Enviar</button>
+      <button (click)="cancelarReporte()" class="btn-cancel">Cancelar</button>
+    </div>
+  </div>
+</div>
   </div>
   

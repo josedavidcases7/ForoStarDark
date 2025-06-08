@@ -187,3 +187,71 @@ button.liked i {
 .acciones button.liked i {
   color: #000; /* Ícono del corazón en negro cuando está activo */
 }
+
+
+.emergencia-btn {
+  background: transparent;
+  border: none;
+  color: red;
+  font-size: 20px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.modal {
+  background: #000; /* Fondo negro sólido */
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 25px 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  color: #f1f1f1;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+}
+
+.modal h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+.modal p {
+  font-size: 16px;
+  color: #dddddd;
+  margin-bottom: 20px;
+}
+
+.motivo-input {
+  width: 95%;
+  padding: 10px ;
+  font-size: 14px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  outline: none;
+  margin-bottom: 20px;
+  transition: border-color 0.3s ease;
+}
+
+.motivo-input:focus {
+  border-color: #00e676;
+}
+
+
+
+.emergencia-icono {
+  font-size: 24px;
+  color: red;
+  cursor: pointer;
+  position: relative;
+}
+.btn-cancel {
+  color: #fff;
+}
+.btn-delete {
+  color: #fff;
+}

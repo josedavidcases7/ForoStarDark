@@ -19,6 +19,7 @@ interface Publicacion {
   mostrarFormularioRespuesta?: boolean;
   mostrarComentarios?: boolean;
   respuestas?: { texto: string, archivo: string | null, fotoUsuario: string }[];
+   userHasLiked?: boolean;
 }
 
 @Component({
@@ -62,7 +63,8 @@ export class PublicacionesComponent implements OnInit {
            id: publicacion.id,
            mostrarFormularioRespuesta: false,
            mostrarComentarios: false,
-           respuestas: publicacion.respuestas || []
+           respuestas: publicacion.respuestas || [],
+           userHasLiked: publicacion.userHasLiked || false
          }))
        )
      ).subscribe(publicacionesTransformadas => {
@@ -79,7 +81,12 @@ darLike(publicacion: Publicacion) {
   }
 
   this.authService.likePublication(publicacion.id!, this.usuarioActual).subscribe(() => {
-    publicacion.likes += 1;
+    if (publicacion.userHasLiked) {
+      publicacion.likes -= 1;
+    } else {
+      publicacion.likes += 1;
+    }
+    publicacion.userHasLiked = ! publicacion.userHasLiked;
   }, error => {
     console.error('Error al dar like:', error);
   });
@@ -89,8 +96,7 @@ darLike(publicacion: Publicacion) {
 
 
   userHasLiked(publicacion: Publicacion): boolean {
-    // Opcional: si tienes lógica para saber si el usuario ya dio like
-    return false;
+    return publicacion.userHasLiked || false;
   }
 
   esPropietario(publicacion: Publicacion): boolean {

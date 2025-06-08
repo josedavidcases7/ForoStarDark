@@ -36,6 +36,9 @@ export class PublicacionesPlanetasEstrellasComponent implements OnInit {
   usuarioActual: string | null = null;
   usuarioActualFoto: string | null = null;
   isAdmin: boolean = false;
+   mostrarFormularioReporte = false;
+  publicacionAReportar: Publicacion | null = null;
+  motivoReporte: string = '';
 
   constructor(private authService: AuthService) {}
 
@@ -91,6 +94,35 @@ export class PublicacionesPlanetasEstrellasComponent implements OnInit {
   confirmDelete(publicacion: Publicacion) {
     this.publicacionAEliminar = publicacion;
     this.mostrarModal = true;
+  }
+
+  abrirReporte(publicacion: Publicacion) {
+    this.publicacionAReportar = publicacion;
+    this.motivoReporte = '';
+    this.mostrarFormularioReporte = true;
+  }
+
+  cancelarReporte() {
+    this.publicacionAReportar = null;
+    this.mostrarFormularioReporte = false;
+  }
+
+  enviarReporte() {
+    if (!this.publicacionAReportar || !this.motivoReporte.trim()) return;
+
+    const reportes = JSON.parse(localStorage.getItem('reportes') || '[]');
+    reportes.push({
+      reportadoPor: this.usuarioActual,
+      autorPublicacion: this.publicacionAReportar.userName,
+      tituloPublicacion: this.publicacionAReportar.titulo,
+      motivo: this.motivoReporte
+    });
+
+    localStorage.setItem('reportes', JSON.stringify(reportes));
+
+    this.publicacionAReportar = null;
+    this.mostrarFormularioReporte = false;
+    localStorage.setItem('nuevosReportes', 'true');
   }
 
   deletePublication() {

@@ -36,6 +36,9 @@ export class PublicacionesSatelitesComponent implements OnInit {
   usuarioActual: string | null = null;
   usuarioActualFoto: string | null = null;
   isAdmin: boolean = false;
+  mostrarFormularioReporte = false;
+  publicacionAReportar: Publicacion | null = null;
+  motivoReporte: string = '';
 
   constructor(private authService: AuthService) {}
 
@@ -80,6 +83,37 @@ export class PublicacionesSatelitesComponent implements OnInit {
       // this.authService.toggleLike(publicacion.id).subscribe(...)
     }
   
+    abrirReporte(publicacion: Publicacion) {
+    this.publicacionAReportar = publicacion;
+    this.motivoReporte = '';
+    this.mostrarFormularioReporte = true;
+  }
+
+  cancelarReporte() {
+    this.publicacionAReportar = null;
+    this.mostrarFormularioReporte = false;
+  }
+
+  enviarReporte() {
+    if (!this.publicacionAReportar || !this.motivoReporte.trim()) return;
+
+    const reportes = JSON.parse(localStorage.getItem('reportes') || '[]');
+    reportes.push({
+      reportadoPor: this.usuarioActual,
+      autorPublicacion: this.publicacionAReportar.userName,
+      tituloPublicacion: this.publicacionAReportar.titulo,
+      motivo: this.motivoReporte
+    });
+
+    localStorage.setItem('reportes', JSON.stringify(reportes));
+
+    this.publicacionAReportar = null;
+    this.mostrarFormularioReporte = false;
+    localStorage.setItem('nuevosReportes', 'true');
+  }
+
+  
+
     userHasLiked(publicacion: Publicacion): boolean {
       // Implementar lógica backend para saber si el usuario dio like
       return false;
