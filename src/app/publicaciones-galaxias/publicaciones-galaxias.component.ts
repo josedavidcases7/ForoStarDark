@@ -48,9 +48,9 @@ export class PublicacionesGalaxiasComponent implements OnInit {
     this.authService.getPublications().pipe(
       map((publicaciones: any[]) =>
         publicaciones.map(publicacion => ({
-          titulo: publicacion.titulo || '',
-          descripcion: publicacion.descripcion || '',
-          archivo: publicacion.archivo || null,
+          titulo: publicacion.title || '',
+          descripcion: publicacion.description || '',
+          archivo: publicacion.image || null,
           fileType: publicacion.fileType || null,
           userName: publicacion.user_name || 'Anónimo',
           userProfileImage: this.authService.getUserProfileImage(publicacion.userName) || '/assets/images/avatar1.png',

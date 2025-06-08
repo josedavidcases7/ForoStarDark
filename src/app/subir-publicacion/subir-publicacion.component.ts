@@ -54,6 +54,7 @@ postPublication() {
   const avatar = this.authService.getAvatar() || '';
 
 const nuevaPublicacion = {
+  title: this.tituloTexto,
   description: this.descripcionTexto,
   image: this.filePreview,
   user_name: this.authService.getUsername() || 'usuario_default',

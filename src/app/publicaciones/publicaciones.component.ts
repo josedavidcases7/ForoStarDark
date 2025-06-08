@@ -52,9 +52,9 @@ export class PublicacionesComponent implements OnInit {
      this.authService.getPublications().pipe(
        map((publicaciones: any[]) =>
          publicaciones.map(publicacion => ({
-           titulo: publicacion.titulo || '',
+           titulo: publicacion.title || '',
            descripcion: publicacion.description || '',
-           archivo: publicacion.archivo || null,
+           archivo: publicacion.image || null,
            fileType: publicacion.fileType || null,
            userName: publicacion.user_name || 'Anónimo',
            userProfileImage: this.authService.getUserProfileImage(publicacion.user_name) || '/assets/images/avatar1.png',
