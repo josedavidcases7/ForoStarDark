@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
@@ -9,17 +10,18 @@ class Publication extends Model
 {
     use HasFactory;
 
-        protected $primaryKey = 'id';  // <- Agrega esta línea
+    protected $primaryKey = 'id';
 
-protected $fillable = [
-    'title',
-    'description',
-    'image',
-    'likes',
-    'user_name',
-    'user_profile_image',
-];
+    protected $fillable = [
+        'title',
+        'description',
+        'image',
+        'likes',
+        'user_name',
+        'user_profile_image',
+    ];
 
+    
 
     public function user()
     {
