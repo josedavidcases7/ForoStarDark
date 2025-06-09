@@ -74,6 +74,18 @@ public function search(Request $request)
     return response()->json($results, 200);
 }
 
+public function destroy($id)
+{
+    $publication = Publication::find($id);
+
+    if (!$publication) {
+        return response()->json(['message' => 'Publicación no encontrada'], 404);
+    }
+
+    $publication->delete();
+
+    return response()->json(['message' => 'Publicación eliminada correctamente']);
+}
 
 
 }
