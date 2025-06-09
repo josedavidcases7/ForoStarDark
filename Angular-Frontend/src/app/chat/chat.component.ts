@@ -10,6 +10,7 @@ import { EchoService } from '../services/eccho.service';
 import Pusher from 'pusher-js';
 import { TeamUser } from '../services/teams-users.service';
 import { ChatsService, Chat } from '../services/chats.service';
+import { AchievementsService } from '../services/achievements.service';
 
 @Component({
   selector: 'app-chat',
@@ -21,6 +22,7 @@ import { ChatsService, Chat } from '../services/chats.service';
     EchoService,
     TeamsService,
     ChatsService,
+    AchievementsService,
   ], // TeamsService debe estar aquí
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
@@ -41,12 +43,14 @@ export class ChatComponent implements OnInit {
   public disableInput1: boolean = false;
   public disableInput2: boolean = false;
   private teamNumber: number = 1;
+  achievementImage: string = '';
 
   constructor(
     private servicioEventos: EventsService,
     private servicioEquipos: TeamsService,
     private echoService: EchoService,
-    private servicioChats: ChatsService
+    private servicioChats: ChatsService,
+    private achievementService: AchievementsService
   ) {
     // Pusher.logToConsole = true;
     // this.pusher = new Pusher('06ed3f5971917f39f11d', {
@@ -154,6 +158,8 @@ export class ChatComponent implements OnInit {
     // this.pusher.connection.bind('error', (err: any) => {
     //   console.error('Error de Pusher:', err);
     // });
+
+    this.loadAchievementImage();
   }
 
   // ngOnDestroy(): void {
@@ -240,6 +246,21 @@ export class ChatComponent implements OnInit {
     // Cargar mensajes del equipo 2
     messages2.forEach((mensaje) => {
       this.messages2.push(`${mensaje.user_name}: ${mensaje.message}`);
+    });
+  }
+
+  async loadAchievementImage() {
+    const debateHoy = await firstValueFrom(
+      this.servicioEventos.obtenerEventoHoy()
+    );
+    this.achievementService.getAchievementByEventId(debateHoy.event_id).subscribe({
+      next: (achievement) => {
+        this.achievementImage = `data:image/jpeg;base64,${achievement.image}`;
+      },
+      error: (error) => {
+        console.error('Error al cargar la imagen del logro:', error);
+        this.achievementImage = 'https://via.placeholder.com/80';
+      },
     });
   }
 }

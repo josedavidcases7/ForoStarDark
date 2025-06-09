@@ -30,6 +30,29 @@
       </div>
     </div>
   
+    <div class="campo">
+      <label>LOGRO DEL EVENTO</label>
+      
+      <div class="logro">
+        <label for="nombre-logro">NOMBRE DEL LOGRO</label>
+        <input id="nombre-logro" type="text" class="input-transparente" [(ngModel)]="nombreLogro" />
+      </div>
+
+      <div class="logro">
+        <label for="imagen-logro">IMAGEN DEL LOGRO</label>
+        <input 
+          id="imagen-logro" 
+          type="file" 
+          class="input-transparente"
+          accept="image/*"
+          (change)="onImagenLogroSeleccionada($event)" />
+      </div>
+
+      <div class="preview-imagen" *ngIf="urlImagenLogro">
+        <img [src]="urlImagenLogro" alt="Preview del logro">
+      </div>
+    </div>
+
     <div class="botones">
       <button (click)="publicar()" class="boton-publicar">PUBLICAR</button>
       <button (click)="cancelar()" class="boton-cancelar">CANCELAR</button>
@@ -40,4 +63,3 @@
 
 
   </div>
-  
