@@ -1,0 +1,54 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden; 
+  overflow-y: auto; 
+
+}
+
+:host {
+  display: block;
+  position: fixed; 
+  top: 0;
+  left: 0;
+  background:transparent; 
+
+  width: 100vw; 
+  background-size: cover;
+  background-position: center; 
+  background-repeat: repeat; 
+  background-attachment: fixed; 
+  
+}
+
+.header {
+  position: fixed;
+  z-index: 1; 
+  background-color: transparent; 
+}
+
+.background-profile {
+  background-color: black; 
+  min-height: 100vh; 
+}
+
+
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh; 
+  overflow-x: hidden; 
+  overflow-y: auto; 
+}
+
+
+body {
+  overflow-x: hidden;
+}
+
+.header{
+  position:absolute;
+}

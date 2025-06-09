@@ -1,0 +1,22 @@
+<div class="container">
+  <h1>Mars Weather (NASA InSight)</h1>
+
+  <div class="loading" *ngIf="isLoading()">
+    Cargando datos...
+<div class="spinner"></div>
+  </div>
+  
+  <div class="error" *ngIf="error()">{{ error() }}</div>
+
+  <div *ngIf="weatherData() && weatherData()?.sol_keys?.length">
+  <div class="sol-container">
+    <div class="sol" *ngFor="let sol of weatherData()?.sol_keys">
+      <h2>Sol {{ sol }}</h2>
+      <p><strong>Temp. Mín:</strong> {{ getSolData(sol)?.AT?.mn ?? 'N/A' }} °C</p>
+      <p><strong>Temp. Máx:</strong> {{ getSolData(sol)?.AT?.mx ?? 'N/A' }} °C</p>
+      <p><strong>Presión:</strong> {{ getSolData(sol)?.PRE?.av ?? 'N/A' }} Pa</p>
+    </div>
+  </div>
+</div>
+
+</div>

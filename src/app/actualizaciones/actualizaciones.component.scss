@@ -1,0 +1,55 @@
+@keyframes lift {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
+}
+
+.actualizaciones-box {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  height: 100px;
+  background-color: #4caf50;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  overflow: hidden;
+  margin-bottom: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease-in-out;
+
+  img {
+    width: 33%;
+    object-fit: cover;
+    animation: float 1s ease-in-out infinite;
+  }
+
+  .contenido {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    p {
+      font-size: 14px;
+      font-weight: bold; // negrita
+      color: rgb(0, 0, 0);
+      margin: 0;
+      line-height: 1;
+    }
+  }
+
+  // Aquí se aplica el efecto cuando el ratón pasa por encima
+  &:hover {
+    transform: translateY(-10px);  // Se eleva el contenedor
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}

@@ -1,0 +1,71 @@
+@charset "UTF-8";
+:host {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-image: url("/assets/images/FONDO.gif"); /* Ruta a la imagen */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  z-index: -1;
+}
+
+/* Ajusta la posición para centrar el contenido más arriba */
+.contenido-debate {
+  display: flex;
+  justify-content: center; /* Centrado horizontal */
+  margin-top: 60px; /* Reduce el margen superior para moverlo hacia arriba */
+}
+
+h1 {
+  font-size: 30px; /* Tamaño grande para el título */
+  color: #575757; /* Color dorado */
+  font-weight: bold; /* Hace que el texto sea más visible */
+}
+
+.opciones-debate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 200px); /* Deja espacio extra para el footer */
+  position: relative; /* Asegura que la línea se posicione correctamente */
+}
+
+.lado-izquierdo,
+.lado-derecho {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100% - 50px); /* Reduce la altura en 50px desde la parte superior */
+  margin-top: 25px; /* Agrega un pequeño margen desde la parte superior */
+}
+
+h2 {
+  font-size: 50px;
+  color: white; /* Cambia el color del texto si es necesario */
+  font-weight: bold;
+  margin-bottom: 150px;
+}
+
+/* Efecto de iluminación al pasar el cursor */
+.lado-izquierdo:hover,
+.lado-derecho:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente para iluminación */
+  transition: background-color 0.3s ease; /* Suaviza el cambio de color */
+}
+
+/* Línea vertical */
+.linea-vertical {
+  width: 2px;
+  height: calc(100vh - 300px); /* Ajusta la altura de la línea para que sea más corta desde arriba y abajo */
+  background-color: #ffffff; /* Color de la línea */
+  position: absolute;
+  left: 50%; /* Centra la línea vertical */
+  transform: translateX(-50%);
+  z-index: 1; /* Asegura que la línea esté por encima de otros elementos */
+}/*# sourceMappingURL=seleccion-debate.component.css.map */

@@ -1,0 +1,217 @@
+@charset "UTF-8";
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  background-color: black;
+  color: white;
+  padding: 0;
+  box-sizing: border-box;
+  padding-top: 80px;
+  position: absolute;
+  overflow-y: hidden;
+}
+
+/* Estilo general para el contenedor del título y la línea de entrada */
+.titulo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centramos los elementos dentro del contenedor */
+  justify-content: center; /* Centrado vertical */
+  width: 100%; /* Ancho completo de la pantalla */
+  margin-top: 50px; /* Espacio hacia abajo */
+}
+
+.titulo {
+  font-size: 14px; /* Tamaño pequeño para el título */
+  color: rgb(129, 129, 129);
+  margin-bottom: 5px; /* Espacio entre el título y el input */
+  align-self: flex-start; /* Alineamos el título a la izquierda */
+  margin-left: 100px;
+  margin-bottom: 20px;
+}
+
+.titulo-input {
+  width: 50%; /* Ancho más corto para la línea */
+  padding: 5px 0; /* Relleno solo arriba y abajo */
+  background-color: transparent; /* Fondo transparente */
+  border: none; /* Sin borde alrededor */
+  border-bottom: 2px solid #888; /* Solo una línea abajo */
+  color: white;
+  font-size: 16px;
+  outline: none; /* Sin borde al hacer clic */
+  text-align: center; /* Centra el texto dentro del campo de entrada */
+}
+
+.titulo-input::-moz-placeholder {
+  color: white; /* Color del texto del placeholder */
+  opacity: 0.5; /* Transparencia para el texto del placeholder */
+}
+
+.titulo-input::placeholder {
+  color: white; /* Color del texto del placeholder */
+  opacity: 0.5; /* Transparencia para el texto del placeholder */
+}
+
+/* Estilo para el contenedor de la descripción */
+.descripcion-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centramos los elementos dentro del contenedor */
+  justify-content: center; /* Centrado vertical */
+  width: 100%; /* Ancho completo de la pantalla */
+  margin-top: 150px; /* Espacio hacia abajo */
+}
+
+.descripcion {
+  font-size: 14px; /* Tamaño pequeño para el título */
+  color: rgb(129, 129, 129);
+  margin-bottom: 5px; /* Espacio entre la palabra "DESCRIPCION" y el textarea */
+  align-self: flex-start; /* Alineamos el texto a la izquierda */
+  margin-left: 100px;
+  margin-bottom: 20px;
+}
+
+/* Estilo para el textarea de la descripción */
+.descripcion-input {
+  width: 50%; /* Ajustamos el ancho */
+  height: 200px; /* Altura mayor para hacerlo más grande */
+  padding: 10px;
+  background-color: transparent; /* Fondo transparente */
+  border: 2px solid #888; /* Borde similar al del título */
+  color: white;
+  font-size: 16px;
+  outline: none; /* Sin borde al hacer clic */
+  resize: none; /* Evita el redimensionamiento del textarea */
+  border-radius: 10px; /* Bordes redondeados */
+  margin-bottom: 50px; /* Ajuste en el espacio hacia abajo */
+}
+
+.descripcion-input::-moz-placeholder {
+  color: white; /* Color del texto del placeholder */
+  opacity: 0.5; /* Transparencia para el texto del placeholder */
+}
+
+.descripcion-input::placeholder {
+  color: white; /* Color del texto del placeholder */
+  opacity: 0.5; /* Transparencia para el texto del placeholder */
+}
+
+/* Estilo para la sección de Documento */
+.documento-container {
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alineado a la izquierda */
+  width: 100%;
+}
+
+/* Estilo de la palabra "Documento" */
+.documento {
+  font-size: 14px;
+  color: rgb(129, 129, 129);
+  margin-bottom: 10px;
+  align-self: flex-start;
+  margin-left: 100px;
+  margin-bottom: 20px;
+}
+
+/* Estilo para el rectángulo de "Subir archivo" */
+.documento-upload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 350px; /* Altura inicial ajustada */
+  background-color: transparent;
+  border: 2px solid #888;
+  border-radius: 10px; /* Bordes redondeados */
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+  margin-left: 415px; /* Ajuste a la izquierda */
+  margin-bottom: 300px;
+  overflow: hidden; /* Asegura que el archivo sobresalga adecuadamente */
+  transition: height 0.3s ease-in-out; /* Añadimos transición para un cambio suave de altura */
+}
+
+/* Ajuste del texto dentro del rectángulo */
+.documento-upload p {
+  color: rgb(129, 129, 129);
+  font-size: 16px;
+  margin: 0;
+}
+
+/* Estilo para la vista previa del archivo (imagen o video) */
+.file-preview {
+  position: absolute;
+  top: 0; /* Ocupa todo el rectángulo */
+  left: 0;
+  width: 100%; /* Ocupa el 100% del ancho */
+  height: 100%; /* Ocupa el 100% de la altura */
+  overflow: hidden; /* Asegura que el contenido no se salga del rectángulo */
+}
+
+.file-preview img, .file-preview video {
+  width: 100%; /* El archivo ocupa todo el contenedor */
+  height: 100%; /* El archivo ocupa toda la altura del contenedor */
+  -o-object-fit: cover;
+     object-fit: cover; /* Recorta y ajusta la imagen/video para cubrir todo el área */
+}
+
+/* Ocultar el input real de tipo file */
+.documento-upload input[type=file] {
+  display: none;
+}
+
+/* Cuando se selecciona un archivo, el rectángulo crece según el tamaño del archivo */
+.documento-upload img, .documento-upload video {
+  display: block; /* Mostrar el archivo seleccionado */
+}
+
+/* Estilos para los botones */
+.botones-container {
+  display: flex;
+  justify-content: flex-start; /* Alineamos los botones a la izquierda */
+  width: 100%;
+  margin-top: -250px; /* Para darle espacio a los botones */
+  padding: 200px;
+}
+
+.boton-postear, .boton-cancelar {
+  background-color: #4CAF50; /* Color de fondo verde para el botón Postear */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px; /* Espacio entre los botones */
+}
+
+.boton-postear:hover {
+  background-color: #357b38;
+}
+
+.boton-cancelar {
+  background-color: #f44336; /* Color de fondo rojo para el botón Cancelar */
+}
+
+.boton-cancelar label {
+  color: #000000; /* Color de fondo rojo para el botón Cancelar */
+}
+
+.boton-cancelar:hover {
+  background-color: #a42220;
+}
+
+.titulo {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 36px;
+  margin-top: 20px;
+  margin-bottom: 100px;
+  margin-left: 40px;
+  color: white;
+}/*# sourceMappingURL=subir-publicacion-teorias.component.css.map */

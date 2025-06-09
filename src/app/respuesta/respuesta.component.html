@@ -1,0 +1,18 @@
+<div class="respuesta-container">
+  <p>Respuesta</p>
+
+  <div class="respuesta-header">
+    <img [src]="usuarioActualFoto" alt="Foto de perfil" class="perfil-imagen">
+    <input class="respuesta-input" type="text" [(ngModel)]="textoRespuesta" placeholder="Escribe tu respuesta aquí...">
+  </div>
+
+  <div class="archivo-subida">
+    <label for="archivoRespuesta">Subir archivo</label>
+    <input type="file" id="archivoRespuesta" (change)="onFileSelected($event)">
+  </div>
+
+  <div class="respuesta-botones">
+    <button class="btn-responder" (click)="enviar()">Responder</button>
+    <button class="btn-cancelar" (click)="cancelarRespuesta()">Cancelar</button>
+  </div>
+</div>
