@@ -42,14 +42,16 @@
       <!-- Resultados de búsqueda -->
        <div *ngIf="searchQuery" class="search-results-box">
     <ul *ngIf="filteredPublications.length > 0">
-      <li *ngFor="let pub of filteredPublications" class="result-item">
-        <div class="result-details">
-          <div class="pub-title">{{ pub.title }}</div>
-          <div class="username">{{ pub.userName }}</div>
-          <div class="profile">{{ pub.userProfileImage }}</div>
-
-        </div>
-      </li>
+      <li *ngFor="let pub of filteredPublications" class="result-item" (click)="goToPublication(pub.id)">
+  <div class="result-details" style="display: flex; align-items: center;">
+    <img [src]="pub.userProfileImage" alt="Foto de perfil" class="profile-image" width="40" height="40" />
+    
+    <div class="text-content" style="margin-left: 10px;">
+      <div class="pub-title">{{ pub.title }}</div>
+      <div class="username">{{ pub.userName }}</div>
+    </div>
+  </div>
+</li>
     </ul>
     <div *ngIf="filteredPublications.length === 0" class="no-results">
       No se encontraron publicaciones.

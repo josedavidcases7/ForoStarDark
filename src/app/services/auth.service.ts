@@ -161,9 +161,10 @@ likePublication(id: string, userName: string): Observable<any> {
 
 
 
-deletePublication(id: string): Observable<any> {
-  return this.http.delete(`${this.apiUrl}/publications/${id}`);
+deletePublication(publicationId: string) {
+  return this.http.delete<any>(`http://localhost:8000/api/publications/${publicationId}`);
 }
+
 
 toggleLike(publicacionId: string) {
   return this.http.post<{ likes: number }>(

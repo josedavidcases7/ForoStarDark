@@ -23,9 +23,9 @@ export class HeaderComponent implements OnInit {
 
   menuTopImage: string = 'assets/images/ovni-secciones.png'; 
   menuOpen: boolean = false;
-
+  
    searchQuery: string = '';
-  filteredPublications: any[] = []; // aquí lo inicializas
+  filteredPublications: any[] = []; 
   allPublications: any[] = []; // Almacena todas las publicaciones
 mostrarListaReportes = false;
 reportes: any[] = [];
@@ -58,6 +58,7 @@ fetchPublications(): void {
     next: (data) => {
       this.allPublications = data.map(pub => ({
         ...pub,
+         id: pub.id,
         userProfileImage: pub.userProfileImage || 'assets/images/avatar1.png',
         userName: pub.user?.name || 'Usuario desconocido',
         section: pub.section || 'Sin sección'
@@ -225,6 +226,17 @@ eliminarReporte(index: number) {
 goToMarsWeather(): void {
   this.router.navigate(['/nasa-weather']);
 }
+
+goToPublication(publicationId: string): void {
+  const element = document.getElementById(`post-${publicationId}`);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    console.warn(`No se encontró el post con id: post-${publicationId}`);
+  }
+}
+
+
 
 
 }

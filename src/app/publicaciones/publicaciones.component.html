@@ -1,5 +1,5 @@
 <div class="content-wrapper">
-  <div *ngFor="let publicacion of publicaciones" class="publicacion-card">
+  <div *ngFor="let publicacion of publicaciones" class="publicacion-card" [id]="'post-' + publicacion.id">
     <div class="publicacion-header">
       <img [src]="publicacion.userProfileImage" alt="Foto de perfil" class="perfil-imagen">
       <span class="nombre-usuario">{{ publicacion.userName }}</span>

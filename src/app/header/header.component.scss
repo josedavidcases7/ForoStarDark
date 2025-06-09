@@ -411,3 +411,34 @@ body {
 .btn-marte:active {
   transform: scale(0.98);
 }
+
+.result-item {
+  padding: 8px;
+  cursor: pointer;
+  border-bottom: 1px solid #ccc;
+  padding-right: 8px;
+}
+
+
+
+.profile-image {
+  border-radius: 50%;
+  object-fit: cover;
+  width: 40px;
+  height: 40px;
+}
+
+.text-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.pub-title {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.username {
+  font-size: 12px;
+  color: #666;
+}
