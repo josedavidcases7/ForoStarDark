@@ -16,11 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->text('message');
             $table->unsignedBigInteger('team_id');
-        
+
             $table->foreign('user_id')->references('user_id')->on('users');
             $table->foreign('team_id')->references('id')->on('teams');
         });
-        
     }
 
     /**

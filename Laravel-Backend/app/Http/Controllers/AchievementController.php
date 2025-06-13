@@ -40,4 +40,28 @@ class AchievementController extends Controller
 
         return response()->json($achievement, 200);
     }
+
+    public function getLastFiveAchievementsByUserId(Request $request)
+    {
+        try {
+            $request->validate([
+                'userId' => 'required|exists:users,user_id'
+            ]);
+
+            $achievements = Achievement::join('users_achievements', 'achievements.achievement_id', '=', 'users_achievements.achievement_id')
+                ->where('users_achievements.user_id', $request->userId)
+                ->select('achievements.*')
+                ->orderBy('users_achievements.created_at', 'desc')
+                ->take(5)
+                ->get();
+
+            if ($achievements->isEmpty()) {
+                return response()->json(['message' => 'No se encontraron logros'], 404);
+            }
+
+            return response()->json($achievements, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 }

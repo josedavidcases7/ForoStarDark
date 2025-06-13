@@ -41,4 +41,8 @@ export class AchievementsService {
   getAchievementByEventId(eventId: number): Observable<any> {
     return this.api.obtener(`${this.endpoint}/event?eventId=${eventId}`);
   }
+
+  getLastFiveAchievementsByUserId(userId: number): Observable<Achievement[]> {
+    return this.api.obtener(`${this.endpoint}/user-last-five?userId=${userId}`);
+  }
 }

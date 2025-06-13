@@ -22,7 +22,20 @@ export class ChatsService {
 
   constructor(private api: GenericoService) {}
 
-  agregarEvento(data: Chat): Observable<any> {
+  agregarEvento(
+    chat: Chat,
+    isAdmin: boolean,
+    nombreUsuario: string,
+    teamNumber: number
+  ): Observable<any> {
+    const data = {
+      userId: chat.userId,
+      message: chat.message,
+      teamId: chat.teamId,
+      isAdmin: isAdmin,
+      userName: nombreUsuario,
+      teamNumber: teamNumber,
+    };
     return this.api.crear(this.endpoint, data);
   }
 

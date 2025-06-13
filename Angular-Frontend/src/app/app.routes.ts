@@ -54,5 +54,6 @@ export const routes: Routes = [
   { path: 'register', component: RegisterElectionPcComponent },
   { path: 'login', component: LoginElectionPcComponent},
   { path: 'chat', component: ChatComponent},
+  { path: 'fin-evento', component: FinEventoComponent},
   
 ];

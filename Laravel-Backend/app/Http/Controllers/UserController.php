@@ -12,10 +12,21 @@ class UserController extends Controller
     {
         $id = User::where('user_name', $username)->value('user_id');
         if ($id != null) {
-            return $id;  // Devolver solo el id
+            return $id;
         } else {
-            return null; // Devolver null si no se encuentra
+            return null;
         }
     }
 
+    public function getIdByUsernameApi(Request $request)
+    {
+        $username = $request->query('username');
+
+        $id = User::where('user_name', $username)->value('user_id');
+
+        if ($id != null) {
+            return response()->json(['user_id' => $id], 200);
+        }
+        return response()->json(['message' => 'Usuario no encontrado'], 404);
+    }
 }

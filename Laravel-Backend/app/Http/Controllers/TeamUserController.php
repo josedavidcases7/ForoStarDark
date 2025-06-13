@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 class TeamUserController extends Controller
 {
 
-//4. Dado el id del equipo y el id del usuario inserto el usuario a un equipo de un debate
-
     public function insert(Request $request)
     {
         $request->validate([
