@@ -41,41 +41,39 @@ export class SubirPublicacionAgujerosNegrosComponent {
   }
 
   postPublication() {
-    if (!this.tituloTexto.trim() || !this.descripcionTexto.trim()) {
-      alert('Por favor, completa el título y la descripción antes de publicar.');
-      return;
-    }
-
-    const userProfile = this.authService.getUserProfile();
-    const username = userProfile ? userProfile.username : 'Usuario';
-    const avatar = this.authService.getAvatar() || '';
-
-    const nuevaPublicacion = {
-      titulo: this.tituloTexto,
-      descripcion: this.descripcionTexto,
-      archivo: this.filePreview,
-      fileType: this.fileType,
-      username: username,
-      avatar: avatar,
-      likes: 0,
-      userProfileImage: avatar
-    };
-
-    this.authService.savePublication(nuevaPublicacion, 'publicaciones_agujeros_negros');
-
-    // Limpiar el formulario después de postear
-    this.tituloTexto = '';
-    this.descripcionTexto = '';
-    this.filePreview = null;
-    this.fileType = null;
-    (document.querySelector('input[type="file"]') as HTMLInputElement).value = '';
-
-    alert('Publicación realizada con éxito.');
+  if (!this.tituloTexto.trim() || !this.descripcionTexto.trim()) {
+    alert('Por favor, completa el título y la descripción antes de publicar.');
+    return;
   }
 
-  cargarPublicaciones() {
-    const publicaciones = JSON.parse(localStorage.getItem('publicaciones_agujeros_negros') || '[]');
-    console.log('Publicaciones cargadas:', publicaciones);
-    return publicaciones;
-  }
+  const userProfile = this.authService.getUserProfile();
+  const username = userProfile ? userProfile.username : 'Usuario';
+  const avatar = this.authService.getAvatar() || '';
+
+  const nuevaPublicacion = {
+    title: this.tituloTexto,
+    descripcion: this.descripcionTexto,
+    archivo: this.filePreview,
+    fileType: this.fileType,
+    userName: username,  // asegúrate que sea userName si es lo que espera backend
+    userProfileImage: avatar,
+    likes: 0
+  };
+
+  this.authService.savePublication(nuevaPublicacion /*, 'publicaciones_agujeros_negros' si quieres agregar el argumento */)
+    .subscribe({
+      next: () => {
+        alert('Publicación realizada con éxito.');
+        this.tituloTexto = '';
+        this.descripcionTexto = '';
+        this.filePreview = null;
+        this.fileType = null;
+        (document.querySelector('input[type="file"]') as HTMLInputElement).value = '';
+      },
+      error: (err) => {
+        console.error('Error al guardar publicación:', err);
+        alert('Error al guardar publicación.');
+      }
+    });
+}
 }

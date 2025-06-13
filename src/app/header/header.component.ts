@@ -19,6 +19,7 @@ import { firstValueFrom } from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
   isAdmin: boolean = false;
+  mostrarDebate: boolean = false;
 
   leftImage: string = 'assets/images/logo.png';
   rightImage2: string = 'assets/images/image (2).png';
@@ -33,6 +34,21 @@ export class HeaderComponent implements OnInit {
   existeDebate: boolean = false;
   debateHoy: any = null;
 
+  mostrarListaReportes = false;
+  reportes: any[] = [];
+  hayNuevosReportes: boolean = false;
+
+  titulo_secciones: string = 'APARTADOS';
+  primera_seccion: string = 'UNIVERSOS';
+  segunda_seccion: string = 'PLANETAS Y ESTRELLAS';
+  tercera_seccion: string = 'AGUJEROS NEGROS';
+  cuarta_seccion: string = 'GALAXIAS';
+  quinta_seccion: string = 'SATELITES';
+  sexta_seccion: string = 'VIDA EXTRATERRESTRE';
+  septima_seccion: string = 'TEORIAS';
+  debate_seccion: string = 'DEBATE';
+  debate_crear: string = 'CREAR DEBATE';
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -43,7 +59,6 @@ export class HeaderComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.loadUserAvatar();
     this.isAdmin = this.authService.getIsAdmin();
-
     this.loadAllPublications();
 
     const publicaciones = this.authService.getPublications();
@@ -60,6 +75,11 @@ export class HeaderComponent implements OnInit {
     if (this.debateHoy !== null) {
       this.existeDebate = true;
     }
+
+    const flag = localStorage.getItem('mostrarDebate');
+    this.mostrarDebate = flag === 'true';
+
+    this.hayNuevosReportes = localStorage.getItem('nuevosReportes') === 'true';
   }
 
   loadAllPublications(): void {
@@ -67,7 +87,6 @@ export class HeaderComponent implements OnInit {
 
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-
       if (key && key.startsWith('publicacion_')) {
         const pub = JSON.parse(localStorage.getItem(key)!);
 
@@ -79,8 +98,6 @@ export class HeaderComponent implements OnInit {
         });
       }
     }
-
-    console.log('Publicaciones desde localStorage:', this.allPublications);
   }
 
   irAUsuarios() {
@@ -128,7 +145,7 @@ export class HeaderComponent implements OnInit {
 
   goToAddPublication() {
     const currentRoute = this.router.url;
-
+    
     if (currentRoute.includes('galaxias')) {
       this.router.navigate(['/subir-publicacion-galaxias']);
     } else if (currentRoute.includes('agujeros-negros')) {
@@ -179,17 +196,11 @@ export class HeaderComponent implements OnInit {
     this.closeMenu();
   }
 
-  titulo_secciones: string = 'APARTADOS';
-  primera_seccion: string = 'UNIVERSOS';
-  segunda_seccion: string = 'PLANETAS Y ESTRELLAS';
-  tercera_seccion: string = 'AGUJEROS NEGROS';
-  cuarta_seccion: string = 'GALAXIAS';
-  quinta_seccion: string = 'SATELITES';
-  sexta_seccion: string = 'VIDA EXTRATERRESTRE';
-  septima_seccion: string = 'TEORIAS';
-
-  debate_seccion: string = 'DEBATE';
-  debate_crear: string = 'CREAR DEBATE';
+  eliminarEvento() {
+    localStorage.removeItem('debateData');
+    localStorage.setItem('mostrarDebate', 'false');
+    this.mostrarDebate = false;
+  }
 
   onSearchChange(): void {
     const query = this.searchQuery.trim().toLowerCase();
@@ -199,12 +210,52 @@ export class HeaderComponent implements OnInit {
       return;
     }
 
-    this.filteredPublications = this.allPublications.filter(
-      (pub) =>
-        pub?.titulo?.toLowerCase().includes(query) ||
-        pub?.section?.toLowerCase().includes(query)
-    );
+    this.authService.searchPublications(query).subscribe({
+      next: (data) => {
+        if (data.length === 0) {
+          console.log('No se encontraron publicaciones que coincidan con la búsqueda.');
+        }
+        this.filteredPublications = data.map(pub => ({
+          ...pub,
+          userProfileImage: this.authService.getUserProfileImage(pub.user_name),
+          userName: pub.user_name || 'Usuario desconocido',
+          section: pub.section || 'Sin sección',
+          title: pub.title
+        }));
+      },
+      error: (err) => {
+        console.error('Error al buscar publicaciones:', err);
+        this.filteredPublications = [];
+      }
+    });
+  }
 
-    console.log('Publicaciones filtradas:', this.filteredPublications);
+  abrirListaReportes() {
+    this.reportes = JSON.parse(localStorage.getItem('reportes') || '[]');
+    this.mostrarListaReportes = !this.mostrarListaReportes;
+
+    if (this.mostrarListaReportes) {
+      this.hayNuevosReportes = false;
+      localStorage.setItem('nuevosReportes', 'false');
+    }
+  }
+
+  eliminarReporte(index: number) {
+    this.reportes.splice(index, 1);
+    localStorage.setItem('reportes', JSON.stringify(this.reportes));
+    this.mostrarListaReportes = true;
+  }
+
+  goToMarsWeather(): void {
+    this.router.navigate(['/nasa-weather']);
+  }
+
+  goToPublication(publicationId: string): void {
+    const element = document.getElementById(`post-${publicationId}`);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      console.warn(`No se encontró el post con id: post-${publicationId}`);
+    }
   }
 }

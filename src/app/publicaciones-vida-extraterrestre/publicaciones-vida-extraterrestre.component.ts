@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RespuestaComponent } from '../respuesta/respuesta.component';
 import { ComentariosComponent } from '../comentarios/comentarios.component';
+import { map } from 'rxjs/operators';
 
 interface Publicacion {
   titulo: string;
@@ -17,96 +18,118 @@ interface Publicacion {
   id?: string;
   mostrarFormularioRespuesta?: boolean;
   mostrarComentarios?: boolean;
-  respuestas?: { texto: string, archivo: string | null, fotoUsuario: string }[];
+  respuestas?: { texto: string; archivo: string | null; fotoUsuario: string }[];
 }
+
 @Component({
   selector: 'app-publicaciones-vida-extraterrestre',
   providers: [AuthService],
-  imports: [CommonModule, FormsModule, HttpClientModule, RespuestaComponent, ComentariosComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    HttpClientModule,
+    RespuestaComponent,
+    ComentariosComponent,
+  ],
   standalone: true,
   templateUrl: './publicaciones-vida-extraterrestre.component.html',
-  styleUrl: './publicaciones-vida-extraterrestre.component.scss'
+  styleUrl: './publicaciones-vida-extraterrestre.component.scss',
 })
-export class PublicacionesVidaExtraterrestreComponent implements OnInit{
+export class PublicacionesVidaExtraterrestreComponent implements OnInit {
   publicaciones: Publicacion[] = [];
   publicacionAEliminar: Publicacion | null = null;
   mostrarModal: boolean = false;
   usuarioActual: string | null = null;
   usuarioActualFoto: string | null = null;
-  private STORAGE_KEY = 'publicaciones_vida_extraterrestre';
+  isAdmin: boolean = false;
+  mostrarFormularioReporte = false;
+  publicacionAReportar: Publicacion | null = null;
+  motivoReporte: string = '';
 
   constructor(private authService: AuthService) {}
-  isAdmin: boolean = false; // NUEVO
 
   ngOnInit() {
     this.usuarioActual = this.authService.getUsername();
-    this.usuarioActualFoto = this.authService.getUserProfileImage(this.usuarioActual || '');
+    this.usuarioActualFoto = this.authService.getUserProfileImage(
+      this.usuarioActual || ''
+    );
     this.isAdmin = this.authService.getIsAdmin();
 
-    
-    const publicacionesGuardadas = localStorage.getItem('publicaciones_vida_extraterrestre');
-    if (publicacionesGuardadas) {
-      this.publicaciones = JSON.parse(publicacionesGuardadas).map((publicacion: any) => {
-        const userLikes = JSON.parse(localStorage.getItem(`likes_${this.usuarioActual}`) || '{}');
-        const hasLiked = !!userLikes[publicacion.titulo];
-        
-        return {
-          ...publicacion,
-          userProfileImage: this.authService.getUserProfileImage(publicacion.userName) || '/assets/images/avatar1.png',
-          mostrarFormularioRespuesta: false,
-          mostrarComentarios: false,
-          respuestas: publicacion.respuestas || [],
-          likes: hasLiked ? publicacion.likes + 1 : publicacion.likes,
-        };
+    // Usamos pipe y subscribe para obtener los datos desde el backend
+    this.authService
+      .getPublications()
+      .pipe(
+        map((publicaciones: any[]) =>
+          publicaciones.map((publicacion) => ({
+            titulo: publicacion.title || '',
+            descripcion: publicacion.description || '',
+            archivo: publicacion.image || null,
+            fileType: publicacion.fileType || null,
+            userName: publicacion.user_name || 'Anónimo',
+            userProfileImage: this.authService.getUserProfileImage(publicacion.user_name) || '/assets/images/avatar1.png',
+            likes: publicacion.likes || 0,
+            id: publicacion.id,
+            mostrarFormularioRespuesta: false,
+            mostrarComentarios: false,
+            respuestas: publicacion.respuestas || [],
+          }))
+        )
+      )
+      .subscribe((publicacionesTransformadas) => {
+        this.publicaciones = publicacionesTransformadas;
       });
-    } else {
-      this.publicaciones = this.authService.getPublications().map((publicacion: any) => ({
-        ...publicacion,
-        userProfileImage: this.authService.getUserProfileImage(publicacion.userName) || '/assets/images/avatar1.png',
-        mostrarFormularioRespuesta: false,
-        mostrarComentarios: false,
-        respuestas: []
-      }));
-    }
+  }
+
+   abrirReporte(publicacion: Publicacion) {
+    this.publicacionAReportar = publicacion;
+    this.motivoReporte = '';
+    this.mostrarFormularioReporte = true;
+  }
+
+  cancelarReporte() {
+    this.publicacionAReportar = null;
+    this.mostrarFormularioReporte = false;
+  }
+
+  enviarReporte() {
+    if (!this.publicacionAReportar || !this.motivoReporte.trim()) return;
+
+    const reportes = JSON.parse(localStorage.getItem('reportes') || '[]');
+    reportes.push({
+      reportadoPor: this.usuarioActual,
+      autorPublicacion: this.publicacionAReportar.userName,
+      tituloPublicacion: this.publicacionAReportar.titulo,
+      motivo: this.motivoReporte
+    });
+
+    localStorage.setItem('reportes', JSON.stringify(reportes));
+
+    this.publicacionAReportar = null;
+    this.mostrarFormularioReporte = false;
+    localStorage.setItem('nuevosReportes', 'true');
   }
   
-  
-
   darLike(publicacion: Publicacion) {
-    const username = this.authService.getUsername();
-    if (!username) {
+    if (!this.usuarioActual) {
       alert('Debes iniciar sesión para dar like.');
       return;
     }
 
-    let publicaciones = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]');
-    let userLikes = JSON.parse(localStorage.getItem(`likes_${username}`) || '{}');
-
-    const likedBefore = userLikes[publicacion.titulo];
-
-    if (likedBefore) {
-      publicacion.likes -= 1;
-      delete userLikes[publicacion.titulo];
-    } else {
-      publicacion.likes += 1;
-      userLikes[publicacion.titulo] = true;
-    }
-
-    localStorage.setItem(`likes_${username}`, JSON.stringify(userLikes));
-
-    publicaciones = publicaciones.map((p: Publicacion) =>
-      p.titulo === publicacion.titulo ? { ...p, likes: publicacion.likes } : p
-    );
-
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(publicaciones));
+    this.authService
+      .likePublication(publicacion.id!, this.usuarioActual)
+      .subscribe(
+        () => {
+          publicacion.likes += 1;
+        },
+        (error) => {
+          console.error('Error al dar like:', error);
+        }
+      );
   }
 
   userHasLiked(publicacion: Publicacion): boolean {
-    const username = this.authService.getUsername();
-    if (!username) return false;
-
-    const userLikes = JSON.parse(localStorage.getItem(`likes_${username}`) || '{}');
-    return !!userLikes[publicacion.titulo];
+    // Aquí podrías consultar el backend si el usuario ya dio like
+    return false;
   }
 
   esPropietario(publicacion: Publicacion): boolean {
@@ -119,18 +142,17 @@ export class PublicacionesVidaExtraterrestreComponent implements OnInit{
   }
 
   deletePublication() {
-    if (this.publicacionAEliminar) {
-      let publicaciones = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]');
+    if (!this.publicacionAEliminar || !this.publicacionAEliminar.id) return;
 
-      publicaciones = publicaciones.filter((p: Publicacion) =>
-        p.id ? p.id !== this.publicacionAEliminar!.id : p.titulo !== this.publicacionAEliminar!.titulo
-      );
-
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(publicaciones));
-      this.publicaciones = [...publicaciones];
-      this.mostrarModal = false;
-      this.publicacionAEliminar = null;
-    }
+    this.authService
+      .deletePublication(this.publicacionAEliminar.id)
+      .subscribe(() => {
+        this.publicaciones = this.publicaciones.filter(
+          (p) => p.id !== this.publicacionAEliminar?.id
+        );
+        this.mostrarModal = false;
+        this.publicacionAEliminar = null;
+      });
   }
 
   cancelarEliminacion() {
@@ -139,30 +161,37 @@ export class PublicacionesVidaExtraterrestreComponent implements OnInit{
   }
 
   toggleRespuesta(publicacion: Publicacion) {
-    publicacion.mostrarFormularioRespuesta = !publicacion.mostrarFormularioRespuesta;
+    publicacion.mostrarFormularioRespuesta =
+      !publicacion.mostrarFormularioRespuesta;
   }
 
   toggleComentarios(publicacion: Publicacion) {
     publicacion.mostrarComentarios = !publicacion.mostrarComentarios;
   }
 
-  guardarRespuesta(publicacion: Publicacion, respuesta: { texto: string, archivo: string | null }) {
-    publicacion.respuestas?.push({
+  guardarRespuesta(
+    publicacion: Publicacion,
+    respuesta: { texto: string; archivo: string | null }
+  ) {
+    if (!publicacion.respuestas) publicacion.respuestas = [];
+
+    const nuevaRespuesta = {
       texto: respuesta.texto,
       archivo: respuesta.archivo,
       fotoUsuario: this.usuarioActualFoto || '/assets/images/avatar1.png',
-    });
+    };
 
-    publicacion.mostrarFormularioRespuesta = false;
-    this.actualizarPublicacionesEnLocalStorage();
+    if (!publicacion.id) return;
+
+    this.authService
+      .addRespuesta(publicacion.id, nuevaRespuesta)
+      .subscribe(() => {
+        publicacion.respuestas!.push(nuevaRespuesta);
+        publicacion.mostrarFormularioRespuesta = false;
+      });
   }
 
   cancelarRespuesta(publicacion: Publicacion) {
     publicacion.mostrarFormularioRespuesta = false;
   }
-
-  actualizarPublicacionesEnLocalStorage() {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.publicaciones));
-  }
 }
-

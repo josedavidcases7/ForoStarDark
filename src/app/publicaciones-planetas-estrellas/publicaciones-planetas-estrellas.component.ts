@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RespuestaComponent } from '../respuesta/respuesta.component';
 import { ComentariosComponent } from '../comentarios/comentarios.component';
+import { map } from 'rxjs/operators';
 
 interface Publicacion {
   titulo: string;
@@ -24,9 +25,9 @@ interface Publicacion {
   selector: 'app-publicaciones-planetas-estrellas',
   providers: [AuthService],
   imports: [CommonModule, FormsModule, HttpClientModule, RespuestaComponent, ComentariosComponent],
+  standalone: true,
   templateUrl: './publicaciones-planetas-estrellas.component.html',
   styleUrls: ['./publicaciones-planetas-estrellas.component.scss'],
-  standalone: true,
 })
 export class PublicacionesPlanetasEstrellasComponent implements OnInit {
   publicaciones: Publicacion[] = [];
@@ -34,86 +35,56 @@ export class PublicacionesPlanetasEstrellasComponent implements OnInit {
   mostrarModal: boolean = false;
   usuarioActual: string | null = null;
   usuarioActualFoto: string | null = null;
-
-  // 🔹 Clave única para publicaciones de esta sección
-  private STORAGE_KEY = 'publicaciones_planetas_estrellas';
+  isAdmin: boolean = false;
+   mostrarFormularioReporte = false;
+  publicacionAReportar: Publicacion | null = null;
+  motivoReporte: string = '';
 
   constructor(private authService: AuthService) {}
-  isAdmin: boolean = false; // NUEVO
 
   ngOnInit() {
     this.usuarioActual = this.authService.getUsername();
     this.usuarioActualFoto = this.authService.getUserProfileImage(this.usuarioActual || '');
     this.isAdmin = this.authService.getIsAdmin();
 
-    
-    // Cargar publicaciones desde localStorage para 'planetas_estrellas'
-    const publicacionesGuardadas = localStorage.getItem('publicaciones_planetas_estrellas');
-    if (publicacionesGuardadas) {
-      this.publicaciones = JSON.parse(publicacionesGuardadas).map((publicacion: any) => {
-        // Verificar si el usuario ha dado "like" a la publicación
-        const userLikes = JSON.parse(localStorage.getItem(`likes_${this.usuarioActual}`) || '{}');
-        const hasLiked = !!userLikes[publicacion.titulo];
-        
-        return {
-          ...publicacion,
-          userProfileImage: this.authService.getUserProfileImage(publicacion.userName) || '/assets/images/avatar1.png',
+    // Usamos pipe y subscribe para obtener los datos desde el backend
+    this.authService.getPublications().pipe(
+      map((publicaciones: any[]) =>
+        publicaciones.map(publicacion => ({
+          titulo: publicacion.title || '',
+          descripcion: publicacion.description || '',
+          archivo: publicacion.image || null,
+          fileType: publicacion.fileType || null,
+          userName: publicacion.user_name || 'Anónimo',
+           userProfileImage: this.authService.getUserProfileImage(publicacion.user_name) || '/assets/images/avatar1.png',
+          likes: publicacion.likes || 0,
+          id: publicacion.id,
           mostrarFormularioRespuesta: false,
           mostrarComentarios: false,
-          respuestas: publicacion.respuestas || [],
-          // Ajustar el contador de "likes" si el usuario actual ya dio like
-          likes: hasLiked ? publicacion.likes + 1 : publicacion.likes,
-        };
-      });
-    } else {
-      // Si no hay publicaciones guardadas, obtén las publicaciones del servicio
-      this.publicaciones = this.authService.getPublications().map((publicacion: any) => ({
-        ...publicacion,
-        userProfileImage: this.authService.getUserProfileImage(publicacion.userName) || '/assets/images/avatar1.png',
-        mostrarFormularioRespuesta: false,
-        mostrarComentarios: false,
-        respuestas: []
-      }));
-    }
+          respuestas: publicacion.respuestas || []
+        }))
+      )
+    ).subscribe(publicacionesTransformadas => {
+      this.publicaciones = publicacionesTransformadas;
+    });
   }
-  
-  
-
   darLike(publicacion: Publicacion) {
-    const username = this.authService.getUsername();
-    if (!username) {
+    if (!this.usuarioActual) {
       alert('Debes iniciar sesión para dar like.');
       return;
     }
 
-    let publicaciones = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]');
-    let userLikes = JSON.parse(localStorage.getItem(`likes_${username}`) || '{}');
+    // Aquí debes llamar al backend para registrar/unregistrar el like
+    // Por ahora solo actualizamos localmente
+    publicacion.likes += 1;
 
-    const likedBefore = userLikes[publicacion.titulo];
-
-    if (likedBefore) {
-      publicacion.likes -= 1;
-      delete userLikes[publicacion.titulo];
-    } else {
-      publicacion.likes += 1;
-      userLikes[publicacion.titulo] = true;
-    }
-
-    localStorage.setItem(`likes_${username}`, JSON.stringify(userLikes));
-
-    publicaciones = publicaciones.map((p: Publicacion) =>
-      p.titulo === publicacion.titulo ? { ...p, likes: publicacion.likes } : p
-    );
-
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(publicaciones));
+    // Ejemplo:
+    // this.authService.toggleLike(publicacion.id).subscribe(...)
   }
 
   userHasLiked(publicacion: Publicacion): boolean {
-    const username = this.authService.getUsername();
-    if (!username) return false;
-
-    const userLikes = JSON.parse(localStorage.getItem(`likes_${username}`) || '{}');
-    return !!userLikes[publicacion.titulo];
+    // Implementar lógica backend para saber si el usuario dio like
+    return false;
   }
 
   esPropietario(publicacion: Publicacion): boolean {
@@ -125,19 +96,42 @@ export class PublicacionesPlanetasEstrellasComponent implements OnInit {
     this.mostrarModal = true;
   }
 
+  abrirReporte(publicacion: Publicacion) {
+    this.publicacionAReportar = publicacion;
+    this.motivoReporte = '';
+    this.mostrarFormularioReporte = true;
+  }
+
+  cancelarReporte() {
+    this.publicacionAReportar = null;
+    this.mostrarFormularioReporte = false;
+  }
+
+  enviarReporte() {
+    if (!this.publicacionAReportar || !this.motivoReporte.trim()) return;
+
+    const reportes = JSON.parse(localStorage.getItem('reportes') || '[]');
+    reportes.push({
+      reportadoPor: this.usuarioActual,
+      autorPublicacion: this.publicacionAReportar.userName,
+      tituloPublicacion: this.publicacionAReportar.titulo,
+      motivo: this.motivoReporte
+    });
+
+    localStorage.setItem('reportes', JSON.stringify(reportes));
+
+    this.publicacionAReportar = null;
+    this.mostrarFormularioReporte = false;
+    localStorage.setItem('nuevosReportes', 'true');
+  }
+
   deletePublication() {
-    if (this.publicacionAEliminar) {
-      let publicaciones = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]');
+    if (!this.publicacionAEliminar) return;
 
-      publicaciones = publicaciones.filter((p: Publicacion) =>
-        p.id ? p.id !== this.publicacionAEliminar!.id : p.titulo !== this.publicacionAEliminar!.titulo
-      );
-
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(publicaciones));
-      this.publicaciones = [...publicaciones];
-      this.mostrarModal = false;
-      this.publicacionAEliminar = null;
-    }
+    // Llamar backend para eliminar publicación
+    this.publicaciones = this.publicaciones.filter(p => p.id !== this.publicacionAEliminar?.id);
+    this.mostrarModal = false;
+    this.publicacionAEliminar = null;
   }
 
   cancelarEliminacion() {
@@ -154,21 +148,20 @@ export class PublicacionesPlanetasEstrellasComponent implements OnInit {
   }
 
   guardarRespuesta(publicacion: Publicacion, respuesta: { texto: string, archivo: string | null }) {
-    publicacion.respuestas?.push({
+    if (!publicacion.respuestas) publicacion.respuestas = [];
+
+    publicacion.respuestas.push({
       texto: respuesta.texto,
       archivo: respuesta.archivo,
       fotoUsuario: this.usuarioActualFoto || '/assets/images/avatar1.png',
     });
 
     publicacion.mostrarFormularioRespuesta = false;
-    this.actualizarPublicacionesEnLocalStorage();
+
+    // Aquí debes implementar llamada backend para guardar respuesta
   }
 
   cancelarRespuesta(publicacion: Publicacion) {
     publicacion.mostrarFormularioRespuesta = false;
-  }
-
-  actualizarPublicacionesEnLocalStorage() {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.publicaciones));
   }
 }

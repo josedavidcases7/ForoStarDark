@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RespuestaComponent } from '../respuesta/respuesta.component';
 import { ComentariosComponent } from '../comentarios/comentarios.component';
+import { map } from 'rxjs/operators';
 
 interface Publicacion {
   titulo: string;
@@ -27,50 +28,74 @@ interface Publicacion {
   templateUrl: './publicaciones-galaxias.component.html',
   styleUrl: './publicaciones-galaxias.component.scss'
 })
-export class PublicacionesGalaxiasComponent implements OnInit{
+export class PublicacionesGalaxiasComponent implements OnInit {
   publicaciones: Publicacion[] = [];
   publicacionAEliminar: Publicacion | null = null;
   mostrarModal: boolean = false;
   usuarioActual: string | null = null;
   usuarioActualFoto: string | null = null;
-  private STORAGE_KEY = 'publicaciones_galaxias';
+  isAdmin: boolean = false;
+  mostrarFormularioReporte = false;
+  publicacionAReportar: Publicacion | null = null;
+  motivoReporte: string = '';
 
   constructor(private authService: AuthService) {}
-  isAdmin: boolean = false; // NUEVO
 
   ngOnInit() {
     this.usuarioActual = this.authService.getUsername();
     this.usuarioActualFoto = this.authService.getUserProfileImage(this.usuarioActual || '');
     this.isAdmin = this.authService.getIsAdmin();
 
-    
-    const publicacionesGuardadas = localStorage.getItem('publicaciones_galaxias');
-    if (publicacionesGuardadas) {
-      this.publicaciones = JSON.parse(publicacionesGuardadas).map((publicacion: any) => {
-        const userLikes = JSON.parse(localStorage.getItem(`likes_${this.usuarioActual}`) || '{}');
-        const hasLiked = !!userLikes[publicacion.titulo];
-        
-        return {
-          ...publicacion,
-          userProfileImage: this.authService.getUserProfileImage(publicacion.userName) || '/assets/images/avatar1.png',
+    // Usamos pipe y subscribe para obtener los datos desde el backend
+    this.authService.getPublications().pipe(
+      map((publicaciones: any[]) =>
+        publicaciones.map(publicacion => ({
+          titulo: publicacion.title || '',
+          descripcion: publicacion.description || '',
+          archivo: publicacion.image || null,
+          fileType: publicacion.fileType || null,
+          userName: publicacion.user_name || 'Anónimo',
+           userProfileImage: this.authService.getUserProfileImage(publicacion.user_name) || '/assets/images/avatar1.png',
+          likes: publicacion.likes || 0,
+          id: publicacion.id,
           mostrarFormularioRespuesta: false,
           mostrarComentarios: false,
-          respuestas: publicacion.respuestas || [],
-          likes: hasLiked ? publicacion.likes + 1 : publicacion.likes,
-        };
-      });
-    } else {
-      this.publicaciones = this.authService.getPublications().map((publicacion: any) => ({
-        ...publicacion,
-        userProfileImage: this.authService.getUserProfileImage(publicacion.userName) || '/assets/images/avatar1.png',
-        mostrarFormularioRespuesta: false,
-        mostrarComentarios: false,
-        respuestas: []
-      }));
-    }
+          respuestas: publicacion.respuestas || []
+        }))
+      )
+    ).subscribe(publicacionesTransformadas => {
+      this.publicaciones = publicacionesTransformadas;
+    });
   }
-  
-  
+
+  abrirReporte(publicacion: Publicacion) {
+    this.publicacionAReportar = publicacion;
+    this.motivoReporte = '';
+    this.mostrarFormularioReporte = true;
+  }
+
+  cancelarReporte() {
+    this.publicacionAReportar = null;
+    this.mostrarFormularioReporte = false;
+  }
+
+  enviarReporte() {
+    if (!this.publicacionAReportar || !this.motivoReporte.trim()) return;
+
+    const reportes = JSON.parse(localStorage.getItem('reportes') || '[]');
+    reportes.push({
+      reportadoPor: this.usuarioActual,
+      autorPublicacion: this.publicacionAReportar.userName,
+      tituloPublicacion: this.publicacionAReportar.titulo,
+      motivo: this.motivoReporte
+    });
+
+    localStorage.setItem('reportes', JSON.stringify(reportes));
+
+    this.publicacionAReportar = null;
+    this.mostrarFormularioReporte = false;
+    localStorage.setItem('nuevosReportes', 'true');
+  }
 
   darLike(publicacion: Publicacion) {
     const username = this.authService.getUsername();
@@ -79,34 +104,17 @@ export class PublicacionesGalaxiasComponent implements OnInit{
       return;
     }
 
-    let publicaciones = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]');
-    let userLikes = JSON.parse(localStorage.getItem(`likes_${username}`) || '{}');
+    // Aquí deberías implementar el llamado al backend para registrar el like
+    // Por ahora solo actualizamos el contador localmente para reflejar el cambio
+    publicacion.likes += 1;
 
-    const likedBefore = userLikes[publicacion.titulo];
-
-    if (likedBefore) {
-      publicacion.likes -= 1;
-      delete userLikes[publicacion.titulo];
-    } else {
-      publicacion.likes += 1;
-      userLikes[publicacion.titulo] = true;
-    }
-
-    localStorage.setItem(`likes_${username}`, JSON.stringify(userLikes));
-
-    publicaciones = publicaciones.map((p: Publicacion) =>
-      p.titulo === publicacion.titulo ? { ...p, likes: publicacion.likes } : p
-    );
-
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(publicaciones));
+    // Ejemplo:
+    // this.authService.likePublication(publicacion.id).subscribe(...)
   }
 
   userHasLiked(publicacion: Publicacion): boolean {
-    const username = this.authService.getUsername();
-    if (!username) return false;
-
-    const userLikes = JSON.parse(localStorage.getItem(`likes_${username}`) || '{}');
-    return !!userLikes[publicacion.titulo];
+    // Implementar lógica con backend para verificar si usuario dio like.
+    return false; // Por defecto false para no depender de localStorage
   }
 
   esPropietario(publicacion: Publicacion): boolean {
@@ -119,18 +127,12 @@ export class PublicacionesGalaxiasComponent implements OnInit{
   }
 
   deletePublication() {
-    if (this.publicacionAEliminar) {
-      let publicaciones = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]');
+    if (!this.publicacionAEliminar) return;
 
-      publicaciones = publicaciones.filter((p: Publicacion) =>
-        p.id ? p.id !== this.publicacionAEliminar!.id : p.titulo !== this.publicacionAEliminar!.titulo
-      );
-
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(publicaciones));
-      this.publicaciones = [...publicaciones];
-      this.mostrarModal = false;
-      this.publicacionAEliminar = null;
-    }
+    // Aquí deberías llamar al backend para eliminar la publicación y luego actualizar el array
+    this.publicaciones = this.publicaciones.filter(p => p.id !== this.publicacionAEliminar?.id);
+    this.mostrarModal = false;
+    this.publicacionAEliminar = null;
   }
 
   cancelarEliminacion() {
@@ -147,21 +149,20 @@ export class PublicacionesGalaxiasComponent implements OnInit{
   }
 
   guardarRespuesta(publicacion: Publicacion, respuesta: { texto: string, archivo: string | null }) {
-    publicacion.respuestas?.push({
+    if (!publicacion.respuestas) publicacion.respuestas = [];
+
+    publicacion.respuestas.push({
       texto: respuesta.texto,
       archivo: respuesta.archivo,
       fotoUsuario: this.usuarioActualFoto || '/assets/images/avatar1.png',
     });
 
     publicacion.mostrarFormularioRespuesta = false;
-    this.actualizarPublicacionesEnLocalStorage();
+
+    // Aquí debes implementar la llamada al backend para guardar la respuesta
   }
 
   cancelarRespuesta(publicacion: Publicacion) {
     publicacion.mostrarFormularioRespuesta = false;
-  }
-
-  actualizarPublicacionesEnLocalStorage() {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.publicaciones));
   }
 }

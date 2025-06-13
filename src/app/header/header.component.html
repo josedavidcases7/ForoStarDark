@@ -1,101 +1,77 @@
 <header class="header">
   <div class="left-section">
-    <img
-      [src]="leftImage"
-      alt="Logo"
-      class="left-photo"
-      width="100px"
-      (click)="goToHome()"
-    />
-    <button *ngIf="isAdmin" class="usuarios-btn" (click)="irAUsuarios()">
-      USUARIOS
-    </button>
+    <img [src]="leftImage" alt="Logo" class="left-photo" width="100px" (click)="goToHome()" />
+    
+    <button class="btn-marte" (click)="goToMarsWeather()">CLIMA MARTE</button>
+
+    <button *ngIf="isAdmin" class="usuarios-btn" (click)="irAUsuarios()">USUARIOS</button>
+
+    <div *ngIf="isAdmin" class="emergencia-icono" (click)="abrirListaReportes()">
+      ❗<span *ngIf="hayNuevosReportes" class="punto-rojo"></span>
+      
+      <div *ngIf="mostrarListaReportes" class="lista-reportes">
+        <h3>Reportes de usuarios</h3>
+        <hr />
+        
+        <div *ngFor="let reporte of reportes; let i = index" class="reporte-item">
+          <button (click)="eliminarReporte(i); $event.stopPropagation()" class="delete-reporte-btn">
+            <i class="fa fa-trash"></i>
+          </button>
+          <p><strong>Reportado por:</strong> {{ reporte.reportadoPor }}</p>
+          <p><strong>Autor publicación:</strong> {{ reporte.autorPublicacion }}</p>
+          <p><strong>Título:</strong> {{ reporte.tituloPublicacion }}</p>
+          <p><strong>Motivo:</strong> {{ reporte.motivo }}</p>
+          <hr />
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="right-section">
-    <div class="container">
-      <input
-        type="text"
-        class="input"
-        placeholder="Search"
-        [(ngModel)]="searchQuery"
-        (input)="onSearchChange()"
-      />
-      <button class="search-btn">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="22"
-          height="22"
-        >
-          <path
-            d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"
-            fill="#efeff1"
-          ></path>
-        </svg>
-      </button>
-    </div>
+   <div class="search-container">
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Buscar publicaciones..."
+      [(ngModel)]="searchQuery"
+      (input)="onSearchChange()"
+      autocomplete="off"
+    />
+     
 
-    <img
-      [src]="rightImage2"
-      alt="Agregar publicación"
-      class="right-photo"
-      width="50px"
-      (click)="goToAddPublication()"
-    />
-    <img
-      [src]="rightImage3"
-      alt="Perfil"
-      class="right-photo"
-      width="50px"
-      (click)="goToProfile()"
-    />
+      <!-- Resultados de búsqueda -->
+       <div *ngIf="searchQuery" class="search-results-box">
+    <ul *ngIf="filteredPublications.length > 0">
+      <li *ngFor="let pub of filteredPublications" class="result-item" (click)="goToPublication(pub.id)">
+  <div class="result-details" style="display: flex; align-items: center;">
+    <img [src]="pub.userProfileImage" alt="Foto de perfil" class="profile-image" width="40" height="40" />
+    
+    <div class="text-content" style="margin-left: 10px;">
+      <div class="pub-title">{{ pub.title }}</div>
+      <div class="username">{{ pub.userName }}</div>
+    </div>
+  </div>
+</li>
+    </ul>
+    <div *ngIf="filteredPublications.length === 0" class="no-results">
+      No se encontraron publicaciones.
+    </div>
+  </div>
+   </div>
+
+    <img [src]="rightImage2" alt="Agregar publicación" class="right-photo" width="50px" (click)="goToAddPublication()" />
+    <img [src]="rightImage3" alt="Perfil" class="right-photo" width="50px" (click)="goToProfile()" />
 
     <div class="icon-menu" (click)="toggleMenu()">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        width="24"
-        height="24"
-      >
-        <path
-          d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"
-          fill="white"
-        ></path>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+        <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z" fill="white"></path>
       </svg>
     </div>
   </div>
 </header>
 
-<div
-  *ngIf="searchQuery && filteredPublications.length > 0"
-  class="search-results"
->
-  <ul>
-    <li *ngFor="let pub of filteredPublications">
-      <div class="result-item">
-        <img
-          [src]="pub.userProfileImage"
-          alt="Foto de perfil"
-          class="user-photo"
-        />
 
-        <div class="result-text">
-          <p class="username">{{ pub.userName }}</p>
-          <p class="pub-title">{{ pub.titulo }}</p>
-        </div>
-      </div>
-    </li>
-  </ul>
-</div>
-
-<div
-  *ngIf="searchQuery && filteredPublications.length === 0"
-  class="search-results"
->
-  <p>No se encontraron publicaciones.</p>
-</div>
-
+<!-- Menú lateral -->
 <div class="overlay" [class.active]="menuOpen" (click)="closeMenu()"></div>
 
 <div class="side-menu" [class.active]="menuOpen">
@@ -103,38 +79,16 @@
     <img [src]="menuTopImage" alt="Menu Top" class="menu-top-image" />
   </div>
 
-  <div class="titulo-secciones">
-    {{ titulo_secciones }}
-  </div>
+  <div class="titulo-secciones">{{ titulo_secciones }}</div>
 
   <div class="secciones">
-    <p>
-      <a (click)="navigateToSection('Universos')">{{ primera_seccion }}</a>
-    </p>
-    <p>
-      <a (click)="navigateToSection('Planetas y Estrellas')">{{
-        segunda_seccion
-      }}</a>
-    </p>
-    <p>
-      <a (click)="navigateToSection('Agujeros Negros')">{{
-        tercera_seccion
-      }}</a>
-    </p>
-    <p>
-      <a (click)="navigateToSection('Galaxias')">{{ cuarta_seccion }}</a>
-    </p>
-    <p>
-      <a (click)="navigateToSection('Satelites')">{{ quinta_seccion }}</a>
-    </p>
-    <p>
-      <a (click)="navigateToSection('Vida Extraterrestre')">{{
-        sexta_seccion
-      }}</a>
-    </p>
-    <p>
-      <a (click)="navigateToSection('Teorias')">{{ septima_seccion }}</a>
-    </p>
+    <p><a (click)="navigateToSection('Universos')">{{ primera_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Planetas y Estrellas')">{{ segunda_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Agujeros Negros')">{{ tercera_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Galaxias')">{{ cuarta_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Satelites')">{{ quinta_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Vida Extraterrestre')">{{ sexta_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Teorias')">{{ septima_seccion }}</a></p>
   </div>
 
   <div class="seccion-especial">

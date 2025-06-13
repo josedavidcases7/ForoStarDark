@@ -51,7 +51,7 @@ export class SubirPublicacionTeoriasComponent {
     const avatar = this.authService.getAvatar() || '';
 
     const nuevaPublicacion = {
-      titulo: this.tituloTexto,
+      title: this.tituloTexto,
       descripcion: this.descripcionTexto,
       archivo: this.filePreview,
       fileType: this.fileType,

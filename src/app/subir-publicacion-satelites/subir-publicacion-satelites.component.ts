@@ -50,7 +50,7 @@ export class SubirPublicacionSatelitesComponent {
     const avatar = this.authService.getAvatar() || '';
 
     const nuevaPublicacion = {
-      titulo: this.tituloTexto, // Ahora guarda lo que el usuario escribió
+      title: this.tituloTexto,
       descripcion: this.descripcionTexto, // Ahora guarda lo que el usuario escribió
       archivo: this.filePreview,
       fileType: this.fileType,

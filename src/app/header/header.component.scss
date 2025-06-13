@@ -10,10 +10,10 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%; 
+  width: 100%;
   background-color: transparent;
   padding: 8px 10px;
-  height: 80px; 
+  height: 80px;
   z-index: 1000;
   display: flex;
   justify-content: space-between;
@@ -30,12 +30,11 @@ body {
   cursor: pointer;
   font-size: 16px;
   transition: color 0.3s;
-
-  &:hover {
-    color: #aaa;
-  }
 }
 
+.usuarios-btn:hover {
+  color: #aaa;
+}
 
 .left-section {
   display: flex;
@@ -57,7 +56,7 @@ body {
   border-radius: 6px;
   overflow: hidden;
   height: 28px;
-  width: 300px; 
+  width: 300px;
 }
 
 .input {
@@ -70,10 +69,10 @@ body {
   caret-color: #00ad14;
   flex-grow: 1;
   font-weight: 500;
+}
 
-  &::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-  }
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .search-btn {
@@ -85,30 +84,30 @@ body {
   align-items: center;
   padding: 6px;
   transition: background-color 0.2s ease;
+}
 
-  &:hover {
-    background-color: #505052;
-  }
+.search-btn:hover {
+  background-color: #505052;
+}
 
-  svg {
-    width: 16px;
-    height: 16px;
-    fill: #efeff1;
-  }
+.search-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: #efeff1;
 }
 
 .left-photo {
-  width: 100px; 
-  height: 100px; 
-  border-radius: 50%; 
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
   object-fit: cover;
 }
 
 .right-photo {
-  width: 50px; 
-  height: 50px; 
-  border-radius: 50%; 
-  object-fit: cover; 
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .icon-menu {
@@ -118,16 +117,16 @@ body {
   cursor: pointer;
   width: 30px;
   height: 30px;
+}
 
-  svg {
-    width: 70px;
-    height: 70px;
-    fill: white; 
-  }
+.icon-menu svg {
+  width: 70px;
+  height: 70px;
+  fill: white;
+}
 
-  &:hover svg {
-    fill: #a970ff; 
-  }
+.icon-menu:hover svg {
+  fill: #a970ff;
 }
 
 .overlay {
@@ -136,13 +135,13 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); 
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: 999;
   display: none;
 }
 
 .overlay.active {
-  display: block; 
+  display: block;
 }
 
 /* Contenedor del menú lateral */
@@ -161,11 +160,11 @@ body {
   padding: 20px;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
   transition: right 0.3s ease;
+}
 
-  &.active {
-    right: 0;
-    width: 30%;
-  }
+.side-menu.active {
+  right: 0;
+  width: 30%;
 }
 
 /* Estilo para la imagen superior dentro del menú */
@@ -184,16 +183,16 @@ body {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: absolute;
-  top: 20px; /* Mueve la imagen cerca de la parte superior */
-  right: 20px; /* La coloca en la parte derecha */
+  top: 20px;
+  right: 20px;
   transform: translate(0, 0);
-  animation: floating 5s ease-in-out infinite; /* Animación flotante */
-  display: none; /* Oculta la imagen por defecto */
+  animation: floating 5s ease-in-out infinite;
+  display: none;
 }
 
 /* Mostrar la imagen del OVNI solo cuando el menú esté activo */
 .side-menu.active .menu-top-image {
-  display: block; /* Muestra la imagen cuando el menú está abierto */
+  display: block;
 }
 
 /* Animación flotante para la imagen del OVNI */
@@ -212,7 +211,7 @@ body {
 /* Título de las secciones, agregando margen superior */
 .titulo-secciones {
   margin-left: 20px;
-  margin-top: 100px; /* Se agrega espacio arriba */
+  margin-top: 100px;
   margin-bottom: 80px;
   font-size: 40px;
   font-weight: bold;
@@ -229,127 +228,217 @@ body {
   margin-bottom: 30px;
 }
 
-
-.seccion-especial p{
-  color:gold;
+.seccion-especial p {
+  color: gold;
   font-size: 30px;
-
 }
 
-.seccion-especial{
+.seccion-especial {
   margin-left: 20px;
-
 }
 
 .eliminar-evento-wrapper {
   text-align: center;
   margin-top: 20px;
-
-  .eliminar-evento {
-    background-color: #ff3c3c;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-
-  .eliminar-evento:hover {
-    background-color: #a10000;
-  }
 }
-.search-results {
-  position: absolute;
-  top: 50px;
-  right: 20px;
-  background-color: rgba(0, 0, 0, 0.8);
+
+.eliminar-evento {
+  background-color: #ff3c3c;
   color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.eliminar-evento:hover {
+  background-color: #a10000;
+}
+
+.search-container input {
+  position: relative;
+  border-radius: 50px;
+  background-color: #333;
+  border: 2px solid transparent;
+  width: 250px;
+  height: 36px;
+  padding: 0 12px;
+  color: white;
+  font-size: 14px;
+  outline: none;
+  caret-color: #00ff00; /* Cursor verde */
+  transition: border 0.2s ease;
+}
+
+.search-container input:focus {
+  border: 2px solid #00ff00; /* Borde verde al enfocar */
+}
+
+
+.search-container input::placeholder {
+  color: rgba(255, 255, 255, 0.6); /* Placeholder más suave */
+}
+
+
+
+.search-results-box {
+  position: absolute;
+  left: 0;
+  right: 0;
   width: 300px;
-  border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-left: 1050px;
+  background: #111;
+  border: 1px solid #ffffff;
+  margin-top: 30px;
+  border-color: #00ad14;
+  color: white;
+  border-radius: 8px;
+  padding: 10px;
   max-height: 300px;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  z-index: 2000;
+  z-index: 10000; /* asegúrate de que esté por encima del resto */
 }
 
-.search-results ul {
-  list-style: none;
-  padding: 0;
-  
-}
-
-.search-results li {
-  padding: 8px;
-  border-bottom: 1px solid #ffffff;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.search-results li:hover {
-  background-color: #444;
-}
-.search-results {
-  position: absolute;
-  top: 50px;
-  right: 20px;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  width: 300px;
-  border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-height: 300px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  z-index: 2000;
-}
-
-.search-results ul {
-  list-style: none;
-  padding: 0;
-}
-
-.search-results li {
-  padding: 8px;
-  border-bottom: 1px solid #ffffff;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.search-results li:hover {
-  background-color: #444;
-}
 
 .result-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #333;
+  cursor: pointer;
+  color: white;
+  font-size: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.result-item:hover {
+  background-color: #333;
 }
 
 .user-photo {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  margin-right: 10px;
   object-fit: cover;
 }
 
-.result-text {
+.result-details .pub-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+.username,
+.section {
+  font-size: 16px;
+  color: #ccc;
+}
+
+.no-results {
+  padding: 12px;
+  color: #aaa;
+  font-size: 20px;
+  font-style: italic;
+  text-align: center;
+}
+
+.emergencia-icono {
+  cursor: pointer;
+}
+
+.punto-rojo {
+  background-color: red;
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  top: 0;
+  right: -2px;
+  cursor: pointer;
+}
+
+.lista-reportes {
+  position: absolute;
+  top: 100px;
+  left: 10px;
+  width: 300px;
+  background: #000000;
+  color: white;
+  border: 1px solid #ddd;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1000;
+  padding: 10px;
+}
+
+.delete-reporte-btn {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  float: right;
+  font-size: 16px;
+}
+
+.reporte-item {
+  position: relative;
+  padding-right: 25px;
+}
+
+.btn-marte {
+  margin-left: 1.5rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: rgba(30, 30, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+.btn-marte:hover {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+  transform: scale(1.03);
+}
+
+.btn-marte:active {
+  transform: scale(0.98);
+}
+
+.result-item {
+  padding: 8px;
+  cursor: pointer;
+  border-bottom: 1px solid #ccc;
+  padding-right: 8px;
+}
+
+
+
+.profile-image {
+  border-radius: 50%;
+  object-fit: cover;
+  width: 40px;
+  height: 40px;
+}
+
+.text-content {
   display: flex;
   flex-direction: column;
 }
 
-.username {
-  font-size: 14px;
+.pub-title {
   font-weight: bold;
-  color: #00ad14;
+  font-size: 14px;
 }
 
-.pub-title {
+.username {
   font-size: 12px;
-  color: white;
+  color: #666;
 }

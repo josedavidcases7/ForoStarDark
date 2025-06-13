@@ -1,4 +1,8 @@
+<!-- Contenedor principal que habilita el desplazamiento -->
 <div class="content-wrapper">
+  <!-- Aquí van los elementos como el rectángulo, círculo, nombre de usuario, etc. -->
+  
+  <!-- Rectángulo para cargar la imagen -->
   <div class="rectangle" (click)="changeImage()">
     <ng-container *ngIf="!uploadedImage">
       <p>Haz clic para añadir una imagen</p>
@@ -7,7 +11,8 @@
       <img [src]="uploadedImage" alt="Imagen subida" />
     </ng-container>
   </div>
-
+  
+  <!-- Círculo para cargar la imagen circular -->
   <div class="circle" (click)="changeCircleImage()">
     <ng-container *ngIf="!uploadedCircleImage">
       <p>Haz clic para añadir una imagen</p>
@@ -18,40 +23,45 @@
   </div>
 
   <div class="username-container">
-    <input type="text" [(ngModel)]="username" class="username-input" readonly />
+    <input
+      type="text"
+      [(ngModel)]="username"
+      class="username-input"
+      readonly
+    />
   </div>
+  
 
+  <!-- Contenedor para la palabra Descripción -->
   <div class="description-container">
     <span>Descripción</span>
   </div>
-
+  
+  <!-- Contenedor para las líneas -->
   <div class="lines-container">
     <div class="line" *ngFor="let line of lines; let i = index">
-      <textarea
-        [(ngModel)]="line.text"
-        class="line-input"
-        (input)="moveFocus(i)"
-        [attr.maxlength]="maxLength"
-        [id]="'input-' + i"
+      <textarea 
+        [(ngModel)]="line.text" 
+        class="line-input" 
+        (input)="moveFocus(i)" 
+        [attr.maxlength]="maxLength" 
+        [id]="'input-' + i" 
         [rows]="1"
       ></textarea>
     </div>
   </div>
 
+  <!-- Contenedor de logros -->
   <div class="logros-container">
     {{ logrosTexto }}
   </div>
 
+  <!-- Contenedor de círculos adicionales -->
   <div class="circle-container">
-    <div class="circle2" *ngFor="let achievement of userAchievements">
-      <img
-        [src]="'data:image/jpeg;base64,' + achievement.image"
-        [alt]="achievement.name"
-        class="achievement-image"
-      />
-    </div>
-    <div class="circle2" *ngFor="let empty of remainingCircles">
-      <p>Sin logro</p>
-    </div>
+    <div class="circle2"></div>
+    <div class="circle3"></div>
+    <div class="circle4"></div>
+    <div class="circle2"></div>
+    <div class="circle2"></div>
   </div>
 </div>
