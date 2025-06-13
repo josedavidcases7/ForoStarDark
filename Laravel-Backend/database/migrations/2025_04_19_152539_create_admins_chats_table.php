@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('admin_event_id');
             $table->text('message');
-
+        
             $table->foreign('admin_event_id')->references('id')->on('admins_events');
         });
+        
     }
 
     /**

@@ -5,20 +5,20 @@ import Pusher from 'pusher-js';
 declare const window: any;
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class EchoService {
   public echo: Echo;
 
   constructor() {
     window.Pusher = Pusher;
-
+    
     this.echo = new Echo({
       broadcaster: 'pusher',
-      key: '06ed3f5971917f39f11d',
+      key: '06ed3f5971917f39f11d', 
       cluster: 'eu',
       forceTLS: true,
-      enabledTransports: ['ws', 'wss'],
+      enabledTransports: ['ws', 'wss']
     });
   }
 
@@ -28,7 +28,7 @@ export class EchoService {
 
   disconnect() {
     if (this.echo) {
-      // this.echo.disconnect();
+     // this.echo.disconnect();
     }
   }
 }

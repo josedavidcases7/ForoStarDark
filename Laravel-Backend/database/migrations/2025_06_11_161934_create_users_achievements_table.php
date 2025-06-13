@@ -6,28 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('chats', function (Blueprint $table) {
+        Schema::create('users_achievements', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->text('message');
-            $table->unsignedBigInteger('team_id');
-        
+            $table->unsignedBigInteger('achievement_id');
+            $table->timestamps();
+
             $table->foreign('user_id')->references('user_id')->on('users');
-            $table->foreign('team_id')->references('id')->on('teams');
+            $table->foreign('achievement_id')->references('achievement_id')->on('achievements');
         });
-        
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('chats');
+        Schema::dropIfExists('users_achievements');
     }
 };

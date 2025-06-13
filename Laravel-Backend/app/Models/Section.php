@@ -18,4 +18,5 @@ class Section extends Model
     ];
 
     public $timestamps = false;
+
 }

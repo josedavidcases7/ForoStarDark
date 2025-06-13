@@ -14,10 +14,7 @@ class ChatController extends Controller
         $request->validate([
             'userId' => 'required|exists:users,user_id',
             'message' => 'required|string|max:255',
-            'teamId' => 'required|exists:teams,id',
-            'isAdmin' => 'required|boolean',
-            'userName' => 'required|string|max:50',
-            'teamNumber' => 'required|integer|min:1|max:100'
+            'teamId' => 'required|exists:teams,id'
         ]);
 
         $chat = Chat::create([
@@ -27,10 +24,7 @@ class ChatController extends Controller
         ]);
         $messageData = [
             'text' => $request->message,
-            'teamId' => $request->teamId,
-            'isAdmin' => $request->isAdmin,
-            'userName' => $request->userName,
-            'teamNumber' => $request->teamNumber,
+            'team_id' => $request->teamId
         ];
         broadcast(new NewEventMessage($messageData))->toOthers();
 

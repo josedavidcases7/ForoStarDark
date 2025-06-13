@@ -1,5 +1,4 @@
 @charset "UTF-8";
-
 .chat-container {
   width: 100%;
   max-width: 600px;
@@ -8,7 +7,8 @@
   border-radius: 8px;
   background-color: rgb(43, 43, 43);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin-top: 80px;
+  /* Aseguramos que el chat no se solape con el header */
+  margin-top: 80px; /* Ajustamos el margen superior para que esté debajo del header */
 }
 
 .messages {
@@ -44,4 +44,4 @@ button {
 
 button:hover {
   background-color: #004d40;
-}
+}/*# sourceMappingURL=chat.component.css.map */
