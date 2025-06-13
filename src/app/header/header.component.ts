@@ -227,6 +227,10 @@ goToMarsWeather(): void {
   this.router.navigate(['/nasa-weather']);
 }
 
+goToVideogame(): void {
+  this.router.navigate(['/juegos-nave']);
+}
+
 goToPublication(publicationId: string): void {
   const element = document.getElementById(`post-${publicationId}`);
   if (element) {

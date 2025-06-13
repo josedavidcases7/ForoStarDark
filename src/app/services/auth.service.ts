@@ -6,7 +6,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/api'; 
+  private apiUrl = 'http://localhost:8000/api';
 
   private avatarSubject = new BehaviorSubject<string | null>(
     typeof window !== 'undefined' ? this.getAvatar() : null
@@ -20,8 +20,8 @@ export class AuthService {
     const profile = localStorage.getItem('userProfile');
     if (profile) {
       const userProfile = JSON.parse(profile);
-      console.log(userProfile); 
-      return userProfile; 
+      console.log(userProfile);
+      return userProfile;
     }
     return null;
   }
@@ -29,7 +29,7 @@ export class AuthService {
   // Obtener avatar desde localStorage
   getAvatar(): string | null {
     const avatar = localStorage.getItem('userAvatar');
-    console.log('Avatar recuperado del localStorage:', avatar); 
+    console.log('Avatar recuperado del localStorage:', avatar);
     return avatar;
   }
 
@@ -45,14 +45,13 @@ export class AuthService {
 
   // Obtener nombre de usuario desde localStorage
   getUsername(): string | null {
-    return localStorage.getItem('username'); 
+    return localStorage.getItem('username');
   }
-  
 
   // Guardar avatar en localStorage
   setAvatar(avatarUrl: string): void {
     localStorage.setItem('userAvatar', avatarUrl);
-    this.avatarSubject.next(avatarUrl); 
+    this.avatarSubject.next(avatarUrl);
   }
 
   // Obtener la imagen del perfil de un usuario
@@ -62,60 +61,57 @@ export class AuthService {
       const profile = JSON.parse(userProfile);
       return profile.uploadedCircleImage;
     }
-    return '/assets/images/avatar1.png'; 
+    return '/assets/images/avatar1.png';
   }
 
+  savePublication(publicacion: any, section?: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/publications`, publicacion);
+  }
 
-savePublication(publicacion: any, section?: string): Observable<any> {
-  return this.http.post(`${this.apiUrl}/publications`, publicacion);
-}
-
-
-
-  
   // Función para cargar publicaciones desde la sección correspondiente
   getPublicationsBySection(section: string) {
     return JSON.parse(localStorage.getItem(section) || '[]');
   }
 
   getPublications(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.apiUrl}/publications`);
-}
+    return this.http.get<any[]>(`${this.apiUrl}/publications`);
+  }
 
   // Registro de usuario
   register(user: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, user);
   }
 
-// Login con las credenciales del usuario normal
+  // Login con las credenciales del usuario normal
 
-login(credentials: any, isAdmin: boolean): Observable<any> {
-  const loginUrl = `${this.apiUrl}/login`;  // Solo una ruta de login
+  login(credentials: any, isAdmin: boolean): Observable<any> {
+    const loginUrl = `${this.apiUrl}/login`; // Solo una ruta de login
 
-  return new Observable(observer => {
-    this.http.post<any>(loginUrl, credentials, { withCredentials: true }).subscribe(
-      (response) => {
-        this.setUsername(response.user_name);
-        this.setUserProfile(response);
-        this.setIsAdmin(response.isAdmin);  
+    return new Observable((observer) => {
+      this.http
+        .post<any>(loginUrl, credentials, { withCredentials: true })
+        .subscribe(
+          (response) => {
+            this.setUsername(response.user_name);
+            this.setUserProfile(response);
+            this.setIsAdmin(response.isAdmin);
 
-        console.log(response.isAdmin ? '¡Has iniciado sesión como admin!' : 'Has iniciado sesión como usuario normal.');
+            console.log(
+              response.isAdmin
+                ? '¡Has iniciado sesión como admin!'
+                : 'Has iniciado sesión como usuario normal.'
+            );
 
-        observer.next(response);
-        observer.complete();
-      },
-      (error) => {
-        console.error('Error al iniciar sesión:', error);
-        observer.error(error);
-      }
-    );
-  });
-}
-
-
-
-
-
+            observer.next(response);
+            observer.complete();
+          },
+          (error) => {
+            console.error('Error al iniciar sesión:', error);
+            observer.error(error);
+          }
+        );
+    });
+  }
 
   // Método para verificar si el nombre de usuario ya está disponible
   checkUsernameAvailability(username: string): Observable<any> {
@@ -147,43 +143,83 @@ login(credentials: any, isAdmin: boolean): Observable<any> {
     return localStorage.getItem('isAdmin') === 'true';
   }
 
-  // auth.service.ts
-getIsAdmin(): boolean {
-  return JSON.parse(localStorage.getItem('isAdmin') || 'false');
-}
 
-likePublication(id: string, userName: string): Observable<any> {
-  return this.http.post(`${this.apiUrl}/publications/${id}/like`, { userName }, { withCredentials: true });
-}
+  getIsAdmin(): boolean {
+    return JSON.parse(localStorage.getItem('isAdmin') || 'false');
+  }
 
+  likePublication(id: string, userName: string): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/publications/${id}/like`,
+      { userName },
+      { withCredentials: true }
+    );
+  }
 
+  deletePublication(publicationId: string) {
+    return this.http.delete<any>(
+      `http://localhost:8000/api/publications/${publicationId}`
+    );
+  }
 
+  toggleLike(publicacionId: string) {
+    return this.http.post<{ likes: number }>(
+      `${this.apiUrl}/publications/${publicacionId}/like`,
+      {}
+    );
+  }
 
+  addRespuesta(
+    publicacionId: string,
+    respuesta: { texto: string; archivo: string | null; fotoUsuario: string }
+  ) {
+    return this.http.post(
+      `/api/publications/${publicacionId}/responses`,
+      respuesta
+    );
+  }
 
+  searchPublications(query: string) {
+    const encodedQuery = encodeURIComponent(query);
+    return this.http.get<any[]>(
+      `http://localhost:8000/api/publications/search?query=${encodedQuery}`
+    );
+  }
 
-deletePublication(publicationId: string) {
-  return this.http.delete<any>(`http://localhost:8000/api/publications/${publicationId}`);
-}
+  savePlanetasEstrellas(planeta: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/planetasEstrellas`, planeta);
+  }
 
+  getPlanetasEstrellas(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/planetasEstrellas`);
+  }
 
-toggleLike(publicacionId: string) {
-  return this.http.post<{ likes: number }>(
-    `${this.apiUrl}/publications/${publicacionId}/like`,
-    {}
-  );
-}
+  likePlanetasEstrellas(id: string, userName: string): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/planetasEstrellas/${id}/like`,
+      { userName },
+      { withCredentials: true }
+    );
+  }
 
+  deletePlanetasEstrellas(id: string) {
+    return this.http.delete<any>(`${this.apiUrl}/planetasEstrellas/${id}`);
+  }
 
+  addRespuestaPlanetasEstrellas(
+    id: string,
+    respuesta: { texto: string; archivo: string | null; fotoUsuario: string }
+  ) {
+    return this.http.post(
+      `${this.apiUrl}/planetasEstrellas/${id}/responses`,
+      respuesta
+    );
+  }
 
-
-addRespuesta(publicacionId: string, respuesta: { texto: string; archivo: string | null; fotoUsuario: string }) {
-  return this.http.post(`/api/publications/${publicacionId}/responses`, respuesta);
-}
-
-
-searchPublications(query: string) {
-  const encodedQuery = encodeURIComponent(query);
-  return this.http.get<any[]>(`http://localhost:8000/api/publications/search?query=${encodedQuery}`);
-}
-
+  searchPlanetasEstrellas(query: string) {
+    const encodedQuery = encodeURIComponent(query);
+    return this.http.get<any[]>(
+      `${this.apiUrl}/planetasEstrellas/search?query=${encodedQuery}`
+    );
+  }
 }

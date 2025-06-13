@@ -1,0 +1,80 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #000; // Fondo negro
+
+  canvas {
+    border: 2px solid #0f0; // Borde verde que recuerda a un juego retro
+    background-color: #111; // Fondo oscuro dentro del canvas
+    display: block;
+  }
+}
+
+
+
+/* Modal personalizado */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgb(0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #000000;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+  max-width: 400px;
+  width: 90%;
+}
+
+.modal h2 {
+  margin-bottom: 10px;
+  font-size: 24px;
+  color: #ff0000;
+}
+
+.modal p {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  gap: 15px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:first-child {
+  background-color: #00e676;
+  color: #000;
+}
+
+button:last-child {
+  background-color: #e53935;
+  color: #fff;
+}
+
+button:hover {
+  transform: scale(1.05);
+}

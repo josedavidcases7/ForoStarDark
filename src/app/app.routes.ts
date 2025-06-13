@@ -29,6 +29,7 @@ import { LoginElectionPcComponent } from './login-election-pc/login-election-pc.
 import { RegisterElectionPcComponent } from './register-election-pc/register-election-pc.component';
 import { MeteorologiaMarteComponent } from './meteorologia-marte/meteorologia-marte.component';
 import { NasaWeatherComponent } from './nasa-weather/nasa-weather.component';
+import { JuegoNavesComponent } from './juego-naves/juego-naves.component';
 
 export const routes: Routes = [
   { path: '', component: LoginPcComponent },  
@@ -58,6 +59,7 @@ export const routes: Routes = [
   { path: 'actualizaciones-page', component: ActualizacionesPageComponent},
   { path: 'meteorologia-marte', component: MeteorologiaMarteComponent },
    { path: 'nasa-weather', component: NasaWeatherComponent },
+   { path: 'juegos-nave', component: JuegoNavesComponent },
   
   
 

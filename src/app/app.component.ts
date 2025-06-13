@@ -11,13 +11,14 @@ import { SubirPublicacionComponent } from './subir-publicacion/subir-publicacion
 import { ActualizacionesComponent } from './actualizaciones/actualizaciones.component';
 import { AdminListaUsuariosComponent } from './admin-lista-usuarios/admin-lista-usuarios.component';
 import { RouterModule, Router } from '@angular/router'; // Importa RouterModule y Router
+import { PublicacionesPlanetasEstrellasComponent } from './publicaciones-planetas-estrellas/publicaciones-planetas-estrellas.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,  // Declara que este es un componente standalone
-  imports: [CommonModule, LoginPcComponent, LoginElectionPcComponent, RegisterElectionPcComponent, ChatComponent, HeaderComponent, FooterComponent, ProfileComponent, RouterModule, SubirPublicacionComponent, AdminListaUsuariosComponent,ActualizacionesComponent]
+  imports: [CommonModule, LoginPcComponent, LoginElectionPcComponent, RegisterElectionPcComponent, ChatComponent, HeaderComponent, FooterComponent, ProfileComponent, RouterModule, SubirPublicacionComponent, AdminListaUsuariosComponent,ActualizacionesComponent, PublicacionesPlanetasEstrellasComponent]
 })
 export class AppComponent {
   currentRoute: string = '';  // Para almacenar la ruta actual

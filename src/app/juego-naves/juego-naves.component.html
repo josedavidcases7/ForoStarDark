@@ -1,0 +1,13 @@
+<canvas #gameCanvas width="800" height="440"></canvas>
+
+<!-- Modal personalizado al perder -->
+<div class="modal-backdrop" *ngIf="mostrarModal">
+  <div class="modal">
+    <h2>¡Has perdido!</h2>
+    <p>¿Quieres volver a intentarlo?</p>
+    <div class="buttons">
+      <button (click)="onConfirmarReinicio()">Sí</button>
+      <button (click)="goToHome()">No</button>
+    </div>
+  </div>
+</div>
