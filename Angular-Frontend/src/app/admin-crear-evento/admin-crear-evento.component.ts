@@ -42,9 +42,7 @@ export class AdminCrearEventoComponent {
     private servicioLogro: AchievementsService
   ) {}
 
-  ngOnInit(): void {
-    // this.eventoPublicado = !!localStorage.getItem('debateData');
-  }
+  ngOnInit(): void {}
 
   cancelar() {
     this.router.navigate(['/home']);
@@ -71,10 +69,8 @@ export class AdminCrearEventoComponent {
       await firstValueFrom(this.servicioEquipo.agregarEquipo(segundoEquipo));
 
       if (this.nombreLogro && this.imagenLogro) {
-        // Comprimir imagen
         const compressedBlob = await this.compressImage(this.imagenLogro);
 
-        // Convertir a Base64
         const base64Image = await this.convertFileToBase64(
           new File([compressedBlob], 'compressed.jpg', {
             type: 'image/jpeg',
@@ -85,7 +81,7 @@ export class AdminCrearEventoComponent {
           0,
           eventoCreado.event_id,
           this.nombreLogro,
-          base64Image.split(',')[1] // Solo la parte de datos del Base64
+          base64Image.split(',')[1]
         );
 
         await firstValueFrom(this.servicioLogro.agregarAchievement(logro));
@@ -127,10 +123,9 @@ export class AdminCrearEventoComponent {
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d')!;
 
-          // Calcular nuevas dimensiones manteniendo proporción
           let width = img.width;
           let height = img.height;
-          const maxSize = 800; // tamaño máximo
+          const maxSize = 800;
 
           if (width > height) {
             if (width > maxSize) {
@@ -154,7 +149,7 @@ export class AdminCrearEventoComponent {
             },
             'image/jpeg',
             0.6
-          ); // calidad 60%
+          );
         };
         img.src = event.target.result;
       };

@@ -1,81 +1,62 @@
-<!-- <div class="chat-container">
-  <div class="messages">
-      <div *ngFor="let message of messages">
-          <p>{{ message }}</p>
-      </div>
-  </div>
 
-
-  <input
-    type="text" 
-    [(ngModel)]="newMessage" 
-    (input)="onMessageInput($event)"  
-    placeholder="Escribe un mensaje" />
-
-  <button (click)="sendMessage()">Enviar</button>
-</div> -->
 <div class="contenedor">
-
-    <!-- Fila 1: Texto + imagen -->
-    <div class="fila fila-centro">
-      <p class="titulo">Debate en curso</p>
-      <img [src]="achievementImage" alt="Logo del logro" class="logo">
-    </div>
-
-    <!-- Fila 2: Nombre del debate -->
-    <div class="fila">
-      <h2>{{ debateTheme }}</h2>
-    </div>
-
-    <!-- Fila 3: Nombres de los equipos en dos columnas -->
-    <div class="fila-doble">
-      <div class="columna">
-        <h3>{{ team1Name }}</h3>
-      </div>
-      <div class="columna">
-        <h3>{{ team2Name }}</h3>
-      </div>
-    </div>
-
-    <!-- Fila 4: Áreas de mensajes con scroll en dos columnas -->
-    <div class="fila-doble">
-      <div class="columna">
-        <div class="mensajes">
-          <div *ngFor="let message of messages1">
-            <p>{{ message }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="columna">
-        <div class="mensajes">
-          <div *ngFor="let message of messages2">
-            <p> {{ message }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Fila 5: Separador -->
-    <hr>
-
-    <!-- Fila 6: Inputs de texto en dos columnas -->
-    <div class="fila-doble">
-      <div class="columna">
-        <input type="text" 
-               class="input" 
-               [(ngModel)]="newMessage1"
-               [disabled]="disableInput1"
-               (keyup.enter)="sendMessage(1)"
-               placeholder="Mensaje para equipo 1">
-      </div>
-      <div class="columna">
-        <input type="text" 
-               class="input" 
-               [(ngModel)]="newMessage2"
-               [disabled]="disableInput2"
-               (keyup.enter)="sendMessage(2)"
-               placeholder="Mensaje para equipo 2">
-      </div>
-    </div>
-
+  <div class="fila fila-centro">
+    <p class="titulo">Debate en curso</p>
+    <img [src]="achievementImage" alt="Logo del logro" class="logo" />
   </div>
+
+  <div class="fila">
+    <h2>{{ debateTheme }}</h2>
+  </div>
+
+  <div class="fila-doble">
+    <div class="columna">
+      <h3>{{ team1Name }}</h3>
+    </div>
+    <div class="columna">
+      <h3>{{ team2Name }}</h3>
+    </div>
+  </div>
+
+  <div class="fila-doble">
+    <div class="columna">
+      <div class="mensajes">
+        <div *ngFor="let message of messages1">
+          <p>{{ message }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="columna">
+      <div class="mensajes">
+        <div *ngFor="let message of messages2">
+          <p>{{ message }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="fila-doble">
+    <div class="columna">
+      <input
+        type="text"
+        class="input"
+        [(ngModel)]="newMessage1"
+        [disabled]="disableInput1"
+        (keyup.enter)="sendMessage(1)"
+        placeholder="Mensaje para equipo 1"
+      />
+    </div>
+    <div class="columna">
+      <input
+        type="text"
+        class="input"
+        [(ngModel)]="newMessage2"
+        [disabled]="disableInput2"
+        (keyup.enter)="sendMessage(2)"
+        placeholder="Mensaje para equipo 2"
+      />
+    </div>
+  </div>
+</div>

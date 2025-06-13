@@ -6,9 +6,11 @@ import { Observable, firstValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { UsersAchievementsService, UserAchievement } from '../services/users-achievements.service';
+import {
+  UsersAchievementsService,
+  UserAchievement,
+} from '../services/users-achievements.service';
 import { UsersService } from '../services/users.service';
-
 
 @Component({
   selector: 'app-fin-evento',
@@ -53,7 +55,11 @@ export class FinEventoComponent implements OnInit {
     const logro = await firstValueFrom(
       this.achievementService.getAchievementByEventId(debateHoy.event_id)
     );
-    const logroUsuario: UserAchievement = new UserAchievement(0, idUsuario.user_id, logro.achievement_id);
+    const logroUsuario: UserAchievement = new UserAchievement(
+      0,
+      idUsuario.user_id,
+      logro.achievement_id
+    );
     const insertarLogroUsuario = await firstValueFrom(
       this.userAchievementService.agregarLogroUsuario(logroUsuario)
     );

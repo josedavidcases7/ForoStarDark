@@ -22,19 +22,17 @@ export class Event {
 
   formatearFecha(fecha: Date): string {
     const pad = (n: number) => n.toString().padStart(2, '0');
-  
+
     const año = fecha.getFullYear();
     const mes = pad(fecha.getMonth() + 1);
     const dia = pad(fecha.getDate());
     const horas = pad(fecha.getHours());
     const minutos = pad(fecha.getMinutes());
     const segundos = pad(fecha.getSeconds());
-  
+
     return `${año}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
   }
 }
-
-
 
 @Injectable({
   providedIn: 'root',
@@ -49,14 +47,13 @@ export class EventsService {
   }
 
   obtenerEventoHoy(): Observable<any> {
-    return this.api.obtener(this.endpoint +'/today');
+    return this.api.obtener(this.endpoint + '/today');
   }
-  
+
   enviarMensaje(mensaje: string): Observable<any> {
     let data = {
-      message: mensaje
+      message: mensaje,
     };
     return this.api.crear(this.endpoint + '/message', data);
   }
-
 }

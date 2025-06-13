@@ -28,7 +28,6 @@ class EventController extends Controller
             'theme' => 'required|string',
         ]);
 
-        // Configurar zona horaria a España
         Config::set('app.timezone', 'Europe/Madrid');
         Carbon::setLocale('es');
 
@@ -40,7 +39,6 @@ class EventController extends Controller
 
         $endTime = Carbon::parse($event->date_time)->addHours($event->duration);
         $now = Carbon::now('Europe/Madrid');
-        
         Log::info('Datos del evento:', [
             'evento_id' => $event->event_id,
             'fecha_actual' => $now->format('Y-m-d H:i:s'),
@@ -77,10 +75,10 @@ class EventController extends Controller
 
     public function getTodayEvent(): JsonResponse
     {
-        $now = Carbon::now();
+        $endOfDay = Carbon::today()->endOfDay();
 
         $eventoHoy = Event::whereDate('date_time', Carbon::today())
-            ->where(DB::raw("DATE_ADD(date_time, INTERVAL duration HOUR)"), '>', $now)
+            ->where('date_time', '<', $endOfDay)
             ->orderBy('date_time', 'asc')
             ->first();
 
@@ -91,35 +89,12 @@ class EventController extends Controller
         }
     }
 
-    // public function sendMessage(Request $request)
-    // {
-    //     $data = $request->validate([
-    //         'message' => 'required|string',
-    //     ]);
-
-    //     Log::info('Mensaje recibido: ' . $data['message']);
-
-    //     $event = new NewEventMessage($data['message']);
-    //     Log::info('Evento creado:', [
-    //         'channel' => $event->broadcastOn()->name,
-    //         'event' => get_class($event)
-    //     ]);
-
-    //     broadcast($event);
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'message' => $data['message']
-    //     ]);
-    // }
-
     public function sendMessage(Request $request)
     {
         $request->validate([
             'message' => 'required|string',
         ]);
 
-        // Enviar el evento
         broadcast(new NewEventMessage($request->message))->toOthers();
         Log::info('Evento emitido:', ['mensaje' => $request->message]);
 
