@@ -1,6 +1,6 @@
 <canvas #gameCanvas width="800" height="440"></canvas>
 
-<!-- Modal personalizado al perder -->
+ <!-- Modal personalizado al perder -->
 <div class="modal-backdrop" *ngIf="mostrarModal">
   <div class="modal">
     <h2>¡Has perdido!</h2>
@@ -10,4 +10,8 @@
       <button (click)="goToHome()">No</button>
     </div>
   </div>
+</div>
+
+<div class="logro-popup" *ngIf="logroDesbloqueado">
+  🛸 ¡Has conseguido un nuevo logro: <strong>{{ logroDesbloqueado }}</strong>! 
 </div>

@@ -15,7 +15,7 @@
   margin: 30px auto;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease;
-  word-wrap: break-word;  /* Asegura que las palabras largas se ajusten a la siguiente línea */
+  word-wrap: break-word;
 }
 
 .publicacion-card:hover {
@@ -59,13 +59,13 @@
   padding: 10px 14px;
   border-radius: 10px;
   line-height: 1.5;
-  word-wrap: break-word; /* Ajuste de palabras largas */
-  white-space: normal;  /* Permite el salto de línea automático */
-  overflow-wrap: break-word; /* Asegura que las palabras largas se ajusten */
-  margin-bottom: 10px;  /* Añadir un margen para separar la descripción del siguiente contenido */
-  max-height: 500px; /* Limita la altura máxima de la descripción */
-  overflow-y: auto;  /* Añade una barra de desplazamiento si la descripción es demasiado larga */
-  text-align: justify;  /* Opcional: alinear el texto de manera justificada */
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+  margin-bottom: 10px;
+  max-height: 500px;
+  overflow-y: auto;
+  text-align: justify;
 }
 
 
@@ -132,7 +132,7 @@ button.liked i {
   color: #4caf50;
 }
 
-/* Modal (sin cambios grandes) */
+/* Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -187,7 +187,7 @@ button.liked i {
 }
 
 .acciones button.liked i {
-  color: #000; /* Ícono del corazón en negro cuando está activo */
+  color: #000;
 }
 .emergencia-btn {
   background: transparent;
@@ -199,7 +199,7 @@ button.liked i {
 }
 
 .modal {
-  background: #000; /* Fondo negro sólido */
+  background: #000;
   border: 2px solid rgba(255, 255, 255, 0.15);
   border-radius: 20px;
   padding: 25px 30px;
@@ -248,4 +248,34 @@ button.liked i {
   color: red;
   cursor: pointer;
   position: relative;
+}
+
+
+.spinner-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: #000000cc;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .spinner {
+    width: 80px;
+    height: 80px;
+    border: 8px solid #fff;
+    border-top: 8px solid #4CAF50;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
 }

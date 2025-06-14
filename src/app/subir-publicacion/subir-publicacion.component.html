@@ -1,3 +1,8 @@
+<div *ngIf="isUploading" class="spinner-wrapper">
+  <div class="spinner"></div>
+</div>
+
+<div *ngIf="!isUploading">
 <div class="titulo-container">
   <label for="titulo" class="titulo">Título</label> 
   <input type="text" id="titulo" class="titulo-input" placeholder="Escribe aquí" [(ngModel)]="tituloTexto" />
@@ -23,4 +28,5 @@
   <!-- Al hacer clic en Postear, llamamos al método postear() -->
   <button class="boton-postear" (click)="postPublication()">Postear</button>
   <button class="boton-cancelar"><label>Cancelar</label></button>
+</div>
 </div>

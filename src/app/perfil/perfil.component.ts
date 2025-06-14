@@ -19,46 +19,68 @@ export class ProfileComponent implements OnInit {
   maxLength: number = 185;
   lines: { text: string }[] = [{ text: '' }, { text: '' }, { text: '' }];
   logrosTexto: string = "Logros";
+  logros: number = 0;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadUserProfile();
+    window.addEventListener('puntuacionActualizada', (event: any) => {
+    const nuevosPuntos = event.detail;
+    this.updateLogros(nuevosPuntos);
+  });
+
+  window.addEventListener('logroDesbloqueado', () => {
+    this.loadUserProfile(); // recargar perfil si hay nuevo logro
+  });
+  
   }
 
-  loadUserProfile(): void {
-    const username = localStorage.getItem('username'); // Obtener el usuario actual
-    if (username) {
-      this.username = username;
+ loadUserProfile(): void {
+  const username = localStorage.getItem('username');
+  if (username) {
+    this.username = username;
 
-      // Cargar datos específicos de este usuario
-      const userData = localStorage.getItem(`profile_${username}`);
-      if (userData) {
-        const profile = JSON.parse(userData);
-        this.uploadedImage = profile.uploadedImage;
-        this.uploadedCircleImage = profile.uploadedCircleImage;
-        this.lines = profile.lines || [{ text: '' }, { text: '' }, { text: '' }];
-        this.logrosTexto = profile.logrosTexto || "Logros";
-      }
+    const userData = localStorage.getItem(`profile_${username}`);
+    if (userData) {
+      const profile = JSON.parse(userData);
+      this.uploadedImage = profile.uploadedImage;
+      this.uploadedCircleImage = profile.uploadedCircleImage;
+      this.lines = profile.lines || [{ text: '' }, { text: '' }, { text: '' }];
+      this.logrosTexto = profile.logrosTexto || "Logros";
+this.logros = profile.logros || 0;
+
+      const puntos = profile.puntuacion || 0;
+      this.updateLogros(puntos);
     }
   }
+}
+
+updateLogros(puntos: number): void {
+  this.logros = Math.floor(puntos / 50);
+  this.saveUserProfile();
+}
+
 
   saveUserProfile(): void {
-    const profileData = {
-      uploadedImage: this.uploadedImage,
-      uploadedCircleImage: this.uploadedCircleImage,
-      lines: this.lines,
-      logrosTexto: this.logrosTexto,
-    };
+  const profileData = {
+    uploadedImage: this.uploadedImage,
+    uploadedCircleImage: this.uploadedCircleImage,
+    lines: this.lines,
+    logrosTexto: this.logrosTexto,
+    logros: this.logros,
+    puntuacion: Math.floor(this.logros * 50), // opcional, si quieres guardar puntos también
+  };
 
-    try {
-      localStorage.setItem(`profile_${this.username}`, JSON.stringify(profileData));
-    } catch (error) {
-      if (error instanceof DOMException && error.code === 22) {
-        alert('Se ha superado el límite de almacenamiento local. Por favor, elimine algunos datos antiguos.');
-      }
+  try {
+    localStorage.setItem(`profile_${this.username}`, JSON.stringify(profileData));
+  } catch (error) {
+    if (error instanceof DOMException && error.code === 22) {
+      alert('Se ha superado el límite de almacenamiento local. Por favor, elimine algunos datos antiguos.');
     }
   }
+}
+
 
   // Optimización de la imagen antes de guardarla
   optimizeImage(file: File, callback: (resizedImage: string) => void): void {

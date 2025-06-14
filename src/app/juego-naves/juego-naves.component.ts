@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { RouterModule  } from '@angular/router';
 import { Router } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
 import { CommonModule } from '@angular/common';
@@ -16,14 +17,14 @@ interface Particula {
 @Component({
   selector: 'app-juego-naves',
   standalone: true,
-imports: [CommonModule, HeaderComponent],
+imports: [CommonModule, HeaderComponent, RouterModule],
   templateUrl: './juego-naves.component.html',
   styleUrls: ['./juego-naves.component.scss'],
 })
 export class JuegoNavesComponent implements AfterViewInit {
   @ViewChild('gameCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
   
-constructor(private cdRef: ChangeDetectorRef) {}
+constructor(private cdRef: ChangeDetectorRef, private router: Router) {}
 
   private ctx!: CanvasRenderingContext2D;
   private nave = { x: 200, y: 350, width: 80, height: 60 };
@@ -32,6 +33,8 @@ constructor(private cdRef: ChangeDetectorRef) {}
   private pausado = false;
 
   mostrarModal = false;
+
+logroDesbloqueado: string | null = null;
 
   private canvasWidth = 800;
   private canvasHeight = 440;
@@ -211,6 +214,8 @@ constructor(private cdRef: ChangeDetectorRef) {}
 
           this.enemigos = this.enemigos.filter(en => en !== e);
           this.balas.splice(i, 1);
+          this.guardarProgreso();
+
         }
       });
     }
@@ -230,9 +235,15 @@ constructor(private cdRef: ChangeDetectorRef) {}
     this.ctx.restore();
 
     if (this.puntuacion >= this.siguienteObjetivo) {
-      this.crearParticulas(100);
-      this.siguienteObjetivo += 50;
-    }
+  this.crearParticulas(100);
+
+  // Desbloquear logro si aún no se ha hecho
+  const nombreLogro = `Puntaje ${this.siguienteObjetivo}`;
+  this.desbloquearLogro(nombreLogro);
+
+  this.siguienteObjetivo += 50;
+}
+
   }
 
   crearParticulas(cantidad: number) {
@@ -308,11 +319,51 @@ constructor(private cdRef: ChangeDetectorRef) {}
     this.reiniciarJuego();
   }
 
-  onCancelar(): void {
-    this.mostrarModal = false;
-      
+  onCancelar() {
+  this.mostrarModal = false;
+ 
+}
+
+guardarProgreso() {
+  const username = localStorage.getItem('username');
+  if (username) {
+    const userData = localStorage.getItem(`profile_${username}`);
+    if (userData) {
+      const profile = JSON.parse(userData);
+      profile.puntuacion = this.puntuacion;
+      localStorage.setItem(`profile_${username}`, JSON.stringify(profile));
+    }
+  }
+}
+
+desbloquearLogro(nombre: string) {
+  const username = localStorage.getItem('username');
+  if (!username) return;
+
+  const userData = localStorage.getItem(`profile_${username}`);
+  if (!userData) return;
+
+  const profile = JSON.parse(userData);
+
+  if (!profile.logros) {
+    profile.logros = [];
   }
 
-  
+  if (!profile.logros.includes(nombre)) {
+    profile.logros.push(nombre);
+    localStorage.setItem(`profile_${username}`, JSON.stringify(profile));
+
+    // Lanza evento para notificar al perfil
+this.logroDesbloqueado = nombre;
+setTimeout(() => {
+  this.logroDesbloqueado = null;
+  this.cdRef.detectChanges(); // Forzar actualización si el cambio no se refleja
+}, 3000);
+  }
+}
+
+   goToHome(): void {
+    this.router.navigate(['home']);  
+  }
   
 }

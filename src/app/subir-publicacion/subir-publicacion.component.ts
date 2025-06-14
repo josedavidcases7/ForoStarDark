@@ -13,13 +13,14 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [CommonModule, FormsModule, HttpClientModule]
 })
 export class SubirPublicacionComponent {
-  tituloTexto: string = '';  // Título de la publicación
-  descripcionTexto: string = '';  // Descripción de la publicación
-  documento: string = 'DOCUMENTO';  // Variable documento para el template
-  filePreview: string | null = null;  // Vista previa del archivo
-  fileType: string | null = null;  // Tipo de archivo (imagen, video, etc.)
-  selectedSection: string = 'publicaciones'; // Sección predeterminada para guardar (home)
+  tituloTexto: string = '';
+  descripcionTexto: string = '';
+  documento: string = 'DOCUMENTO';
+  filePreview: string | null = null;
+  fileType: string | null = null;
+  selectedSection: string = 'publicaciones';
 publicaciones: any[] = [];
+isUploading = false;
 
   constructor(private authService: AuthService) {}
 
@@ -45,7 +46,7 @@ publicaciones: any[] = [];
   }
 postPublication() {
   if (!this.tituloTexto.trim() || !this.descripcionTexto.trim()) {
-    alert('Por favor, completa el título y la descripción antes de publicar.');
+    //alert('Por favor, completa el título y la descripción antes de publicar.');
     return;
   }
 
@@ -68,7 +69,8 @@ const nuevaPublicacion = {
 
   this.authService.savePublication(nuevaPublicacion).subscribe({
     next: () => {
-      alert('Publicación realizada con éxito.');
+      //alert('Publicación realizada con éxito.');
+      this.isUploading = false;
       this.tituloTexto = '';
       this.descripcionTexto = '';
       this.filePreview = null;
@@ -78,7 +80,7 @@ const nuevaPublicacion = {
     },
     error: (err) => {
       console.error('Error al guardar publicación:', err);
-      alert('Error al guardar publicación.');
+      this.isUploading = false;
     }
   });
 }

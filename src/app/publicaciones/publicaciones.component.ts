@@ -32,6 +32,7 @@ interface Publicacion {
 })
 export class PublicacionesComponent implements OnInit {
   publicaciones: Publicacion[] = [];
+   isLoading = true;
   publicacionAEliminar: Publicacion | null = null;
   mostrarModal: boolean = false;
   usuarioActual: string | null = null;
@@ -69,6 +70,10 @@ export class PublicacionesComponent implements OnInit {
        )
      ).subscribe(publicacionesTransformadas => {
        this.publicaciones = publicacionesTransformadas;
+       this.isLoading = false;
+       }, error => {
+      console.error(error);
+      this.isLoading = false;
      });
    }
 

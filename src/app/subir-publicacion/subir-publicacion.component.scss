@@ -33,59 +33,59 @@
   }
   
   .titulo-input {
-    width: 50%; /* Ancho más corto para la línea */
-    padding: 5px 0; /* Relleno solo arriba y abajo */
-    background-color: transparent; /* Fondo transparente */
-    border: none; /* Sin borde alrededor */
-    border-bottom: 2px solid #888; /* Solo una línea abajo */
+    width: 50%;
+    padding: 5px 0;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid #888;
     color: white;
     font-size: 16px;
-    outline: none; /* Sin borde al hacer clic */
-    text-align: center; /* Centra el texto dentro del campo de entrada */
+    outline: none;
+    text-align: center;
   }
   
   .titulo-input::placeholder {
-    color: white; /* Color del texto del placeholder */
-    opacity: 0.5; /* Transparencia para el texto del placeholder */
+    color: white;
+    opacity: 0.5;
   }
   
   /* Estilo para el contenedor de la descripción */
   .descripcion-container {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centramos los elementos dentro del contenedor */
-    justify-content: center; /* Centrado vertical */
-    width: 100%; /* Ancho completo de la pantalla */
-    margin-top: 150px; /* Espacio hacia abajo */
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 150px;
   }
   
   .descripcion {
-    font-size: 14px; /* Tamaño pequeño para el título */
+    font-size: 14px;
     color: rgb(129, 129, 129);
-    margin-bottom: 5px; /* Espacio entre la palabra "DESCRIPCION" y el textarea */
-    align-self: flex-start; /* Alineamos el texto a la izquierda */
+    margin-bottom: 5px;
+    align-self: flex-start;
     margin-left: 100px;
     margin-bottom: 20px;
   }
   
   /* Estilo para el textarea de la descripción */
   .descripcion-input {
-    width: 50%; /* Ajustamos el ancho */
-    height: 200px; /* Altura mayor para hacerlo más grande */
+    width: 50%;
+    height: 200px;
     padding: 10px;
-    background-color: transparent; /* Fondo transparente */
-    border: 2px solid #888; /* Borde similar al del título */
+    background-color: transparent;
+    border: 2px solid #888;
     color: white;
     font-size: 16px;
-    outline: none; /* Sin borde al hacer clic */
-    resize: none; /* Evita el redimensionamiento del textarea */
-    border-radius: 10px; /* Bordes redondeados */
-    margin-bottom: 50px; /* Ajuste en el espacio hacia abajo */
+    outline: none;
+    resize: none;
+    border-radius: 10px;
+    margin-bottom: 50px;
   }
   
   .descripcion-input::placeholder {
-    color: white; /* Color del texto del placeholder */
-    opacity: 0.5; /* Transparencia para el texto del placeholder */
+    color: white;
+    opacity: 0.5;
   }
   
  
@@ -94,7 +94,7 @@
     margin-top: 150px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Alineado a la izquierda */
+    align-items: flex-start;
     width: 100%;
   }
   
@@ -114,17 +114,17 @@
     justify-content: center;
     align-items: center;
     width: 50%;
-    height: 350px; /* Altura inicial ajustada */
+    height: 350px;
     background-color: transparent;
     border: 2px solid #888;
-    border-radius: 10px; /* Bordes redondeados */
+    border-radius: 10px;
     cursor: pointer;
     position: relative;
     text-align: center;
-    margin-left: 415px; /* Ajuste a la izquierda */
+    margin-left: 415px;
     margin-bottom: 300px;
-    overflow: hidden; /* Asegura que el archivo sobresalga adecuadamente */
-    transition: height 0.3s ease-in-out; /* Añadimos transición para un cambio suave de altura */
+    overflow: hidden;
+    transition: height 0.3s ease-in-out;
   }
   
   /* Ajuste del texto dentro del rectángulo */
@@ -137,17 +137,17 @@
   /* Estilo para la vista previa del archivo (imagen o video) */
   .file-preview {
     position: absolute;
-    top: 0; /* Ocupa todo el rectángulo */
+    top: 0;
     left: 0;
-    width: 100%; /* Ocupa el 100% del ancho */
-    height: 100%; /* Ocupa el 100% de la altura */
-    overflow: hidden; /* Asegura que el contenido no se salga del rectángulo */
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
   }
   
   .file-preview img, .file-preview video {
-    width: 100%; /* El archivo ocupa todo el contenedor */
-    height: 100%; /* El archivo ocupa toda la altura del contenedor */
-    object-fit: cover; /* Recorta y ajusta la imagen/video para cubrir todo el área */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   
   /* Ocultar el input real de tipo file */
@@ -157,20 +157,20 @@
   
   /* Cuando se selecciona un archivo, el rectángulo crece según el tamaño del archivo */
   .documento-upload img, .documento-upload video {
-    display: block; /* Mostrar el archivo seleccionado */
+    display: block;
   }
   
  /* Estilos para los botones */
 .botones-container {
     display: flex;
-    justify-content: flex-start; /* Alineamos los botones a la izquierda */
+    justify-content: flex-start;
     width: 100%;
-    margin-top: -250px; /* Para darle espacio a los botones */
+    margin-top: -250px;
     padding:200px;
 }
 
 .boton-postear, .boton-cancelar {
-    background-color: #4CAF50; /* Color de fondo verde para el botón Postear */
+    background-color: #4CAF50;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -179,7 +179,7 @@
     font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
-    margin-right: 10px; /* Espacio entre los botones */
+    margin-right: 10px;
 }
 
 .boton-postear:hover {
@@ -187,16 +187,45 @@
 }
 
 .boton-cancelar {
-    background-color: #f44336; /* Color de fondo rojo para el botón Cancelar */
+    background-color: #f44336;
 }
 
 
 .boton-cancelar label{
-  color: #000000; /* Color de fondo rojo para el botón Cancelar */
+  color: #000000;
 }
 
 
 
 .boton-cancelar:hover {
     background-color: #a42220;
+}
+
+/* en tu .scss */
+.spinner-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgb(0,0,0,0.5);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #555;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

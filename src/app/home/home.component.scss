@@ -1,24 +1,21 @@
 :host {
   display: block;
-  position: absolute; /* Aseguramos que el fondo esté detrás de todo */
+  position: absolute;
   top: 0;
   left: 0;
-  background-image: url('/assets/images/bg7.jpg'); /* Ruta a la imagen */
- font-family: 'Poppins', sans-serif;
-
-  background-position: center; /* Centrar la imagen */
-  background-repeat: repeat; /* Evitar repeticiones */
-  background-attachment: absolute; /* Mantener el fondo fijo */
-  
-  min-height: 100vh; /* Garantiza que el contenedor ocupe al menos toda la ventana */
-min-width: 210vh;
+  background-image: url('/assets/images/bg7.jpg');
+  font-family: 'Poppins', sans-serif;
+  background-position: center;
+  background-repeat: repeat;
+  background-attachment: absolute;
+  min-height: 100vh;
+  min-width: 210vh;
 }
 
-/* Estilo para los botones */
 button {
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #4CAF50; /* Verde */
+  background-color: #4CAF50;
   color: white;
   border: none;
   cursor: pointer;
