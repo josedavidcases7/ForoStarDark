@@ -22,6 +22,70 @@ class EventController extends Controller
 
     public function insert(Request $request)
     {
+        Log::info('Insertando evento:', [
+            'fecha' => $request->input('dateTime'),
+            'duracion' => $request->input('duration'),
+            'tema' => $request->input('theme')
+        ]);
+        $request->validate([
+            'dateTime' => 'required|date',
+            'duration' => 'required|integer',
+            'theme' => 'required|string',
+        ]);
+
+        Config::set('app.timezone', 'Europe/Madrid');
+        Carbon::setLocale('es');
+
+        $event = new Event();
+        $event->date_time = Carbon::parse($request->input('dateTime'));
+        $event->duration = $request->input('duration');
+        $event->theme = $request->input('theme');
+        $event->save();
+
+        $endTime = Carbon::parse($event->date_time)->addHours($event->duration);
+        $now = Carbon::now('Europe/Madrid');
+        Log::info('Datos del evento:', [
+            'evento_id' => $event->event_id,
+            'fecha_actual' => $now->format('Y-m-d H:i:s'),
+            'fecha_inicio' => $event->date_time,
+            'duracion' => $event->duration,
+            'fecha_fin' => $endTime->format('Y-m-d H:i:s'),
+            'zona_horaria' => $now->timezone->getName()
+        ]);
+
+        $delay = $now->diffInSeconds($endTime);
+
+        Log::info('Segundos Delay:', [
+            'delay' => $delay,
+        ]);
+
+        if ($delay > 0) {
+            $dispatchTime = $now->addSeconds($delay);
+            Log::info('Programación del job:', [
+                'evento_id' => $event->event_id,
+                'fecha_actual' => $now->format('Y-m-d H:i:s'),
+                'fecha_fin' => $endTime->format('Y-m-d H:i:s'),
+                'delay_segundos' => $delay,
+                'hora_disparo' => $dispatchTime->format('Y-m-d H:i:s'),
+                'zona_horaria' => $dispatchTime->timezone->getName()
+            ]);
+
+            NotifyEventFinished::dispatch($event)
+                ->delay($dispatchTime)
+                ->onQueue('default');
+        }
+
+        return response()->json($event, 201);
+    }
+
+
+    public function store(Request $request)
+    {
+        Log::info('Insertando evento:', [
+            'fecha' => $request->input('dateTime'),
+            'duracion' => $request->input('duration'),
+            'tema' => $request->input('theme')
+        ]);
         $request->validate([
             'dateTime' => 'required|date',
             'duration' => 'required|integer',

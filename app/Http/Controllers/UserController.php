@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserController extends Controller
 {
@@ -140,5 +139,40 @@ class UserController extends Controller
     {
         // Devolver la información del usuario autenticado
         return response()->json(Auth::user());
+    }
+
+    public function getAdminByName(Request $request)
+    {
+        try {
+            $adminName = $request->adminName;
+            
+            if (!$adminName) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Nombre de administrador no proporcionado'
+                ], 400);
+            }
+
+            $admin = Admin::where('user_name', $adminName)->first();
+
+            if (!$admin) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Administrador no encontrado'
+                ], 404);
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $admin
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener datos del administrador',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

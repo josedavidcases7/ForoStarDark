@@ -28,7 +28,8 @@ Route::get('/achievements/event', [AchievementController::class, 'getAchievement
 Route::post('/users-achievements', [UserAchievementController::class, 'insert']);
 Route::get('/users/by-username', [UserController::class, 'getIdByUsernameApi']);
 Route::get('/achievements/user-last-five', [AchievementController::class, 'getLastFiveAchievementsByUserId']);
-
+Route::post('/users', [UserController::class, 'create']);
+Route::get('/users/admin', [UserController::class, 'getAdminByName']);
 
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
