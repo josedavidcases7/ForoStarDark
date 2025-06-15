@@ -1,0 +1,42 @@
+:host {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-image: url("/assets/images/fondo fin.gif"); /* Ruta a la imagen */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  z-index: -1;
+}
+
+.fin-debate-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  padding: 0 20px;
+}
+.fin-debate-container .titulo-fin {
+  font-size: 48px;
+  color: #ffd700; /* Dorado */
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+.fin-debate-container .mensaje-logro {
+  font-size: 18px;
+  color: #ffffff; /* Blanco */
+  margin-bottom: 40px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+.fin-debate-container .imagen-recompensa img {
+  max-width: 400px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+}/*# sourceMappingURL=fin-evento.component.css.map */

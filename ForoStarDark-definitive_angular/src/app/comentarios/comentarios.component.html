@@ -1,0 +1,15 @@
+<div class="comentarios-container">
+  <div *ngFor="let comentario of comentariosMostrados" class="comentario">
+    <div class="comentario-info">
+      <img [src]="comentario.fotoUsuario" alt="Foto usuario" class="perfil-imagen">
+      <span class="nombre-usuario">{{ comentario.nombreUsuario }}</span> 
+      <p>{{ comentario.texto }}</p>
+      
+      <div *ngIf="comentario.archivo" class="archivo-respuesta-container">
+        <img [src]="comentario.archivo" alt="Archivo adjunto" class="archivo-respuesta">
+      </div>
+    </div>
+  </div>
+
+ 
+</div>

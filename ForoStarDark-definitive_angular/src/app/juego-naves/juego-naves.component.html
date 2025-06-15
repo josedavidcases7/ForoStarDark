@@ -1,0 +1,16 @@
+<canvas #gameCanvas width="800" height="440"></canvas>
+
+<div class="modal-backdrop" *ngIf="mostrarModal && !logroDesbloqueado">
+  <div class="modal">
+    <h2>¡Has perdido!</h2>
+    <p>¿Quieres volver a intentarlo?</p>
+    <div class="buttons">
+      <button (click)="onConfirmarReinicio()">Sí</button>
+      <button (click)="goToHome()">No</button>
+    </div>
+  </div>
+</div>
+
+<div class="logro-popup" *ngIf="logroDesbloqueado">
+  🛸 ¡Has conseguido un nuevo logro: <strong>{{ logroDesbloqueado }}</strong>!
+</div>

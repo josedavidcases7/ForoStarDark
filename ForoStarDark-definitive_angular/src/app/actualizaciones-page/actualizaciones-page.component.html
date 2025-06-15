@@ -1,0 +1,15 @@
+<div class="pagina-actualizaciones">
+  
+    <h2>Actualizaciones</h2>
+  
+    <div *ngIf="isAdmin; else soloLectura">
+      <textarea [(ngModel)]="textoActualizacion" rows="10" cols="50"></textarea>
+      <br>
+      <button (click)="guardar()">Guardar</button>
+    </div>
+
+    <ng-template #soloLectura>
+      <p>{{ textoActualizacion }}</p>
+    </ng-template>
+  </div>
+  

@@ -1,0 +1,71 @@
+ <!-- Contenedor principal que habilita el desplazamiento -->
+<div class="content-wrapper">
+  <!-- Rectángulo para cargar la imagen -->
+  <div class="rectangle" (click)="changeImage()">
+    <ng-container *ngIf="!uploadedImage">
+      <p>Haz clic para añadir una imagen</p>
+    </ng-container>
+    <ng-container *ngIf="uploadedImage">
+      <img [src]="uploadedImage" alt="Imagen subida" />
+    </ng-container>
+  </div>
+
+  <!-- Círculo para cargar la imagen circular -->
+  <div class="circle" (click)="changeCircleImage()">
+    <ng-container *ngIf="!uploadedCircleImage">
+      <p>Haz clic para añadir una imagen</p>
+    </ng-container>
+    <ng-container *ngIf="uploadedCircleImage">
+      <img [src]="uploadedCircleImage" alt="Imagen circular" />
+    </ng-container>
+  </div>
+
+  <!-- Nombre de usuario -->
+  <div class="username-container">
+    <input
+      type="text"
+      [(ngModel)]="username"
+      class="username-input"
+      readonly
+    />
+  </div>
+
+  <!-- Título de la descripción -->
+  <div class="description-container">
+    <span>Descripción</span>
+  </div>
+
+  <!-- Líneas de texto -->
+  <div class="lines-container">
+  <div *ngFor="let line of lines; let i = index" class="line">
+    <textarea
+      [(ngModel)]="line.text"
+      class="line-input"
+      (input)="saveUserProfile(); moveFocus(i)"
+      [attr.maxlength]="maxLength"
+      [id]="'input-' + i"
+      [rows]="1">
+    </textarea>
+  </div>
+</div>
+
+  <!-- Contenedor de logros -->
+  <div class="logros-container">
+    <div class="logros-list">
+      <h3>{{ logrosTexto }}</h3>
+
+      <div *ngFor="let _ of [].constructor(logros); index as logroIndex" class="logro-item">
+        <div class="circle-container">
+          <div class="circle2">
+            <img src="assets/images/premio.png" [alt]="'Logro ' + (logroIndex)" />
+          </div>
+          <div class="circle3"></div>
+          <div class="circle4"></div>
+          <div class="circle2"></div>
+          <div class="circle2"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

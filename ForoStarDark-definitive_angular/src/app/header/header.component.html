@@ -1,0 +1,109 @@
+<header class="header">
+  <div class="left-section">
+    <img [src]="leftImage" alt="Logo" class="left-photo" width="100px" (click)="goToHome()" />
+    
+  <div class="thumbnail-buttons">
+  <button class="thumb-btn" (click)="goToMarsWeather()">
+    <img src="assets/images/marte.gif" alt="Clima Marte" />
+    <span>CLIMA MARTE</span>
+  </button>
+
+  <button class="thumb-btn" (click)="goToVideogame()">
+    <img src="assets/images/nave.png" alt="Batalla Espacial" />
+    <span>BATALLA ESPACIAL</span>
+  </button>
+</div>
+
+
+    <button *ngIf="isAdmin" class="usuarios-btn" (click)="irAUsuarios()">USUARIOS</button>
+
+    <div *ngIf="isAdmin" class="emergencia-icono" (click)="abrirListaReportes()">
+      ❗<span *ngIf="hayNuevosReportes" class="punto-rojo"></span>
+      
+      <div *ngIf="mostrarListaReportes" class="lista-reportes">
+        <h3>Reportes de usuarios</h3>
+        <hr />
+        
+        <div *ngFor="let reporte of reportes; let i = index" class="reporte-item">
+          <button (click)="eliminarReporte(i); $event.stopPropagation()" class="delete-reporte-btn">
+            <i class="fa fa-trash"></i>
+          </button>
+          <p><strong>Reportado por:</strong> {{ reporte.reportadoPor }}</p>
+          <p><strong>Autor publicación:</strong> {{ reporte.autorPublicacion }}</p>
+          <p><strong>Título:</strong> {{ reporte.tituloPublicacion }}</p>
+          <p><strong>Motivo:</strong> {{ reporte.motivo }}</p>
+          <hr />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-section">
+   <div class="search-container">
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Buscar publicaciones..."
+      [(ngModel)]="searchQuery"
+      (input)="onSearchChange()"
+      autocomplete="off"
+    />
+     
+
+      <!-- Resultados de búsqueda -->
+       <div *ngIf="searchQuery" class="search-results-box">
+    <ul *ngIf="filteredPublications.length > 0">
+      <li *ngFor="let pub of filteredPublications" class="result-item" (click)="goToPublication(pub.id)">
+  <div class="result-details" style="display: flex; align-items: center;">
+    <img [src]="pub.userProfileImage" alt="Foto de perfil" class="profile-image" width="40" height="40" />
+    
+    <div class="text-content" style="margin-left: 10px;">
+      <div class="pub-title">{{ pub.title }}</div>
+      <div class="username">{{ pub.userName }}</div>
+    </div>
+  </div>
+</li>
+    </ul>
+    <div *ngIf="filteredPublications.length === 0" class="no-results">
+      No se encontraron publicaciones.
+    </div>
+  </div>
+   </div>
+
+    <img [src]="rightImage2" alt="Agregar publicación" class="right-photo" width="50px" (click)="goToAddPublication()" />
+    <img [src]="rightImage3" alt="Perfil" class="right-photo" width="50px" (click)="goToProfile()" />
+
+    <div class="icon-menu" (click)="toggleMenu()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+        <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z" fill="white"></path>
+      </svg>
+    </div>
+  </div>
+</header>
+
+
+<!-- Menú lateral -->
+<div class="overlay" [class.active]="menuOpen" (click)="closeMenu()"></div>
+
+<div class="side-menu" [class.active]="menuOpen">
+  <div class="menu-top">
+    <img [src]="menuTopImage" alt="Menu Top" class="menu-top-image" />
+  </div>
+
+  <div class="titulo-secciones">{{ titulo_secciones }}</div>
+
+  <div class="secciones">
+    <p><a (click)="navigateToSection('Universos')">{{ primera_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Planetas y Estrellas')">{{ segunda_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Agujeros Negros')">{{ tercera_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Galaxias')">{{ cuarta_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Satelites')">{{ quinta_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Vida Extraterrestre')">{{ sexta_seccion }}</a></p>
+    <p><a (click)="navigateToSection('Teorias')">{{ septima_seccion }}</a></p>
+  </div>
+
+
+
+
+ 
+</div>

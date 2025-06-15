@@ -1,0 +1,133 @@
+.content-wrapper {
+  padding-top: 120px;  /* Espacio suficiente desde el header */
+  padding-bottom: 120px;  /* Espacio suficiente para que no se crucen con el footer */
+}
+
+.container {
+  min-height: 100vh;
+  background-image: url('/assets/images/fondo-marte.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #fff;
+  padding: 2rem 3rem;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 10rem;
+
+  &::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: transparent;
+    box-shadow:
+       20px 30px 2px white,
+       100px 50px 2px #ffb347,
+       180px 90px 2px #ff6f61,
+       250px 60px 2px white;
+    animation: starBlink 3s infinite ease-in-out;
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+h1 {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #ffb347;
+  text-shadow: 2px 2px 8px #8a140a;
+}
+
+.loading,
+.error {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #f88;
+}
+
+.sol-container {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 2rem;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.sol {
+  background: rgba(20, 20, 20, 0.7);
+  border: 1px solid rgba(255, 127, 80, 0.6);
+  border-radius: 15px;
+  padding: 1.8rem 2rem;
+  width: 300px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 20px rgba(255, 127, 80, 0.8);
+  color: #ffe8d6;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+
+  &:hover {
+    transform: scale(1.07);
+    box-shadow: 0 10px 30px rgba(255, 127, 80, 1);
+  }
+
+  h2 {
+    color: #ff7f50;
+    font-size: 1.7rem;
+    margin-bottom: 1.2rem;
+    text-shadow: 1px 1px 6px #8a140a;
+  }
+
+  p {
+    margin: 0.6rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  height: 60vh;
+  text-align: center;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 600px) {
+  .sol {
+    width: 90%;
+    padding: 1.2rem 1.5rem;
+
+    h2 {
+      font-size: 1.4rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+}

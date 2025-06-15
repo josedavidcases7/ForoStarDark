@@ -1,0 +1,231 @@
+:host {
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+    background-color: black;
+    color: white;
+    padding: 0;
+    box-sizing: border-box;
+    padding-top: 80px;
+    position: absolute;
+    overflow-x: hidden;
+
+  }
+  
+  /* Estilo general para el contenedor del título y la línea de entrada */
+  .titulo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centramos los elementos dentro del contenedor */
+    justify-content: center; /* Centrado vertical */
+    width: 100%; /* Ancho completo de la pantalla */
+    margin-top: 50px; /* Espacio hacia abajo */
+
+  }
+  
+  .titulo {
+    font-size: 14px; /* Tamaño pequeño para el título */
+    color: rgb(129, 129, 129);
+    margin-bottom: 5px; /* Espacio entre el título y el input */
+    align-self: flex-start; /* Alineamos el título a la izquierda */
+    margin-left: 100px;
+    margin-bottom: 20px;
+  }
+  
+  .titulo-input {
+    width: 50%;
+    padding: 5px 0;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid #888;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    text-align: center;
+  }
+  
+  .titulo-input::placeholder {
+    color: white;
+    opacity: 0.5;
+  }
+  
+  /* Estilo para el contenedor de la descripción */
+  .descripcion-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 150px;
+  }
+  
+  .descripcion {
+    font-size: 14px;
+    color: rgb(129, 129, 129);
+    margin-bottom: 5px;
+    align-self: flex-start;
+    margin-left: 100px;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilo para el textarea de la descripción */
+  .descripcion-input {
+    width: 50%;
+    height: 200px;
+    padding: 10px;
+    background-color: transparent;
+    border: 2px solid #888;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    resize: none;
+    border-radius: 10px;
+    margin-bottom: 50px;
+  }
+  
+  .descripcion-input::placeholder {
+    color: white;
+    opacity: 0.5;
+  }
+  
+ 
+  /* Estilo para la sección de Documento */
+.documento-container {
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+  
+  /* Estilo de la palabra "Documento" */
+  .documento {
+    font-size: 14px;
+    color: rgb(129, 129, 129);
+    margin-bottom: 10px;
+    align-self: flex-start;
+    margin-left: 100px;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilo para el rectángulo de "Subir archivo" */
+  .documento-upload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 350px;
+    background-color: transparent;
+    border: 2px solid #888;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+    margin-left: 415px;
+    margin-bottom: 300px;
+    overflow: hidden;
+    transition: height 0.3s ease-in-out;
+  }
+  
+  /* Ajuste del texto dentro del rectángulo */
+  .documento-upload p {
+    color: rgb(129, 129, 129);
+    font-size: 16px;
+    margin: 0;
+  }
+  
+  /* Estilo para la vista previa del archivo (imagen o video) */
+  .file-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .file-preview img, .file-preview video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Ocultar el input real de tipo file */
+  .documento-upload input[type="file"] {
+    display: none; 
+  }
+  
+  /* Cuando se selecciona un archivo, el rectángulo crece según el tamaño del archivo */
+  .documento-upload img, .documento-upload video {
+    display: block;
+  }
+  
+ /* Estilos para los botones */
+.botones-container {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: -250px;
+    padding:200px;
+}
+
+.boton-postear, .boton-cancelar {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.boton-postear:hover {
+    background-color: #357b38;
+}
+
+.boton-cancelar {
+    background-color: #f44336;
+}
+
+
+.boton-cancelar label{
+  color: #000000;
+}
+
+
+
+.boton-cancelar:hover {
+    background-color: #a42220;
+}
+
+/* en tu .scss */
+.spinner-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgb(0,0,0,0.5);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #555;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

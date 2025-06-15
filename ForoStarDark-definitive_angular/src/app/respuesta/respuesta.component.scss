@@ -1,0 +1,96 @@
+.respuesta-container {
+  margin-top: 20px;
+  padding: 20px;
+  border-top: 2px solid #7e7e7e;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
+  backdrop-filter: blur(4px);
+}
+
+.respuesta-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.respuesta-header .perfil-imagen {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.respuesta-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #7e7e7e;
+  border-radius: 12px;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.archivo-subida {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.archivo-subida label {
+  padding: 8px 16px;
+  border: 2px solid #7e7e7e;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.archivo-subida label:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.respuesta-botones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.btn-responder, .btn-cancelar {
+  padding: 10px 24px;
+  font-size: 16px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-responder {
+  background-color: #28a745;
+  color: white;
+  border: 2px solid #28a745;
+}
+
+.btn-responder:hover {
+  background-color: transparent;
+  color: #28a745;
+}
+
+.btn-cancelar {
+  background-color: #6c757d;
+  color: white;
+  border: 2px solid #6c757d;
+}
+
+.btn-cancelar:hover {
+  background-color: transparent;
+  color: #6c757d;
+}
+
