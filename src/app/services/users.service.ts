@@ -16,4 +16,13 @@ export class UsersService {
       `${this.endpoint}/by-username?username=${username}`
     );
   }
+    obtenerAdminPorNombre(nombre: string): Observable<any> {
+      let data = {"adminName": nombre};
+    return this.api.obtener(
+      `${this.endpoint}/admin`,data
+    );
+  }
+  agregarUsuario(data:any): Observable<any> {
+      return this.api.crear(this.endpoint, data);
+    }
 }

@@ -36,6 +36,8 @@ export class AuthService {
   // Guardar el perfil de usuario en el localStorage
   setUserProfile(profile: any) {
     localStorage.setItem('userProfile', JSON.stringify(profile));
+    localStorage.setItem('nombreUsuario', profile.user_name);
+    localStorage.setItem('isAdmin', profile.isAdmin.toString());
   }
 
   // Guardar solo el nombre de usuario en localStorage
