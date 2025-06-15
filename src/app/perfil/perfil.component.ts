@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { AchievementsService } from '../services/achievements.service';
+import { GenericoService } from '../services/generico.service';
+import { UsersService } from '../services/users.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-perfil',
-  providers: [AuthService],
+  providers: [AuthService, AchievementsService, GenericoService, UsersService],
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule]
+  imports: [CommonModule, FormsModule, HttpClientModule],
 })
 export class ProfileComponent implements OnInit {
   uploadedImage: string | null = null; // Imagen para el rectángulo
@@ -18,12 +22,24 @@ export class ProfileComponent implements OnInit {
   username: string = ''; // Nombre de usuario
   maxLength: number = 185;
   lines: { text: string }[] = [{ text: '' }, { text: '' }, { text: '' }];
-  logrosTexto: string = "Logros";
+  logrosTexto: string = 'Logros';
+  userAchievements: any[] = [];
+  readonly maxAchievements = 5;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private achievementService: AchievementsService,
+    private userService: UsersService
+  ) {}
 
-  ngOnInit(): void {
+  get remainingCircles(): number[] {
+    const remaining = this.maxAchievements - this.userAchievements.length;
+    return remaining > 0 ? Array(remaining).fill(0) : [];
+  }
+
+  async ngOnInit(): Promise<void> {
     this.loadUserProfile();
+    await this.obtenerUltimosCincoLogros();
   }
 
   loadUserProfile(): void {
@@ -37,8 +53,12 @@ export class ProfileComponent implements OnInit {
         const profile = JSON.parse(userData);
         this.uploadedImage = profile.uploadedImage;
         this.uploadedCircleImage = profile.uploadedCircleImage;
-        this.lines = profile.lines || [{ text: '' }, { text: '' }, { text: '' }];
-        this.logrosTexto = profile.logrosTexto || "Logros";
+        this.lines = profile.lines || [
+          { text: '' },
+          { text: '' },
+          { text: '' },
+        ];
+        this.logrosTexto = profile.logrosTexto || 'Logros';
       }
     }
   }
@@ -52,10 +72,15 @@ export class ProfileComponent implements OnInit {
     };
 
     try {
-      localStorage.setItem(`profile_${this.username}`, JSON.stringify(profileData));
+      localStorage.setItem(
+        `profile_${this.username}`,
+        JSON.stringify(profileData)
+      );
     } catch (error) {
       if (error instanceof DOMException && error.code === 22) {
-        alert('Se ha superado el límite de almacenamiento local. Por favor, elimine algunos datos antiguos.');
+        alert(
+          'Se ha superado el límite de almacenamiento local. Por favor, elimine algunos datos antiguos.'
+        );
       }
     }
   }
@@ -96,10 +121,12 @@ export class ProfileComponent implements OnInit {
 
       // Verificar el tamaño de la imagen
       const maxSize = 500000; // 500KB máximo
-      const imageSize = (resizedImage.length * (3 / 4)); // Convertimos a bytes
+      const imageSize = resizedImage.length * (3 / 4); // Convertimos a bytes
 
       if (imageSize > maxSize) {
-        alert('La imagen es demasiado grande. Por favor, elige una imagen más pequeña.');
+        alert(
+          'La imagen es demasiado grande. Por favor, elige una imagen más pequeña.'
+        );
       } else {
         callback(resizedImage); // Llamamos al callback con la imagen optimizada
       }
@@ -145,22 +172,52 @@ export class ProfileComponent implements OnInit {
   }
 
   moveFocus(index: number): void {
-    const currentInput = document.getElementById(`input-${index}`) as HTMLTextAreaElement;
+    const currentInput = document.getElementById(
+      `input-${index}`
+    ) as HTMLTextAreaElement;
 
     if (currentInput && currentInput.value.length >= this.maxLength) {
-      const nextInput = document.getElementById(`input-${index + 1}`) as HTMLTextAreaElement;
+      const nextInput = document.getElementById(
+        `input-${index + 1}`
+      ) as HTMLTextAreaElement;
       if (nextInput) {
         nextInput.focus();
       }
     }
 
     if (currentInput && currentInput.value.length === 0 && index > 0) {
-      const prevInput = document.getElementById(`input-${index - 1}`) as HTMLTextAreaElement;
+      const prevInput = document.getElementById(
+        `input-${index - 1}`
+      ) as HTMLTextAreaElement;
       if (prevInput) {
         prevInput.focus();
       }
     }
 
     this.saveUserProfile(); // Guardar cambios cada vez que se editen las líneas
+  }
+
+  async obtenerUltimosCincoLogros() {
+    try {
+      const nombreUsuario = localStorage.getItem('nombreUsuario');
+      if (!nombreUsuario) {
+        console.error('No se encontró el nombre del usuario');
+        return;
+      }
+
+      const idUsuario = await firstValueFrom(
+        this.userService.obtenerIdPorNombre(nombreUsuario)
+      );
+
+      const achievements = await firstValueFrom(
+        this.achievementService.getLastFiveAchievementsByUserId(
+          parseInt(idUsuario.user_id)
+        )
+      );
+
+      this.userAchievements = achievements;
+    } catch (error) {
+      console.error('Error al cargar los logros:', error);
+    }
   }
 }

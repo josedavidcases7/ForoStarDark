@@ -47,7 +47,8 @@ onLogin(isAdmin: boolean = false) {
 
       // Verifica si 'user_name' existe en la respuesta
       if (response && response.user_name) {
-        // Guarda el nombre de usuario en localStorage
+        localStorage.setItem('nombreUsuario', response.user_name);
+        localStorage.setItem('isAdmin', isAdmin.toString());
         localStorage.setItem('username', response.user_name);
         console.log('Usuario guardado en localStorage:', response.user_name);  // Verifica que se guardó correctamente
       } else {
